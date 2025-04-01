@@ -1,0 +1,54 @@
+# =============== #
+# Unity generated #
+# =============== #
+Temp/
+Library/
+Logs/
+GeneratedLocalRepo/
+Recordings/
+ 
+# ===================================== #
+# Visual Studio / MonoDevelop generated #
+# ===================================== #
+ExportedObj/
+obj/
+*.svd
+*.userprefs
+/*.csproj
+*.pidb
+*.suo
+/*.sln
+*.user
+*.unityproj
+*.booproj
+ 
+# ============ #
+# OS generated #
+# ============ #
+.DS_Store
+.DS_Store?
+._*
+.Spotlight-V100
+.Trashes
+ehthumbs.db
+Thumbs.db
+*.apk
+MyTest.txt
+
+#not ignore - meshes 
+!Assets/Meshes/*.obj
+FB_user_id.txt
+.vs/
+Output
+.gitmodules
+gitmodules
+.vscode
+
+# Ignore AseetBundles as it is a temp dir
+AssetBundles
+.idea/
+
+AstroBoy.aab
+Umbrella.aab
+*.aab
+GeneratedLocalRepo/
