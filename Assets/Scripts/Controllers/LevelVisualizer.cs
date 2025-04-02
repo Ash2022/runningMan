@@ -20,7 +20,7 @@ public class LevelVisualizer : MonoBehaviour
     public float QueueZSpacing { get => queueZSpacing; set => queueZSpacing = value; }
 
     public (List<List<PersonView>>, List<ObstacleView>) BuildLevel(
-        LevelData levelData,
+        ORG_LevelData levelData,
         float personOffsetZ = 0f,
         float obstacleOffsetZ = 20f)
     {

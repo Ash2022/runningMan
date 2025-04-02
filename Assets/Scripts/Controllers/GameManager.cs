@@ -14,12 +14,12 @@ public class GameManager : MonoBehaviour
     [SerializeField] private ModelManager modelManager;
     [SerializeField] private LevelVisualizer levelVisualizer;
 
-    private int currentLevelIndex = 3;
+    private int currentLevelIndex = 0;
     private int startNumPersonInTurn = 0;
     private List<List<PersonView>> personViews;
     private List<ObstacleView> obstacleViews;
 
-    LevelData currentLevel;
+    ORG_LevelData currentLevel;
     int matchSize;
 
     void Awake()
@@ -91,7 +91,7 @@ public class GameManager : MonoBehaviour
 
             for (int o = 0; o < currentLevel.obstacles.Count; o++)
             {
-                ObstacleData obstacle = currentLevel.obstacles[o];
+                ORG_ObstacleData obstacle = currentLevel.obstacles[o];
                 float zPos = obstacleViews[o].transform.localPosition.z;
                 if (zPos > 20f || zPos < 15f) continue;
 

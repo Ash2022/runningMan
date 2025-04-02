@@ -5,7 +5,7 @@ using System.IO;
 using System.Linq;
 using Newtonsoft.Json;
 
-public class LevelEditorWindow : EditorWindow
+public class LevelEditorWindow2 : EditorWindow
 {
     private int numQueues = 3;
     private int numObstacles = 5;
@@ -15,7 +15,7 @@ public class LevelEditorWindow : EditorWindow
     private int horizon = 5;
 
     private List<List<int>> peopleQueues = new();
-    private List<ObstacleData> obstacles = new();
+    private List<ORG_ObstacleData> obstacles = new();
 
     private const int cellSize = 20;
     private int simulationIterations = 100;
@@ -23,7 +23,7 @@ public class LevelEditorWindow : EditorWindow
     [MenuItem("Tools/Level Editor - Queues and Obstacles")]
     public static void ShowWindow()
     {
-        GetWindow<LevelEditorWindow>("Queue Level Editor");
+        GetWindow<LevelEditorWindow2>("Queue Level Editor");
     }
 
     private void OnGUI()
@@ -71,7 +71,7 @@ public class LevelEditorWindow : EditorWindow
         simulationIterations = EditorGUILayout.IntSlider("Iterations", simulationIterations, 1, 1000);
         if (GUILayout.Button("Run Solver Simulation"))
         {
-            var data = new LevelData
+            var data = new ORG_LevelData
             {
                 peopleQueues = peopleQueues,
                 obstacles = obstacles,
@@ -99,7 +99,7 @@ public class LevelEditorWindow : EditorWindow
         obstacles.Clear();
         for (int i = 0; i < numObstacles; i++)
         {
-            var obs = new ObstacleData
+            var obs = new ORG_ObstacleData
             {
                 units = new List<int>(),
                 gapToNext = 1
@@ -146,7 +146,7 @@ public class LevelEditorWindow : EditorWindow
 
         for (int o = 0; o < obstacles.Count; o++)
         {
-            ObstacleData obs = obstacles[o];
+            ORG_ObstacleData obs = obstacles[o];
             float baseX = obsStartX + o * (cellSize + spacing);
 
             // Draw dropdown above obstacle for gapToNext
@@ -189,7 +189,7 @@ public class LevelEditorWindow : EditorWindow
         var path = EditorUtility.SaveFilePanel("Save Level", "", "QueueLevel.json", "json");
         if (string.IsNullOrEmpty(path)) return;
 
-        LevelData data = new LevelData
+        ORG_LevelData data = new ORG_LevelData
         {
             peopleQueues = peopleQueues,
             obstacles = obstacles,
@@ -207,7 +207,7 @@ public class LevelEditorWindow : EditorWindow
         if (string.IsNullOrEmpty(path)) return;
 
         string json = File.ReadAllText(path);
-        LevelData data = JsonConvert.DeserializeObject<LevelData>(json);
+        ORG_LevelData data = JsonConvert.DeserializeObject<ORG_LevelData>(json);
         peopleQueues = data.peopleQueues;
         obstacles = data.obstacles;
         horizon = data.horizon;

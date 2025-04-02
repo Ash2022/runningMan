@@ -1,16 +1,16 @@
 using System.Collections.Generic;
 
 [System.Serializable]
-public class LevelData
+public class ORG_LevelData
 {
     public List<List<int>> peopleQueues;
-    public List<ObstacleData> obstacles;
+    public List<ORG_ObstacleData> obstacles;
     public int horizon;
 }
 
 
 [System.Serializable]
-public class ObstacleData
+public class ORG_ObstacleData
 {
     public List<int> units;
     public int gapToNext = 1;

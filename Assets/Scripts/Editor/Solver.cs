@@ -4,7 +4,7 @@ using UnityEngine;
 
 public static class ObstacleSolver
 {
-    public static void RunSimulation(LevelData levelData, int numIterations)
+    public static void RunSimulation(ORG_LevelData levelData, int numIterations)
     {
         int wins = 0;
         int losses = 0;
@@ -18,7 +18,7 @@ public static class ObstacleSolver
             foreach (var q in levelData.peopleQueues)
                 queues.Add(new List<int>(q));
 
-            var activeObstacles = new List<(int distance, ObstacleData data, int originalIndex, List<int> originalUnits)>();
+            var activeObstacles = new List<(int distance, ORG_ObstacleData data, int originalIndex, List<int> originalUnits)>();
             int spawnPointer = 0;
             int turnsSinceLastSpawn = 0;
 
@@ -137,9 +137,9 @@ public static class ObstacleSolver
         return names[id % names.Length];
     }
 
-    private static ObstacleData CloneObstacle(ObstacleData original)
+    private static ORG_ObstacleData CloneObstacle(ORG_ObstacleData original)
     {
-        return new ObstacleData
+        return new ORG_ObstacleData
         {
             units = new List<int>(original.units),
             gapToNext = original.gapToNext
