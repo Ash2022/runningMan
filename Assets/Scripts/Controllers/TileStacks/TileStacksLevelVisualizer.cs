@@ -10,10 +10,13 @@ public class TileStacksLevelVisualizer : MonoBehaviour
     [SerializeField] private Transform uiRoot;
     [SerializeField] private GameObject buttonPrefab;
 
+    float xSpacing = 1f;
+    float zSpacing = 2.5f;
+
     public Transform LevelRoot { get => levelRoot; set => levelRoot = value; }
     public Transform UiRoot { get => uiRoot; set => uiRoot = value; }
 
-    public (List<List<TileStacksTileView>>,int) BuildLevel(TilesStacksLevelData data, float verticalStackOffset = 0.125f)
+    public (List<List<TileStacksTileView>>,int) BuildLevel(TilesStacksLevelData data, float verticalStackOffset = 0.0875f)
     {
         Debug.Log("rectPos: " + TileStacksGameManager.Instance.RectToWorld(uiRoot.gameObject.GetComponent<RectTransform>().localPosition));
 
@@ -54,11 +57,17 @@ public class TileStacksLevelVisualizer : MonoBehaviour
             List<TileStacksTileView> stackViews = new List<TileStacksTileView>();
 
             // Normalize position:
+            /*
             float normalizedX = Mathf.InverseLerp(minX, maxX, stack.position.x); // 0 to 1
             float worldX = Mathf.Lerp(-3f, 3f, normalizedX);
 
             float normalizedY = Mathf.InverseLerp(minY, maxY, stack.position.y); // 0 to 1
             float worldZ = Mathf.Lerp(-5f, 5f, normalizedY); // Editor Z axis
+            */
+
+
+            float worldX = -2f + stack.position.x * xSpacing;
+            float worldZ = -7f + stack.position.y * zSpacing;
 
             for (int j = 0; j < stack.tiles.Count; j++)
             {

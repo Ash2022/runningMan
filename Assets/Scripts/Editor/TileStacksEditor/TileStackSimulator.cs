@@ -6,6 +6,7 @@ public class SimulationReport
     public int successes;
     public int failures;
     public int totalStepsInWins;
+    public int bestStepsInWin = int.MaxValue;
 
     public float AverageStepsInWins => successes > 0 ? (float)totalStepsInWins / successes : 0f;
 }
@@ -17,6 +18,7 @@ public static class TileStacksSimulator
         int success = 0;
         int failure = 0;
         int totalStepsInWins = 0;
+        int bestStepsInWin = int.MaxValue;
 
         for (int i = 0; i < iterations; i++)
         {
@@ -25,6 +27,8 @@ public static class TileStacksSimulator
             {
                 success++;
                 totalStepsInWins += stepsUsed;
+                if (stepsUsed < bestStepsInWin)
+                    bestStepsInWin = stepsUsed;
             }
             else
             {
@@ -36,55 +40,103 @@ public static class TileStacksSimulator
         {
             successes = success,
             failures = failure,
-            totalStepsInWins = totalStepsInWins
+            totalStepsInWins = totalStepsInWins,
+            bestStepsInWin = success > 0 ? bestStepsInWin : 0
         };
     }
-
 
     private static bool SimulateOne(TilesStacksLevelData original, out int stepsUsed)
     {
         List<List<int>> stacks = new List<List<int>>();
+        List<int> lockCounts = new List<int>();
+        List<int> lockColors = new List<int>();
+
         foreach (var stack in original.stacks)
         {
             stacks.Add(new List<int>(stack.tiles));
+            lockCounts.Add(stack.lockCount);
+            lockColors.Add(stack.lockColor);
         }
+
+        Dictionary<int, int> collectedColors = new Dictionary<int, int>();
+        for (int i = 0; i < 9; i++) collectedColors[i] = 0;
 
         int turnsLeft = original.numTurns;
         stepsUsed = 0;
 
-        while (turnsLeft > 0)
+        int counter = 0;
+
+        while (turnsLeft > 0 && counter <1000)
         {
+            counter++;
             HashSet<int> topColors = new HashSet<int>();
-            foreach (var stack in stacks)
+
+            for (int i = 0; i < stacks.Count; i++)
             {
-                if (stack.Count > 0)
-                    topColors.Add(stack[stack.Count - 1]);
+                if (stacks[i].Count == 0) continue;
+
+                int lockColor = lockColors[i];
+                int lockCount = lockCounts[i];
+                if (lockCount > 0 && collectedColors[lockColor] < lockCount)
+                    continue; // skip locked stack's top tile
+
+                topColors.Add(stacks[i][stacks[i].Count - 1]);
             }
 
-            if (topColors.Count == 0)
-                return true; // Win
+            //if (topColors.Count == 0)
+            //    return false;
 
             int colorToClick = PickRandomFromSet(topColors);
 
+            bool turnRemovedAny = false;
             bool removedAny;
             do
             {
                 removedAny = false;
                 for (int i = 0; i < stacks.Count; i++)
                 {
-                    if (stacks[i].Count > 0 && stacks[i][stacks[i].Count - 1] == colorToClick)
+                    if (stacks[i].Count == 0) continue;
+
+                    int lockColor = lockColors[i];
+                    int lockCount = lockCounts[i];
+
+                    if (lockCount > 0 && collectedColors[lockColor] < lockCount)
+                        continue;
+
+                    if (stacks[i][stacks[i].Count - 1] == colorToClick)
                     {
                         stacks[i].RemoveAt(stacks[i].Count - 1);
+                        collectedColors[colorToClick]++;
                         removedAny = true;
+                        turnRemovedAny = true;
                     }
                 }
             } while (removedAny);
 
-            stepsUsed++;
-            turnsLeft--;
+            if (turnRemovedAny)
+            {
+                stepsUsed++;
+                turnsLeft--;
+                
+            }
+
+            bool allEmpty = true;
+            foreach (var s in stacks)
+            {
+                if (s.Count > 0)
+                {
+                    allEmpty = false;
+                    break;
+                }
+            }
+            if (allEmpty)
+            {
+                stepsUsed++; // this move still counts
+                return true;
+            }
+
         }
 
-        // Check if any tiles remain
         foreach (var stack in stacks)
         {
             if (stack.Count > 0)
@@ -93,7 +145,6 @@ public static class TileStacksSimulator
 
         return true;
     }
-
 
     private static int PickRandomFromSet(HashSet<int> set)
     {
@@ -104,6 +155,6 @@ public static class TileStacksSimulator
                 return val;
             index--;
         }
-        return -1; // should never happen
+        return -1;
     }
 }

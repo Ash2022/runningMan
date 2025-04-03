@@ -71,22 +71,42 @@ public class TileStacksGameManager : MonoBehaviour
         gameActive = true;
     }
 
-    public void OnColorButtonClicked(int colorID,int buttonIndex)
+    public void OnColorButtonClicked(int colorID, int buttonIndex, TileStacksColorButtonView clickedButton)
     {
         if (!gameActive)
             return;
 
+        bool hasMatchingTopTile = false;
+
+        for (int i = 0; i < activeLevel.stacks.Count; i++)
+        {
+            List<int> tiles = activeLevel.stacks[i].tiles;
+            if (tiles.Count > 0 && tiles[tiles.Count - 1] == colorID)
+            {
+                hasMatchingTopTile = true;
+                break;
+            }
+        }
+
+        if (!hasMatchingTopTile)
+        {
+            Debug.Log("No matching top tiles for color " + colorID + " — skipping.");
+            clickedButton.ShowButton();
+            return;
+        }
+
+
         Debug.Log("Color button clicked: " + colorID);
 
         bool removedAny = false;
-        float startDelay = 0;
+        int flyingTiles = 0;
 
         for (int i = 0; i < activeLevel.stacks.Count; i++)
         {
             StackData stack = activeLevel.stacks[i];
             List<int> tiles = stack.tiles;
 
-            
+            float startDelay = 0;
 
             while (tiles.Count > 0 && tiles[tiles.Count - 1] == colorID)
             {
@@ -95,15 +115,26 @@ public class TileStacksGameManager : MonoBehaviour
                 TileStacksTileView view = activeTiles[i][activeTiles[i].Count - 1];
                 activeTiles[i].RemoveAt(activeTiles[i].Count - 1);
 
-                view.FlyTo(new Vector3( TileStacksUtils.GetButtonWorldX(numColorInLevel,buttonIndex), 0, -9.5f), startDelay, TILES_FLY_TIME, ()=>
-                {
-                    Destroy(view.gameObject);
-                });
+                flyingTiles++; // track how many tiles will animate
+
+                view.FlyTo(
+                    new Vector3(TileStacksUtils.GetButtonWorldX(numColorInLevel, buttonIndex), 0, -9.5f),
+                    startDelay,
+                    TILES_FLY_TIME,
+                    () =>
+                    {
+                        Destroy(view.gameObject);
+                        flyingTiles--;
+
+                        if (flyingTiles == 0)
+                        {
+                            Debug.Log("Last tile animation finished.");
+                            clickedButton.ShowButton();
+                        }
+                    });
 
                 removedAny = true;
-
                 startDelay += TILES_FLY_DELAY;
-
             }
         }
 
@@ -115,6 +146,7 @@ public class TileStacksGameManager : MonoBehaviour
 
         CheckGameOver();
     }
+
 
     private void CheckGameOver()
     {

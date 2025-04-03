@@ -15,8 +15,17 @@ public class TileStacksColorButtonView : MonoBehaviour
         colorID = id;
         buttonIndex = _buttonIndex;
         background.color = TileStacksUtils.GetColorFromID(colorID);
-        button.onClick.AddListener(() => TileStacksGameManager.Instance.OnColorButtonClicked(colorID, buttonIndex));
+        button.onClick.AddListener(() => ButtonClicked());
     }
 
-    
+    private void ButtonClicked()
+    {
+        background.enabled = false;
+        TileStacksGameManager.Instance.OnColorButtonClicked(colorID, buttonIndex,this);
+    }
+
+    public void ShowButton()
+    {
+        background.enabled = true;
+    }
 }

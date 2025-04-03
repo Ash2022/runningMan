@@ -6,6 +6,8 @@ public class StackData
 {
     public List<int> tiles = new List<int>();
     public Vector2 position; // X = horizontal, Y = Z (depth)
+    public int lockCount = 0;
+    public int lockColor = 0;
 }
 
 [System.Serializable]
