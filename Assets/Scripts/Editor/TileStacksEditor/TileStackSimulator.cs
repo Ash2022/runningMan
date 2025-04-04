@@ -47,13 +47,22 @@ public static class TileStacksSimulator
 
     private static bool SimulateOne(TilesStacksLevelData original, out int stepsUsed)
     {
-        List<List<int>> stacks = new List<List<int>>();
+        List<List<TileData>> stacks = new List<List<TileData>>();
         List<int> lockCounts = new List<int>();
         List<int> lockColors = new List<int>();
 
         foreach (var stack in original.stacks)
         {
-            stacks.Add(new List<int>(stack.tiles));
+            List<TileData> tileCopy = new List<TileData>();
+            foreach (var tile in stack.tiles)
+            {
+                tileCopy.Add(new TileData
+                {
+                    colorIndex = tile.colorIndex,
+                    startHidden = tile.startHidden
+                });
+            }
+            stacks.Add(tileCopy);
             lockCounts.Add(stack.lockCount);
             lockColors.Add(stack.lockColor);
         }
@@ -66,7 +75,7 @@ public static class TileStacksSimulator
 
         int counter = 0;
 
-        while (turnsLeft > 0 && counter <1000)
+        while (turnsLeft > 0 && counter < 1000)
         {
             counter++;
             HashSet<int> topColors = new HashSet<int>();
@@ -80,11 +89,11 @@ public static class TileStacksSimulator
                 if (lockCount > 0 && collectedColors[lockColor] < lockCount)
                     continue; // skip locked stack's top tile
 
-                topColors.Add(stacks[i][stacks[i].Count - 1]);
+                topColors.Add(stacks[i][stacks[i].Count - 1].colorIndex);
             }
 
-            //if (topColors.Count == 0)
-            //    return false;
+            if (topColors.Count == 0)
+                return false;
 
             int colorToClick = PickRandomFromSet(topColors);
 
@@ -103,7 +112,9 @@ public static class TileStacksSimulator
                     if (lockCount > 0 && collectedColors[lockColor] < lockCount)
                         continue;
 
-                    if (stacks[i][stacks[i].Count - 1] == colorToClick)
+                    TileData topTile = stacks[i][stacks[i].Count - 1];
+
+                    if (topTile.colorIndex == colorToClick)
                     {
                         stacks[i].RemoveAt(stacks[i].Count - 1);
                         collectedColors[colorToClick]++;
@@ -117,7 +128,6 @@ public static class TileStacksSimulator
             {
                 stepsUsed++;
                 turnsLeft--;
-                
             }
 
             bool allEmpty = true;
@@ -129,12 +139,12 @@ public static class TileStacksSimulator
                     break;
                 }
             }
+
             if (allEmpty)
             {
-                stepsUsed++; // this move still counts
+                stepsUsed++; // final move counts
                 return true;
             }
-
         }
 
         foreach (var stack in stacks)
@@ -145,6 +155,7 @@ public static class TileStacksSimulator
 
         return true;
     }
+
 
     private static int PickRandomFromSet(HashSet<int> set)
     {

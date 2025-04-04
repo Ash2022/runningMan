@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.IO;
 using System.Collections;
 using static UnityEngine.UI.Image;
+using Newtonsoft.Json;
 
 public class TileStacksEditorWindow : EditorWindow
 {
@@ -19,14 +20,17 @@ public class TileStacksEditorWindow : EditorWindow
     private Vector2 scroll;
 
     private const float totalWidth = 600f;
-    private const float tileWidth = 20f;
-    private const float tileHeightFactor = 0.6f;
+    private const float tileWidth = 25f;
+    private const float tileHeightFactor = 0.9f;
     private const float tilePadding = 2f;
     private const int maxStacks = 25;
 
     private float fragmentation = 0.5f;
     private int simulationIterations = 500;
     private SimulationReport simulationReport;
+
+    private int contextStackIndex = -1;
+    private int contextTileIndex = -1;
 
     private enum ViewMode { Data, Arrange }
     private ViewMode currentViewMode = ViewMode.Data;
@@ -192,21 +196,19 @@ public class TileStacksEditorWindow : EditorWindow
             int col = i % numCols;
 
             float x = col * colSpacing;
-            if (row % 2 == 1)
-                x += colSpacing / 2f;
-
+            if (row % 2 == 1) x += colSpacing / 2f;
             float z = row * zOffset;
 
-            StackData stack = new StackData();
-            stack.position = new Vector2(x, z);
+            StackData stack = new StackData
+            {
+                position = new Vector2(x, z),
+                tiles = new List<TileData>()
+            };
 
             for (int j = 0; j < tilesPerStack; j++)
             {
-                stack.tiles.Add(0);
+                stack.tiles.Add(new TileData { colorIndex = 0, startHidden = false });
             }
-
-            stack.lockCount = 0;
-            stack.lockColor = 0;
 
             stacks.Add(stack);
         }
@@ -215,58 +217,68 @@ public class TileStacksEditorWindow : EditorWindow
     private void DrawAllStacksFlipped()
     {
         float tileHeight = tileWidth * tileHeightFactor;
-        float spacing = tileWidth + tilePadding;
+        float maxZ = 0f;
+        foreach (var stack in stacks) maxZ = Mathf.Max(maxZ, stack.position.y);
 
         for (int s = 0; s < stacks.Count; s++)
         {
             StackData stack = stacks[s];
-            float drawX = s * spacing;
-            float drawYBase = editorYOffset;
+            float x = stack.position.x;
+            float visualYBase = (maxZ - stack.position.y) * 100f + editorYOffset;
 
             for (int i = 0; i < stack.tiles.Count; i++)
             {
-                float drawY = drawYBase - i * (tileHeight + tilePadding);
+                float drawX = x;
+                float drawY = visualYBase - (i * (tileHeight + tilePadding));
 
                 Rect rect = new Rect(drawX, drawY, tileWidth, tileHeight);
-                int colorID = stack.tiles[i];
+                TileData tile = stack.tiles[i];
 
                 Color prev = GUI.color;
-                GUI.color = TileStacksUtils.GetColorFromID(colorID);
+                GUI.color = TileStacksUtils.GetColorFromID(tile.colorIndex);
 
-                if (GUI.Button(rect, ""))
+                if (GUI.Button(rect, tile.startHidden ? "?" : ""))
                 {
-                    stack.tiles[i] = (colorID + 1) % numColors;
+                    if (Event.current.button == 0)
+                    {
+                        tile.colorIndex = (tile.colorIndex + 1) % numColors;
+                    }
+                    else if (Event.current.button == 1)
+                    {
+                        contextStackIndex = s;
+                        contextTileIndex = i;
+                        ShowContextMenu();
+                        Event.current.Use();
+                    }
                 }
 
                 GUI.color = prev;
             }
 
+            // After drawing all the tile buttons in the stack
+            Rect lockRect = new Rect(x, visualYBase + 20f, tileWidth * 1.5f, 16f);
+            string newText = EditorGUI.TextField(lockRect, stack.lockCount.ToString());
 
-            // Lock UI below stack
-            float lockY = drawYBase + 20f;
-            Rect lockColorRect = new Rect(drawX, lockY, tileWidth, tileHeight * 0.5f);
-            Rect lockCountRect = new Rect(drawX, lockY + tileHeight * 0.5f + 2f, tileWidth, 16f);
+            if (int.TryParse(newText, out int newVal))
+            {
+                stack.lockCount = newVal;
+            }
 
-            Color prevLock = GUI.color;
+            // Color cycle box (square next to the lock textbox)
+            Rect colorBox = new Rect(x + tileWidth * 1.6f, visualYBase + 20f, tileWidth, tileWidth * 0.6f);
+            Color prevColor = GUI.color;
             GUI.color = TileStacksUtils.GetColorFromID(stack.lockColor);
-            if (GUI.Button(lockColorRect, ""))
+
+            if (GUI.Button(colorBox, ""))
             {
                 stack.lockColor = (stack.lockColor + 1) % numColors;
             }
-            GUI.color = prevLock;
 
-            string newLock = GUI.TextField(lockCountRect, stack.lockCount.ToString());
-            if (int.TryParse(newLock, out int parsed))
-            {
-                stack.lockCount = Mathf.Max(0, parsed);
-            }
+            GUI.color = prevColor;
 
         }
 
-
-        
-
-        GUILayout.Space(1000); // scroll buffer
+        GUILayout.Space(1000);
     }
 
     private void SaveLevelToJson()
@@ -297,11 +309,20 @@ public class TileStacksEditorWindow : EditorWindow
 
             StackData clone = new StackData
             {
-                tiles = new List<int>(original.tiles),
-                position = new Vector2(gridPos.x, gridPos.y), // keep it as grid space
+                position = new Vector2(gridPos.x, gridPos.y),
                 lockColor = original.lockColor,
-                lockCount = original.lockCount
+                lockCount = original.lockCount,
+                tiles = new List<TileData>()
             };
+
+            foreach (var tile in original.tiles)
+            {
+                clone.tiles.Add(new TileData
+                {
+                    colorIndex = tile.colorIndex,
+                    startHidden = tile.startHidden
+                });
+            }
 
             clonedStacks.Add(clone);
         }
@@ -318,11 +339,10 @@ public class TileStacksEditorWindow : EditorWindow
         foreach (var stack in clonedStacks)
         {
             totalTiles += stack.tiles.Count;
-            foreach (int color in stack.tiles)
+            foreach (var tile in stack.tiles)
             {
-                colorSet.Add(color);
-            }           
-
+                colorSet.Add(tile.colorIndex);
+            }
         }
 
         int numStacks = clonedStacks.Count;
@@ -336,9 +356,33 @@ public class TileStacksEditorWindow : EditorWindow
         var path = EditorUtility.SaveFilePanel("Save Level JSON", "", fileName, "json");
         if (string.IsNullOrEmpty(path)) return;
 
-        string json = JsonUtility.ToJson(data, true);
+        string json = JsonConvert.SerializeObject(data, Formatting.Indented,
+        new JsonSerializerSettings
+        {
+            ReferenceLoopHandling = ReferenceLoopHandling.Ignore
+        });
+
         File.WriteAllText(path, json);
         Debug.Log("Saved level to: " + path);
+    }
+
+
+
+    private void ShowContextMenu()
+    {
+        GenericMenu menu = new GenericMenu();
+        menu.AddItem(new GUIContent("Toggle Hidden At Start"), false, ToggleHiddenAtStart);
+        menu.ShowAsContext();
+    }
+
+    private void ToggleHiddenAtStart()
+    {
+        if (contextStackIndex >= 0 && contextTileIndex >= 0 && contextStackIndex < stacks.Count && contextTileIndex < stacks[contextStackIndex].tiles.Count)
+        {
+            TileData tile = stacks[contextStackIndex].tiles[contextTileIndex];
+            tile.startHidden = !tile.startHidden;
+            Repaint();
+        }
     }
 
 
@@ -362,7 +406,7 @@ public class TileStacksEditorWindow : EditorWindow
         if (string.IsNullOrEmpty(path)) return;
 
         string json = File.ReadAllText(path);
-        TilesStacksLevelData data = JsonUtility.FromJson<TilesStacksLevelData>(json);
+        TilesStacksLevelData data = JsonConvert.DeserializeObject<TilesStacksLevelData>(json);
 
         if (data != null)
         {
@@ -406,7 +450,7 @@ public class TileStacksEditorWindow : EditorWindow
                     currentColor = Random.Range(0, numColors);
                 }
 
-                stack.tiles[i] = currentColor;
+                stack.tiles[i].colorIndex = currentColor;
             }
         }
 

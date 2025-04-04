@@ -80,8 +80,8 @@ public class TileStacksGameManager : MonoBehaviour
 
         for (int i = 0; i < activeLevel.stacks.Count; i++)
         {
-            List<int> tiles = activeLevel.stacks[i].tiles;
-            if (tiles.Count > 0 && tiles[tiles.Count - 1] == colorID)
+            List<TileData> tiles = activeLevel.stacks[i].tiles;
+            if (tiles.Count > 0 && tiles[tiles.Count - 1].colorIndex == colorID)
             {
                 hasMatchingTopTile = true;
                 break;
@@ -95,7 +95,6 @@ public class TileStacksGameManager : MonoBehaviour
             return;
         }
 
-
         Debug.Log("Color button clicked: " + colorID);
 
         bool removedAny = false;
@@ -104,18 +103,18 @@ public class TileStacksGameManager : MonoBehaviour
         for (int i = 0; i < activeLevel.stacks.Count; i++)
         {
             StackData stack = activeLevel.stacks[i];
-            List<int> tiles = stack.tiles;
+            List<TileData> tiles = stack.tiles;
 
             float startDelay = 0;
 
-            while (tiles.Count > 0 && tiles[tiles.Count - 1] == colorID)
+            while (tiles.Count > 0 && tiles[tiles.Count - 1].colorIndex == colorID)
             {
                 tiles.RemoveAt(tiles.Count - 1);
 
                 TileStacksTileView view = activeTiles[i][activeTiles[i].Count - 1];
                 activeTiles[i].RemoveAt(activeTiles[i].Count - 1);
 
-                flyingTiles++; // track how many tiles will animate
+                flyingTiles++;
 
                 view.FlyTo(
                     new Vector3(TileStacksUtils.GetButtonWorldX(numColorInLevel, buttonIndex), 0, -9.5f),
@@ -146,6 +145,7 @@ public class TileStacksGameManager : MonoBehaviour
 
         CheckGameOver();
     }
+
 
 
     private void CheckGameOver()

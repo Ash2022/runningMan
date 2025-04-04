@@ -31,12 +31,25 @@ public class TileStacksModelManager : MonoBehaviour
         {
             StackData s = new StackData();
             s.position = stack.position;
-            s.tiles = new List<int>(stack.tiles);
+            s.lockColor = stack.lockColor;
+            s.lockCount = stack.lockCount;
+            s.tiles = new List<TileData>();
+
+            foreach (var tile in stack.tiles)
+            {
+                s.tiles.Add(new TileData
+                {
+                    colorIndex = tile.colorIndex,
+                    startHidden = tile.startHidden
+                });
+            }
+
             copy.stacks.Add(s);
         }
 
         return copy;
     }
+
 
     private void Awake()
     {

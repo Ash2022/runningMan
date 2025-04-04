@@ -524,18 +524,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   levelFiles:
-  - {fileID: 4900000, guid: cf293c7be97cc734f89ead4b8ffb0d06, type: 3}
-  - {fileID: 4900000, guid: 3ab61c394f1b46c4ca11371a5b665080, type: 3}
-  - {fileID: 4900000, guid: 5010726e03ce68342a38b78e87b9f925, type: 3}
-  - {fileID: 4900000, guid: 76a992e8a181f154bb334d3ce177a4c4, type: 3}
-  - {fileID: 4900000, guid: 6591ffbca88a021428309faf88029096, type: 3}
-  - {fileID: 4900000, guid: c1b898f27b1bda44a8709a37026bec2c, type: 3}
-  - {fileID: 4900000, guid: 376602e25b644834cb43d1a54f768bc4, type: 3}
-  - {fileID: 4900000, guid: 19108a3a10700d840bdb45795d2ed654, type: 3}
-  - {fileID: 4900000, guid: 8b1ba411691188943aa94c34b0e91126, type: 3}
-  - {fileID: 4900000, guid: 92f0462019632e549aaa947788083d22, type: 3}
-  - {fileID: 4900000, guid: 2c000a0356b2c714280df70e03bbe65e, type: 3}
-  - {fileID: 4900000, guid: 849e32b6727116746b28155bf0e9e93c, type: 3}
+  - {fileID: 4900000, guid: 57ae8bfa648c67d47a58f4f61abf8fef, type: 3}
 --- !u!1 &705507993
 GameObject:
   m_ObjectHideFlags: 0

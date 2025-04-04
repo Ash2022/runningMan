@@ -16,16 +16,20 @@ public class TileStacksLevelVisualizer : MonoBehaviour
     public Transform LevelRoot { get => levelRoot; set => levelRoot = value; }
     public Transform UiRoot { get => uiRoot; set => uiRoot = value; }
 
-    public (List<List<TileStacksTileView>>,int) BuildLevel(TilesStacksLevelData data, float verticalStackOffset = 0.0875f)
+    public (List<List<TileStacksTileView>>, int) BuildLevel(TilesStacksLevelData data, float verticalStackOffset = 0.0875f)
     {
         Debug.Log("rectPos: " + TileStacksGameManager.Instance.RectToWorld(uiRoot.gameObject.GetComponent<RectTransform>().localPosition));
 
         List<List<TileStacksTileView>> allViews = new List<List<TileStacksTileView>>();
         HashSet<int> uniqueColors = new HashSet<int>();
 
+        // Collect color indexes
         foreach (var stack in data.stacks)
         {
-            uniqueColors.UnionWith(stack.tiles);
+            foreach (var tile in stack.tiles)
+            {
+                uniqueColors.Add(tile.colorIndex);
+            }
         }
 
         foreach (Transform child in levelRoot)
@@ -56,16 +60,6 @@ public class TileStacksLevelVisualizer : MonoBehaviour
         {
             List<TileStacksTileView> stackViews = new List<TileStacksTileView>();
 
-            // Normalize position:
-            /*
-            float normalizedX = Mathf.InverseLerp(minX, maxX, stack.position.x); // 0 to 1
-            float worldX = Mathf.Lerp(-3f, 3f, normalizedX);
-
-            float normalizedY = Mathf.InverseLerp(minY, maxY, stack.position.y); // 0 to 1
-            float worldZ = Mathf.Lerp(-5f, 5f, normalizedY); // Editor Z axis
-            */
-
-
             float worldX = -2f + stack.position.x * xSpacing;
             float worldZ = -7f + stack.position.y * zSpacing;
 
@@ -80,7 +74,7 @@ public class TileStacksLevelVisualizer : MonoBehaviour
                 GameObject go = Instantiate(tilePrefab, levelRoot);
                 go.transform.position = pos;
                 TileStacksTileView view = go.GetComponent<TileStacksTileView>();
-                view.SetColor(stack.tiles[j]);
+                view.SetColor(stack.tiles[j]); // Pass TileData object
                 stackViews.Add(view);
             }
 
@@ -88,7 +82,6 @@ public class TileStacksLevelVisualizer : MonoBehaviour
         }
 
         int buttonIndex = 0;
-
         foreach (int color in uniqueColors)
         {
             GameObject button = Instantiate(buttonPrefab, uiRoot);
@@ -97,6 +90,7 @@ public class TileStacksLevelVisualizer : MonoBehaviour
             buttonIndex++;
         }
 
-        return (allViews,uniqueColors.Count);
+        return (allViews, uniqueColors.Count);
     }
+
 }

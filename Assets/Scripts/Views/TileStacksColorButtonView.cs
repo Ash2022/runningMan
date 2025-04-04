@@ -1,3 +1,4 @@
+using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -6,6 +7,7 @@ public class TileStacksColorButtonView : MonoBehaviour
     [SerializeField] private Button button;
     [SerializeField] private Image background;
     [SerializeField] RectTransform rect;
+    [SerializeField] TMP_Text counter;
 
     private int colorID;
     private int buttonIndex;

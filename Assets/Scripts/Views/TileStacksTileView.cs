@@ -8,9 +8,9 @@ public class TileStacksTileView : MonoBehaviour
 {
     [SerializeField] Renderer renderer;
 
-    internal void SetColor(int v)
+    internal void SetColor(TileData tileData)
     {
-        renderer.material.color = TileStacksUtils.GetColorFromID(v);
+        renderer.material.color = TileStacksUtils.GetColorFromID(tileData.colorIndex);
     }
 
 
