@@ -414,28 +414,31 @@ public class TileStacksEditorWindow : EditorWindow
             stacks = data.stacks ?? new List<StackData>();
             numStacks = stacks.Count;
             tilesPerStack = stacks.Count > 0 ? stacks[0].tiles.Count : 10;
-        }
 
+            // Reposition stacks in a single horizontal row (left to right)
+            float colSpacing = (totalWidth * 0.75f) / 5f;
 
-        selectedGrid = new bool[4, 5];
-        foreach (var stack in stacks)
-        {
-            Vector2Int gridPos = Vector2Int.RoundToInt(stack.position);
-            if (gridPos.y >= 0 && gridPos.y < 4 && gridPos.x >= 0 && gridPos.x < 5)
+            for (int i = 0; i < stacks.Count; i++)
             {
-                int visualRow = 3 - gridPos.y;
-                if (visualRow >= 0 && visualRow < 4 && gridPos.x >= 0 && gridPos.x < 5)
+                stacks[i].position = new Vector2(i * colSpacing, 0f);
+            }
+
+            // Reset selected grid (not really needed anymore, but cleaned up)
+            selectedGrid = new bool[4, 5];
+            for (int i = 0; i < stacks.Count; i++)
+            {
+                if (i < 20)
                 {
-                    selectedGrid[visualRow, gridPos.x] = true;
+                    int row = 3 - (i / 5);
+                    int col = i % 5;
+                    selectedGrid[row, col] = true;
                 }
             }
 
+            Debug.Log("Loaded level from: " + path);
         }
-
-        
-
-        Debug.Log("Loaded level from: " + path);
     }
+
 
     private void ApplyRandomColors()
     {

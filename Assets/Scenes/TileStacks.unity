@@ -511,6 +511,7 @@ MonoBehaviour:
   yOffsetPerTile: 0.2
   uiRoot: {fileID: 1196404555}
   buttonPrefab: {fileID: 7741273855380010779, guid: 1b7800cbd99989e4a9d5ec468070884a, type: 3}
+  stackViewPrefab: {fileID: 3563238652900109070, guid: c77fa86de3fa4ef4dbd7e7bc250fc707, type: 3}
 --- !u!114 &702425269
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -524,7 +525,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   levelFiles:
-  - {fileID: 4900000, guid: 57ae8bfa648c67d47a58f4f61abf8fef, type: 3}
+  - {fileID: 4900000, guid: 8e1d4ba178a96364e8109a68323174f0, type: 3}
 --- !u!1 &705507993
 GameObject:
   m_ObjectHideFlags: 0

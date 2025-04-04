@@ -9,6 +9,7 @@ public class TileStacksLevelVisualizer : MonoBehaviour
     [SerializeField] private float yOffsetPerTile = 1f;
     [SerializeField] private Transform uiRoot;
     [SerializeField] private GameObject buttonPrefab;
+    [SerializeField] private GameObject stackViewPrefab;
 
     float xSpacing = 1f;
     float zSpacing = 2.5f;
@@ -16,11 +17,12 @@ public class TileStacksLevelVisualizer : MonoBehaviour
     public Transform LevelRoot { get => levelRoot; set => levelRoot = value; }
     public Transform UiRoot { get => uiRoot; set => uiRoot = value; }
 
-    public (List<List<TileStacksTileView>>, int) BuildLevel(TilesStacksLevelData data, float verticalStackOffset = 0.0875f)
+    public (List<List<TileStacksTileView>>, List<TileStacksStackView>, int) BuildLevel(TilesStacksLevelData data, float verticalStackOffset)
     {
         Debug.Log("rectPos: " + TileStacksGameManager.Instance.RectToWorld(uiRoot.gameObject.GetComponent<RectTransform>().localPosition));
 
         List<List<TileStacksTileView>> allViews = new List<List<TileStacksTileView>>();
+        List<TileStacksStackView> allStackViews = new List<TileStacksStackView>();
         HashSet<int> uniqueColors = new HashSet<int>();
 
         // Collect color indexes
@@ -42,20 +44,6 @@ public class TileStacksLevelVisualizer : MonoBehaviour
             Destroy(child.gameObject);
         }
 
-        // Get min/max ranges for normalization
-        float minX = float.MaxValue;
-        float maxX = float.MinValue;
-        float minY = float.MaxValue;
-        float maxY = float.MinValue;
-
-        foreach (var stack in data.stacks)
-        {
-            minX = Mathf.Min(minX, stack.position.x);
-            maxX = Mathf.Max(maxX, stack.position.x);
-            minY = Mathf.Min(minY, stack.position.y);
-            maxY = Mathf.Max(maxY, stack.position.y);
-        }
-
         foreach (var stack in data.stacks)
         {
             List<TileStacksTileView> stackViews = new List<TileStacksTileView>();
@@ -63,18 +51,25 @@ public class TileStacksLevelVisualizer : MonoBehaviour
             float worldX = -2f + stack.position.x * xSpacing;
             float worldZ = -7f + stack.position.y * zSpacing;
 
+            // Create a stack container
+            GameObject stackRoot = Instantiate(stackViewPrefab, levelRoot);
+            stackRoot.transform.position = new Vector3(worldX + offset.x, offset.y, worldZ + offset.z);
+
+            TileStacksStackView stackView = stackRoot.GetComponent<TileStacksStackView>();
+            stackView.Setup(stack);
+
+            allStackViews.Add(stackView);
+
             for (int j = 0; j < stack.tiles.Count; j++)
             {
-                Vector3 pos = new Vector3(
-                    worldX + offset.x,
-                    j * verticalStackOffset + offset.y,
-                    worldZ + offset.z
-                );
+                Vector3 localPos = new Vector3(0, j * verticalStackOffset, 0);
 
-                GameObject go = Instantiate(tilePrefab, levelRoot);
-                go.transform.position = pos;
-                TileStacksTileView view = go.GetComponent<TileStacksTileView>();
-                view.SetColor(stack.tiles[j]); // Pass TileData object
+                GameObject tileGO = Instantiate(tilePrefab, stackRoot.transform);
+                tileGO.transform.localPosition = localPos;
+
+                TileStacksTileView view = tileGO.GetComponent<TileStacksTileView>();
+                view.SetColor(stack.tiles[j]);
+
                 stackViews.Add(view);
             }
 
@@ -90,7 +85,8 @@ public class TileStacksLevelVisualizer : MonoBehaviour
             buttonIndex++;
         }
 
-        return (allViews, uniqueColors.Count);
+        return (allViews, allStackViews, uniqueColors.Count);
     }
+
 
 }

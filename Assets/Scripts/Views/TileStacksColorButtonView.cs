@@ -1,3 +1,4 @@
+using System;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
@@ -14,6 +15,7 @@ public class TileStacksColorButtonView : MonoBehaviour
 
     public void Setup(int id, int _buttonIndex)
     {
+        counter.text = "";
         colorID = id;
         buttonIndex = _buttonIndex;
         background.color = TileStacksUtils.GetColorFromID(colorID);
@@ -29,5 +31,10 @@ public class TileStacksColorButtonView : MonoBehaviour
     public void ShowButton()
     {
         background.enabled = true;
+    }
+
+    internal void UpdateCounter(int v)
+    {
+        counter.text = v.ToString();
     }
 }

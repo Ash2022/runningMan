@@ -3,12 +3,24 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Tilemaps;
 
 public class TileStacksTileView : MonoBehaviour
 {
     [SerializeField] Renderer renderer;
+    [SerializeField]ParticleSystem particleSystem;
+    TileData tileData;
+    internal void SetColor(TileData _tileData)
+    {
+        tileData = _tileData;
 
-    internal void SetColor(TileData tileData)
+        if (tileData.startHidden)
+            renderer.material.color = Color.black;
+        else
+            renderer.material.color = TileStacksUtils.GetColorFromID(tileData.colorIndex);
+    }
+
+    public void RevealTileColor()
     {
         renderer.material.color = TileStacksUtils.GetColorFromID(tileData.colorIndex);
     }
@@ -29,6 +41,22 @@ public class TileStacksTileView : MonoBehaviour
             done?.Invoke();
         });
 
+    }
+
+    public void PlayDestroyParticles()
+    {
+        if (particleSystem == null) return;
+
+        particleSystem.gameObject.SetActive(false);
+
+        Color color = TileStacksUtils.GetColorFromID(tileData.colorIndex);
+
+        var main = particleSystem.main;
+        main.startColor = color;
+
+        particleSystem.gameObject.SetActive(true);
+
+        Destroy(gameObject, 1f); // optional delay for particle play time
     }
 
 }

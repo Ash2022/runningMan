@@ -1,4 +1,4 @@
-using System;
+﻿using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -7,6 +7,7 @@ public class TileStacksGameManager : MonoBehaviour
 {
     const float TILES_FLY_DELAY = 0.15f;
     const float TILES_FLY_TIME = 0.75f;
+    const float TILES_VERTICAL_OFFSET = 0.075f;
 
     public static TileStacksGameManager Instance;
 
@@ -16,6 +17,8 @@ public class TileStacksGameManager : MonoBehaviour
 
     private List<List<TileStacksTileView>> activeTiles;
     private TilesStacksLevelData activeLevel;
+    private List<TileStacksStackView> stackViews;
+
     int levelIndex=0;
     bool gameActive = false;
     int numColorInLevel = 0;
@@ -66,7 +69,7 @@ public class TileStacksGameManager : MonoBehaviour
     public void BuildLevel()
     {
         activeLevel = TileStacksModelManager.Instance.GetLevel(levelIndex);
-        (activeTiles,numColorInLevel) = levelVisualizer.BuildLevel(activeLevel);
+        (activeTiles, stackViews,numColorInLevel) = levelVisualizer.BuildLevel(activeLevel, TILES_VERTICAL_OFFSET);
         uiManager.SetTurns(activeLevel.numTurns);
         gameActive = true;
     }
@@ -80,8 +83,16 @@ public class TileStacksGameManager : MonoBehaviour
 
         for (int i = 0; i < activeLevel.stacks.Count; i++)
         {
-            List<TileData> tiles = activeLevel.stacks[i].tiles;
-            if (tiles.Count > 0 && tiles[tiles.Count - 1].colorIndex == colorID)
+            var stack = activeLevel.stacks[i];
+            var tiles = stack.tiles;
+
+            if (tiles.Count == 0) continue;
+
+            // Skip locked stacks
+            if (stack.lockCount > 0 && activeLevel.playedTiles[stack.lockColor] < stack.lockCount)
+                continue;
+
+            if (tiles[tiles.Count - 1].colorIndex == colorID)
             {
                 hasMatchingTopTile = true;
                 break;
@@ -90,7 +101,7 @@ public class TileStacksGameManager : MonoBehaviour
 
         if (!hasMatchingTopTile)
         {
-            Debug.Log("No matching top tiles for color " + colorID + " � skipping.");
+            Debug.Log("No matching top tiles for color " + colorID + " — skipping.");
             clickedButton.ShowButton();
             return;
         }
@@ -102,28 +113,72 @@ public class TileStacksGameManager : MonoBehaviour
 
         for (int i = 0; i < activeLevel.stacks.Count; i++)
         {
-            StackData stack = activeLevel.stacks[i];
-            List<TileData> tiles = stack.tiles;
+            var stack = activeLevel.stacks[i];
+            var tiles = stack.tiles;
+
+            // Skip locked stacks
+            if (stack.lockCount > 0 && activeLevel.playedTiles[stack.lockColor] < stack.lockCount)
+                continue;
 
             float startDelay = 0;
 
             while (tiles.Count > 0 && tiles[tiles.Count - 1].colorIndex == colorID)
             {
-                tiles.RemoveAt(tiles.Count - 1);
+                tiles.RemoveAt(tiles.Count - 1);               
 
-                TileStacksTileView view = activeTiles[i][activeTiles[i].Count - 1];
+                var view = activeTiles[i][activeTiles[i].Count - 1];
                 activeTiles[i].RemoveAt(activeTiles[i].Count - 1);
+
+                // After removing a tile, check if new top is a hidden tile that just became revealed
+                if (tiles.Count > 0)
+                {
+                    var newTopTile = tiles[tiles.Count - 1];
+                    var newTopView = activeTiles[i][activeTiles[i].Count - 1];
+
+                    if (newTopTile.startHidden)
+                    {
+                        Debug.Log($"Hidden tile on stack {i} just got revealed — color: {newTopTile.colorIndex}");
+
+                        // You now have both the data and the view:
+                        // newTopTile  → TileData
+                        // newTopView  → TileStacksTileView
+
+                        // Optional reveal effect:
+                        newTopView.RevealTileColor();
+                    }
+                }
 
                 flyingTiles++;
 
                 view.FlyTo(
-                    new Vector3(TileStacksUtils.GetButtonWorldX(numColorInLevel, buttonIndex), 0, -9.5f),
+                    new Vector3(TileStacksUtils.GetButtonWorldX(numColorInLevel, buttonIndex), flyingTiles*TILES_VERTICAL_OFFSET, -9.5f),
                     startDelay,
                     TILES_FLY_TIME,
                     () =>
                     {
-                        Destroy(view.gameObject);
+                        view.PlayDestroyParticles();
                         flyingTiles--;
+
+                        // ✅ Track played color count
+                        activeLevel.playedTiles[colorID]++;
+                        clickedButton.UpdateCounter(activeLevel.playedTiles[colorID]);
+
+                        // ✅ Check if any locked stack is now unlocked (and only trigger once)
+                        for (int si = 0; si < activeLevel.stacks.Count; si++)
+                        {
+                            var s = activeLevel.stacks[si];
+
+                            if (s.lockCount > 0 &&
+                                s.lockColor == colorID &&
+                                activeLevel.playedTiles[colorID] == s.lockCount)
+                            {
+                                // ✅ This stack is now officially unlocked (first time)
+                                Debug.Log($"Stack {si} unlocked! Required {s.lockCount} of color {s.lockColor}.");
+                                // Optionally: animate / mark / notify
+
+                                stackViews[si].UnlockStackCover();
+                            }
+                        }
 
                         if (flyingTiles == 0)
                         {
@@ -139,6 +194,8 @@ public class TileStacksGameManager : MonoBehaviour
 
         if (removedAny)
         {
+            
+
             activeLevel.numTurns--;
             uiManager.SetTurns(activeLevel.numTurns);
         }
