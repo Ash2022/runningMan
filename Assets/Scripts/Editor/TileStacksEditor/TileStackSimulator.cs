@@ -142,7 +142,7 @@ public static class TileStacksSimulator
 
             if (allEmpty)
             {
-                stepsUsed++; // final move counts
+                //stepsUsed++; // final move counts
                 return true;
             }
         }

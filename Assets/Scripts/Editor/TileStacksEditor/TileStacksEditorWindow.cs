@@ -12,14 +12,14 @@ public class TileStacksEditorWindow : EditorWindow
     private int tilesPerStack = 10;
     private int numTurns = 20;
     private int numColors = 6;
-    private int numCols = 5;
+    private int numCols = 8;
     private float zOffset = 1.0f;
     private float editorYOffset = 0f;
 
     private List<StackData> stacks = new List<StackData>();
     private Vector2 scroll;
 
-    private const float totalWidth = 600f;
+    private const float totalWidth = 800f;
     private const float tileWidth = 25f;
     private const float tileHeightFactor = 0.9f;
     private const float tilePadding = 2f;
@@ -192,12 +192,13 @@ public class TileStacksEditorWindow : EditorWindow
 
         for (int i = 0; i < numStacks; i++)
         {
-            int row = i / numCols;
-            int col = i % numCols;
+            int row = 0;// i / numCols;
+            int col = i;// % numCols;
 
-            float x = col * colSpacing;
-            if (row % 2 == 1) x += colSpacing / 2f;
+            float x = col * colSpacing/1.5f;
+            //if (row % 2 == 1) x += colSpacing / 2f;
             float z = row * zOffset;
+            z = 0;
 
             StackData stack = new StackData
             {
@@ -229,7 +230,7 @@ public class TileStacksEditorWindow : EditorWindow
             for (int i = 0; i < stack.tiles.Count; i++)
             {
                 float drawX = x;
-                float drawY = visualYBase - (i * (tileHeight + tilePadding));
+                float drawY = visualYBase - (i * (tileHeight + tilePadding))-20;
 
                 Rect rect = new Rect(drawX, drawY, tileWidth, tileHeight);
                 TileData tile = stack.tiles[i];

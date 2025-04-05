@@ -82,18 +82,25 @@ public class TileStacksLevelVisualizer : MonoBehaviour
 
         int numButtons = uniqueColors.Count;
         float totalWidth = 5.6f;
-        float buttonWidth = 1f;
+        float buttonBaseWidth = 1f;
 
-        float spacing = totalWidth / numButtons;
-        float scaleFactor = Mathf.Min(1f, spacing / buttonWidth);
-        float actualHalfWidth = 0.5f * scaleFactor;
+        float scaleFactor = 1f;
+        float buttonArea = numButtons * buttonBaseWidth;
+        if (buttonArea > totalWidth)
+        {
+            scaleFactor = totalWidth / buttonArea;
+        }
+        float scaledButtonWidth = buttonBaseWidth * scaleFactor;
 
-        float startX = -totalWidth / 2f + actualHalfWidth;
+        float gap = (totalWidth - numButtons * scaledButtonWidth) / (numButtons + 1);
+
+        // Start from left edge, then step by (button + gap)
+        float startX = -totalWidth / 2f + gap + scaledButtonWidth / 2f;
 
         int buttonIndex = 0;
         foreach (int color in uniqueColors)
         {
-            float xPos = startX + buttonIndex * spacing;
+            float xPos = startX + buttonIndex * (scaledButtonWidth + gap);
 
             GameObject button = Instantiate(buttonPrefab, uiRoot);
             button.transform.localPosition = new Vector3(xPos, 0, -9.25f);

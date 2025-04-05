@@ -46,6 +46,7 @@ public class TileStacksTileView : MonoBehaviour
 
     public void PlayDestroyParticles(float startDelay,Action done)
     {
+        Debug.Log("DestoryDelay:" + startDelay);
         StartCoroutine(DestoryTileRoutine(startDelay, done));
     }
 
