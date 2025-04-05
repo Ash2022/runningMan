@@ -1,9 +1,12 @@
 using System;
+using TMPro;
 using UnityEngine;
 
 public class TileStacksStackView : MonoBehaviour
 {
     [SerializeField] private GameObject lockIndicator;
+    [SerializeField] private SpriteRenderer lockColor;
+    [SerializeField] private TMP_Text lockCounter;
 
     public void Setup(StackData data)
     {
@@ -16,6 +19,10 @@ public class TileStacksStackView : MonoBehaviour
 
             var sr = lockIndicator.GetComponent<SpriteRenderer>();
             sr.size = new Vector2(sr.size.x, scaleY);
+
+            lockColor.color = TileStacksUtils.GetColorFromID(data.lockColor);
+            lockCounter.text = data.lockCount.ToString();
+
             
         }
         else

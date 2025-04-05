@@ -27,4 +27,11 @@ public static class TileStacksUtils
 
         return -3f + unitWidth * (buttonIndex + 0.5f);
     }
+
+    public static Color GetLighterColor(Color original)
+    {
+        Color.RGBToHSV(original, out float h, out float s, out float v);
+        v = Mathf.Clamp01(v - 0.25f);
+        return Color.HSVToRGB(h, s, v);
+    }
 }

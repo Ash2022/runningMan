@@ -15,7 +15,7 @@ public class TileStacksTileView : MonoBehaviour
         tileData = _tileData;
 
         if (tileData.startHidden)
-            renderer.material.color = Color.black;
+            renderer.material.color = Color.white;
         else
             renderer.material.color = TileStacksUtils.GetColorFromID(tileData.colorIndex);
     }
@@ -43,9 +43,17 @@ public class TileStacksTileView : MonoBehaviour
 
     }
 
-    public void PlayDestroyParticles()
+
+    public void PlayDestroyParticles(float startDelay,Action done)
     {
-        if (particleSystem == null) return;
+        StartCoroutine(DestoryTileRoutine(startDelay, done));
+    }
+
+    IEnumerator DestoryTileRoutine(float startDelay,Action done)
+    {
+        yield return new WaitForSeconds(startDelay);
+
+        renderer.enabled = false;
 
         particleSystem.gameObject.SetActive(false);
 
@@ -56,7 +64,10 @@ public class TileStacksTileView : MonoBehaviour
 
         particleSystem.gameObject.SetActive(true);
 
-        Destroy(gameObject, 1f); // optional delay for particle play time
+        yield return new WaitForSeconds(1);
+
+        done?.Invoke();
+        Destroy(gameObject);
     }
 
 }

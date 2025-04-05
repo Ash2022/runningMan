@@ -11,6 +11,8 @@ public class TileStacksLevelVisualizer : MonoBehaviour
     [SerializeField] private GameObject buttonPrefab;
     [SerializeField] private GameObject stackViewPrefab;
 
+    List<TileStacksColorButtonView> tileStacksColorButtonViews = new List<TileStacksColorButtonView>();
+
     float xSpacing = 1f;
     float zSpacing = 2.5f;
 
@@ -19,11 +21,13 @@ public class TileStacksLevelVisualizer : MonoBehaviour
 
     public (List<List<TileStacksTileView>>, List<TileStacksStackView>, int) BuildLevel(TilesStacksLevelData data, float verticalStackOffset)
     {
-        Debug.Log("rectPos: " + TileStacksGameManager.Instance.RectToWorld(uiRoot.gameObject.GetComponent<RectTransform>().localPosition));
+        //Debug.Log("rectPos: " + TileStacksGameManager.Instance.RectToWorld(uiRoot.gameObject.GetComponent<RectTransform>().localPosition));
 
         List<List<TileStacksTileView>> allViews = new List<List<TileStacksTileView>>();
         List<TileStacksStackView> allStackViews = new List<TileStacksStackView>();
         HashSet<int> uniqueColors = new HashSet<int>();
+
+        tileStacksColorButtonViews.Clear();
 
         // Collect color indexes
         foreach (var stack in data.stacks)
@@ -76,17 +80,39 @@ public class TileStacksLevelVisualizer : MonoBehaviour
             allViews.Add(stackViews);
         }
 
+        int numButtons = uniqueColors.Count;
+        float totalWidth = 5.6f;
+        float buttonWidth = 1f;
+
+        float spacing = totalWidth / numButtons;
+        float scaleFactor = Mathf.Min(1f, spacing / buttonWidth);
+        float actualHalfWidth = 0.5f * scaleFactor;
+
+        float startX = -totalWidth / 2f + actualHalfWidth;
+
         int buttonIndex = 0;
         foreach (int color in uniqueColors)
         {
+            float xPos = startX + buttonIndex * spacing;
+
             GameObject button = Instantiate(buttonPrefab, uiRoot);
+            button.transform.localPosition = new Vector3(xPos, 0, -9.25f);
+            button.transform.localScale = Vector3.one * scaleFactor;
+
             TileStacksColorButtonView cb = button.GetComponent<TileStacksColorButtonView>();
-            cb.Setup(color, buttonIndex);
+            cb.Setup(color, buttonIndex, button.transform.localPosition, button.transform.localScale);
+
+            tileStacksColorButtonViews.Add(cb);
+
             buttonIndex++;
         }
 
         return (allViews, allStackViews, uniqueColors.Count);
     }
 
+    public float GetButtonPositionX(int buttonIndex)
+    {
+        return tileStacksColorButtonViews[buttonIndex].transform.position.x;
+    }
 
 }
