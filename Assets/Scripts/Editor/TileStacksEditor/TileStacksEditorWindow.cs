@@ -52,7 +52,7 @@ public class TileStacksEditorWindow : EditorWindow
         numTurns = EditorGUILayout.IntSlider("Number of Turns", numTurns, 10, 30);
         numColors = EditorGUILayout.IntSlider("Number of Colors", numColors, 3, 9);
         zOffset = EditorGUILayout.Slider("Z Offset per Row", zOffset, 0.5f, 2.0f);
-        editorYOffset = EditorGUILayout.Slider("Editor Y Offset", editorYOffset, -500f, 500f);
+        editorYOffset = EditorGUILayout.Slider("Editor Y Offset", editorYOffset, 0f, 1000f);
 
         if (GUILayout.Button("Generate Stacks"))
         {
@@ -195,7 +195,7 @@ public class TileStacksEditorWindow : EditorWindow
             int row = 0;// i / numCols;
             int col = i;// % numCols;
 
-            float x = col * colSpacing/1.5f;
+            float x = col * colSpacing/1.05f;
             //if (row % 2 == 1) x += colSpacing / 2f;
             float z = row * zOffset;
             z = 0;

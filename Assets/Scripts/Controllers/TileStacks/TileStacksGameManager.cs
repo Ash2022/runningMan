@@ -88,14 +88,12 @@ public class TileStacksGameManager : MonoBehaviour
 
         bool hasMatchingTopTile = false;
 
-        // First: validate if there’s any playable tile
         for (int i = 0; i < activeLevel.stacks.Count; i++)
         {
             var stack = activeLevel.stacks[i];
             var tiles = stack.tiles;
 
             if (tiles.Count == 0) continue;
-
             if (stack.lockCount > 0 && activeLevel.playedTiles[stack.lockColor] < stack.lockCount)
                 continue;
 
@@ -115,138 +113,7 @@ public class TileStacksGameManager : MonoBehaviour
 
         Debug.Log("Color button clicked: " + colorID);
 
-        bool removedAny = false;
-        int pendingCallbacks = 0;
-        int animCompleteCounter = 0;
-
-        List<(TileStacksTileView view, float startDelay)> flights = new();
-
-        // First: collect which stacks will fly
-        List<int> matchingStacks = new();
-        for (int i = 0; i < activeLevel.stacks.Count; i++)
-        {
-            var stack = activeLevel.stacks[i];
-            var tiles = stack.tiles;
-
-            if (stack.lockCount > 0 && activeLevel.playedTiles[stack.lockColor] < stack.lockCount)
-                continue;
-
-            if (tiles.Count > 0 && tiles[tiles.Count - 1].colorIndex == colorID)
-            {
-                matchingStacks.Add(i);
-            }
-        }
-
-        float baseDelay = TILES_FLY_DELAY;
-        int totalStacks = matchingStacks.Count;
-
-        for (int si = 0; si < totalStacks; si++)
-        {
-            int stackIndex = matchingStacks[si];
-            var stack = activeLevel.stacks[stackIndex];
-            var tiles = stack.tiles;
-
-            float perStackOffset = baseDelay * (si / (float)totalStacks);
-            float localStartDelay = perStackOffset;
-
-            while (tiles.Count > 0 && tiles[tiles.Count - 1].colorIndex == colorID)
-            {
-                var tileData = tiles[tiles.Count - 1];
-                tiles.RemoveAt(tiles.Count - 1);
-
-                var view = activeTiles[stackIndex][activeTiles[stackIndex].Count - 1];
-                activeTiles[stackIndex].RemoveAt(activeTiles[stackIndex].Count - 1);
-
-                // Check if new top is a hidden tile and reveal it
-                if (tiles.Count > 0)
-                {
-                    var newTopTile = tiles[tiles.Count - 1];
-                    var newTopView = activeTiles[stackIndex][activeTiles[stackIndex].Count - 1];
-
-                    if (newTopTile.startHidden)
-                    {
-                        Debug.Log($"Hidden tile on stack {stackIndex} just got revealed — color: {newTopTile.colorIndex}");
-                        newTopView.RevealTileColor();
-                    }
-                }
-
-                flights.Add((view, localStartDelay));
-                localStartDelay += baseDelay;
-                removedAny = true;
-            }
-        }
-
-        // Sort flights by arrival time
-        flights.Sort((a, b) => (a.startDelay + TILES_FLY_TIME).CompareTo(b.startDelay + TILES_FLY_TIME));
-
-        float baseIncrement = TILES_FLY_DELAY;
-        float decayRate =FLY_DELAY_FALLOUT_RATE;
-        float cumulativeDelay = 0f;
-
-
-        for (int i = 0; i < flights.Count; i++)
-        {
-            var flight = flights[i];
-            var view = flight.view;
-            float yPos = (i + 1) * TILES_VERTICAL_OFFSET;
-
-            float increment = baseIncrement * Mathf.Pow(decayRate, i);
-            cumulativeDelay += increment;
-
-            pendingCallbacks++;
-            animCompleteCounter++;
-
-            view.FlyTo(new Vector3(levelVisualizer.GetButtonPositionX(buttonIndex), yPos, -9.5f), cumulativeDelay, TILES_FLY_TIME, () =>
-            {
-                activeLevel.playedTiles[colorID]++;
-                clickedButton.UpdateStackingCounter(activeLevel.playedTiles[colorID]);
-
-                // Check for stack unlocks
-                for (int si = 0; si < activeLevel.stacks.Count; si++)
-                {
-                    var s = activeLevel.stacks[si];
-
-                    if (s.lockCount > 0 &&
-                        s.lockColor == colorID &&
-                        activeLevel.playedTiles[colorID] == s.lockCount)
-                    {
-                        Debug.Log($"Stack {si} unlocked! Required {s.lockCount} of color {s.lockColor}.");
-                        stackViews[si].UnlockStackCover();
-                    }
-                }
-
-                pendingCallbacks--;
-                if (pendingCallbacks == 0)
-                {
-                    Debug.Log("All tile animations complete.");
-                    clickedButton.ShowButton();
-
-                    float baseIncrement = BASE_DESTROY_DELAY;
-                    float decayRate = DESTORY_DELAY_FALLOUT_RATE;
-                    float delay = 0f;
-
-                    for (int i = 0; i < flights.Count; i++)
-                    {
-                        var flight = flights[i];
-                        var viewToDestroy = flight.view;
-
-                        // Each increment gets smaller
-                        float increment = baseIncrement * Mathf.Pow(decayRate, i);
-                        delay += increment;
-
-                        viewToDestroy.PlayDestroyParticles(delay, () =>
-                        {
-                            animCompleteCounter--;
-                            if (animCompleteCounter == 0)
-                            {
-                                clickedButton.UpdateButtonToModel();
-                                CheckGameOver();
-                            }
-                        });
-                    }
-                }
-            });
-        }
+        List<(TileStacksTileView view, float delay)> flights = CollectTileFlights(colorID, out bool removedAny);
 
         if (removedAny)
         {
@@ -254,9 +121,8 @@ public class TileStacksGameManager : MonoBehaviour
             uiManager.SetTurns(activeLevel.numTurns);
         }
 
-        
+        AnimateTileFlights(flights, colorID, buttonIndex, clickedButton);
     }
-
 
 
     private void CheckGameOver()
@@ -355,4 +221,150 @@ public class TileStacksGameManager : MonoBehaviour
     {
         return activeLevel.playedTiles[colorID];
     }
+
+    #region clickVisuals
+
+    private List<(TileStacksTileView view, float startDelay)> CollectTileFlights(int colorID, out bool removedAny)
+    {
+        removedAny = false;
+        List<(TileStacksTileView view, float startDelay)> flights = new();
+        List<int> matchingStacks = new();
+
+        for (int i = 0; i < activeLevel.stacks.Count; i++)
+        {
+            var stack = activeLevel.stacks[i];
+            var tiles = stack.tiles;
+
+            if (stack.lockCount > 0 && activeLevel.playedTiles[stack.lockColor] < stack.lockCount)
+                continue;
+
+            if (tiles.Count > 0 && tiles[tiles.Count - 1].colorIndex == colorID)
+            {
+                matchingStacks.Add(i);
+            }
+        }
+
+        float baseDelay = TILES_FLY_DELAY;
+        int totalStacks = matchingStacks.Count;
+
+        for (int si = 0; si < totalStacks; si++)
+        {
+            int stackIndex = matchingStacks[si];
+            var stack = activeLevel.stacks[stackIndex];
+            var tiles = stack.tiles;
+
+            float perStackOffset = baseDelay * (si / (float)totalStacks);
+            float localStartDelay = perStackOffset;
+
+            while (tiles.Count > 0 && tiles[tiles.Count - 1].colorIndex == colorID)
+            {
+                var tileData = tiles[^1];
+                tiles.RemoveAt(tiles.Count - 1);
+
+                var view = activeTiles[stackIndex][^1];
+                activeTiles[stackIndex].RemoveAt(activeTiles[stackIndex].Count - 1);
+
+                if (tiles.Count > 0)
+                {
+                    var newTopTile = tiles[^1];
+                    var newTopView = activeTiles[stackIndex][^1];
+
+                    if (newTopTile.startHidden)
+                    {
+                        Debug.Log($"Hidden tile on stack {stackIndex} just got revealed — color: {newTopTile.colorIndex}");
+                        newTopView.RevealTileColor();
+                    }
+                }
+
+                flights.Add((view, localStartDelay));
+                localStartDelay += baseDelay;
+                removedAny = true;
+            }
+        }
+
+        flights.Sort((a, b) => (a.startDelay + TILES_FLY_TIME).CompareTo(b.startDelay + TILES_FLY_TIME));
+        return flights;
+    }
+
+    private void AnimateTileFlights(
+        List<(TileStacksTileView view, float startDelay)> flights,
+        int colorID,
+        int buttonIndex,
+        TileStacksColorButtonView clickedButton)
+    {
+        int pendingCallbacks = 0;
+        int animCompleteCounter = 0;
+
+        float baseIncrement = TILES_FLY_DELAY;
+        float decayRate = FLY_DELAY_FALLOUT_RATE;
+        float cumulativeDelay = 0f;
+
+        for (int i = 0; i < flights.Count; i++)
+        {
+            var flight = flights[i];
+            var view = flight.view;
+            float yPos = (i + 1) * TILES_VERTICAL_OFFSET;
+
+            float increment = baseIncrement * Mathf.Pow(decayRate, i);
+            cumulativeDelay += increment;
+
+            pendingCallbacks++;
+            animCompleteCounter++;
+
+            view.FlyTo(new Vector3(levelVisualizer.GetButtonPositionX(buttonIndex), yPos, -9.5f), cumulativeDelay, TILES_FLY_TIME, () =>
+            {
+                activeLevel.playedTiles[colorID]++;
+                clickedButton.UpdateStackingCounter(activeLevel.playedTiles[colorID]);
+
+                for (int si = 0; si < activeLevel.stacks.Count; si++)
+                {
+                    var s = activeLevel.stacks[si];
+                    if (s.lockCount > 0 && s.lockColor == colorID && activeLevel.playedTiles[colorID] == s.lockCount)
+                    {
+                        Debug.Log($"Stack {si} unlocked! Required {s.lockCount} of color {s.lockColor}.");
+                        stackViews[si].UnlockStackCover();
+                    }
+                }
+
+                pendingCallbacks--;
+                if (pendingCallbacks == 0)
+                {
+                    Debug.Log("All tile animations complete.");
+                    clickedButton.ShowButton();
+
+                    AnimateDestroyParticles(flights, clickedButton, animCompleteCounter);
+                }
+            });
+        }
+    }
+
+    private void AnimateDestroyParticles(
+        List<(TileStacksTileView view, float startDelay)> flights,
+        TileStacksColorButtonView clickedButton,
+        int animCompleteCounter)
+    {
+        float baseIncrement = BASE_DESTROY_DELAY;
+        float decayRate = DESTORY_DELAY_FALLOUT_RATE;
+        float delay = 0f;
+
+        for (int i = 0; i < flights.Count; i++)
+        {
+            var viewToDestroy = flights[i].view;
+            float increment = baseIncrement * Mathf.Pow(decayRate, i);
+            delay += increment;
+
+            viewToDestroy.PlayDestroyParticles(delay, () =>
+            {
+                animCompleteCounter--;
+                if (animCompleteCounter == 0)
+                {
+                    clickedButton.UpdateButtonToModel();
+                    CheckGameOver();
+                }
+            });
+        }
+    }
+
+    #endregion
+
 }
