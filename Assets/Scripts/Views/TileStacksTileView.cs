@@ -15,14 +15,24 @@ public class TileStacksTileView : MonoBehaviour
         tileData = _tileData;
 
         if (tileData.startHidden)
-            renderer.material.color = Color.white;
+            renderer.material = TileStacksModelManager.Instance.GetHiddenMaterial();
         else
-            renderer.material.color = TileStacksUtils.GetColorFromID(tileData.colorIndex);
+            renderer.material = TileStacksModelManager.Instance.GetTileMaterial(tileData.colorIndex);
     }
 
     public void RevealTileColor()
     {
-        renderer.material.color = TileStacksUtils.GetColorFromID(tileData.colorIndex);
+
+        particleSystem.gameObject.SetActive(false);
+
+        Color color = TileStacksModelManager.Instance.GetTileColor(tileData.colorIndex);
+
+        var main = particleSystem.main;
+        main.startColor = color;
+
+        particleSystem.gameObject.SetActive(true);
+
+        renderer.material = TileStacksModelManager.Instance.GetTileMaterial(tileData.colorIndex);
     }
 
 
@@ -58,7 +68,7 @@ public class TileStacksTileView : MonoBehaviour
 
         particleSystem.gameObject.SetActive(false);
 
-        Color color = TileStacksUtils.GetColorFromID(tileData.colorIndex);
+        Color color = TileStacksModelManager.Instance.GetTileColor(tileData.colorIndex);
 
         var main = particleSystem.main;
         main.startColor = color;

@@ -555,6 +555,27 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e7512439b2377674f8f43a0acb065ada, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  tileColorMaterials:
+  - {fileID: 2100000, guid: ad3b8df6cd399d54b9c8a70441651db5, type: 2}
+  - {fileID: 2100000, guid: c2249ea91065c70438e9dc1843558687, type: 2}
+  - {fileID: 2100000, guid: 8576c1eaffa994748be41421636ad9df, type: 2}
+  - {fileID: 2100000, guid: b18e4528e785bdc4aaf1f294c31c91b4, type: 2}
+  - {fileID: 2100000, guid: b333e45341f17ad428cdee41e9902828, type: 2}
+  - {fileID: 2100000, guid: 568adf62a01a59046bf0a205b7deb08d, type: 2}
+  - {fileID: 2100000, guid: b8cc5cb44f8c7aa4398127bcb55a3fc4, type: 2}
+  - {fileID: 2100000, guid: bc3e2e92e690eb14e9437bd343f91b24, type: 2}
+  - {fileID: 2100000, guid: adc9c169d760a834284049f754f78c22, type: 2}
+  tilehiddenMaterial: {fileID: 2100000, guid: 26251c01b3781ba42844157b5e144529, type: 2}
+  tilesColors:
+  - {r: 1, g: 0, b: 0, a: 1}
+  - {r: 0.08675194, g: 1, b: 0, a: 1}
+  - {r: 0, g: 0.13166761, b: 1, a: 1}
+  - {r: 0.90170395, g: 1, b: 0, a: 1}
+  - {r: 1, g: 0, b: 0.77993584, a: 1}
+  - {r: 0.53409004, g: 0, b: 1, a: 1}
+  - {r: 1, g: 0.45229992, b: 0, a: 1}
+  - {r: 0, g: 1, b: 0.56835246, a: 1}
+  - {r: 0, g: 0.9720597, b: 1, a: 1}
   levelFiles:
   - {fileID: 4900000, guid: 55705653eb029304cb53aa02a91a0e67, type: 3}
   - {fileID: 4900000, guid: d7761a1dede2d5e4abb7e02eed68b273, type: 3}

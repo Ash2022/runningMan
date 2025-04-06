@@ -22,7 +22,7 @@ public class TileStacksColorButtonView : MonoBehaviour
         counter.text = "";
         colorID = _colorID;
         buttonIndex = _index;
-        buttonImage.color = TileStacksUtils.GetColorFromID(colorID);
+        buttonImage.color = TileStacksModelManager.Instance.GetTileColor(colorID);
 
         buttonClickForwarder.InitClick(ButtonClicked);
 
@@ -35,7 +35,7 @@ public class TileStacksColorButtonView : MonoBehaviour
 
         Color orgColor = buttonImage.color;
 
-        buttonImage.color = TileStacksUtils.GetLighterColor(orgColor);
+        buttonImage.color = TileStacksUtils.GetDarkerColor(orgColor);
         TileStacksGameManager.Instance.OnColorButtonClicked(colorID, buttonIndex,this);
 
         startCounterValue = TileStacksGameManager.Instance.GetButtonsCollected(colorID);
@@ -43,7 +43,7 @@ public class TileStacksColorButtonView : MonoBehaviour
 
     public void ShowButton()
     {
-        buttonImage.color = TileStacksUtils.GetColorFromID(colorID);
+        buttonImage.color = TileStacksModelManager.Instance.GetTileColor(colorID);
         buttonClickForwarder.EndableDisableButton(true);
     }
 

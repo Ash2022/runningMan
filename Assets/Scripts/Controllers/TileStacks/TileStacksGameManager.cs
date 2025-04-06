@@ -5,12 +5,12 @@ using UnityEngine;
 
 public class TileStacksGameManager : MonoBehaviour
 {
-    const float BASE_DESTROY_DELAY = 0.1f;
+    const float BASE_DESTROY_DELAY = 0.075f;
     const float DESTORY_DELAY_FALLOUT_RATE = 0.95f;
 
     
-    const float TILES_FLY_DELAY = 0.15f;
-    const float TILES_FLY_TIME = 0.75f;
+    const float TILES_FLY_DELAY = 0.1f;
+    const float TILES_FLY_TIME = 0.5f;
     const float FLY_DELAY_FALLOUT_RATE = 0.95f;
 
 
@@ -186,13 +186,6 @@ public class TileStacksGameManager : MonoBehaviour
 
         for (int i = 0; i < flights.Count; i++)
         {
-            /*
-            var (view, delay) = flights[i];
-            float yPos = (i + 1) * TILES_VERTICAL_OFFSET;
-
-            pendingCallbacks++;
-            animCompleteCounter++;*/
-
             var flight = flights[i];
             var view = flight.view;
             float yPos = (i + 1) * TILES_VERTICAL_OFFSET;
@@ -247,6 +240,7 @@ public class TileStacksGameManager : MonoBehaviour
                             if (animCompleteCounter == 0)
                             {
                                 clickedButton.UpdateButtonToModel();
+                                CheckGameOver();
                             }
                         });
                     }
@@ -260,13 +254,17 @@ public class TileStacksGameManager : MonoBehaviour
             uiManager.SetTurns(activeLevel.numTurns);
         }
 
-        CheckGameOver();
+        
     }
 
 
 
     private void CheckGameOver()
     {
+
+        if(!gameActive)
+            return;
+
         bool allCleared = true;
         foreach (var stack in activeLevel.stacks)
         {

@@ -6,6 +6,11 @@ public class TileStacksModelManager : MonoBehaviour
 {
     public static TileStacksModelManager Instance;
 
+    [SerializeField] List<Material> tileColorMaterials;
+    [SerializeField] Material tilehiddenMaterial;
+    [SerializeField] List<Color> tilesColors;
+
+
     [SerializeField] private List<TextAsset> levelFiles;
 
     private List<TilesStacksLevelData> levels = new List<TilesStacksLevelData>();
@@ -66,5 +71,20 @@ public class TileStacksModelManager : MonoBehaviour
     internal int GetNumLevels()
     {
         return levels.Count;
+    }
+
+    public Material GetTileMaterial(int index)
+    {
+        return tileColorMaterials[index];
+    }
+
+    public Material GetHiddenMaterial()
+    {
+        return tilehiddenMaterial;
+    }
+
+    public Color GetTileColor(int index)
+    {
+        return tilesColors[index];
     }
 }

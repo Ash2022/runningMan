@@ -20,7 +20,7 @@ public class TileStacksStackView : MonoBehaviour
             var sr = lockIndicator.GetComponent<SpriteRenderer>();
             sr.size = new Vector2(sr.size.x, scaleY);
 
-            lockColor.color = TileStacksUtils.GetColorFromID(data.lockColor);
+            lockColor.color = TileStacksModelManager.Instance.GetTileColor(data.lockColor);
             lockCounter.text = data.lockCount.ToString();
 
             

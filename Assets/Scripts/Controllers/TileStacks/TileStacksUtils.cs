@@ -4,6 +4,7 @@ using UnityEngine;
 
 public static class TileStacksUtils 
 {
+    
     public static Color GetColorFromID(int id)
     {
         Color[] palette = new Color[]
@@ -28,7 +29,7 @@ public static class TileStacksUtils
         return -3f + unitWidth * (buttonIndex + 0.5f);
     }
 
-    public static Color GetLighterColor(Color original)
+    public static Color GetDarkerColor(Color original)
     {
         Color.RGBToHSV(original, out float h, out float s, out float v);
         v = Mathf.Clamp01(v - 0.25f);
