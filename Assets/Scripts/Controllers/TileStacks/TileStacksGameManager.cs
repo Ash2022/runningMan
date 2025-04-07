@@ -22,13 +22,16 @@ public class TileStacksGameManager : MonoBehaviour
     [SerializeField] private TileStacksLevelVisualizer levelVisualizer;
     [SerializeField] private TileStacksUIManager uiManager;
 
+    public GameOverView gameOverView;
+
     private List<List<TileStacksTileView>> activeTiles;
     private TilesStacksLevelData activeLevel;
     private List<TileStacksStackView> stackViews;
 
-    int levelIndex=0;
+    public int levelIndex=0;
     bool gameActive = false;
     int numColorInLevel = 0;
+    int levelStartTotalTiles = 0;//keeping this for progress bar - because when playing the model is removing the played tiles - so cant know how many were there.
 
     private void Awake()
     {
@@ -45,30 +48,40 @@ public class TileStacksGameManager : MonoBehaviour
     private void Start()
     {
         Init();
-        BuildLevel();
+
+        if (levelIndex == -1)
+        {
+            levelIndex = TileStacksModelManager.Instance.GetLastPlayedLevel();
+
+            levelIndex++;
+
+        }
+
+        if(levelIndex == 0)
+        {
+            uiManager.ShowTutorialImage(true, levelIndex);            
+        }
+        else
+            BuildLevel();
     }
 
     private void Init()
     {
+        Application.targetFrameRate = 60;
+
         TileStacksModelManager.Instance.Init();
 
-        float baselineAspect = 9f / 16f; // your ideal aspect
-        float baselineVerticalFOV = 50f;
+        float baselineAspect = 9f / 16f; // Target aspect
+        float baselineOrthoSize = 5f;    // Desired ortho size at 9:16
+
         float targetAspect = Camera.main.aspect;
 
-        // Convert baseline vertical FOV to radians
-        float baselineVertFOVRad = baselineVerticalFOV * Mathf.Deg2Rad;
+        // Adjust orthographic size based on aspect
+        float adjustedOrthoSize = baselineOrthoSize * (baselineAspect / targetAspect);
 
-        // Compute horizontal FOV from vertical FOV and baseline aspect
-        float baselineHorzFOVRad = 2f * Mathf.Atan(Mathf.Tan(baselineVertFOVRad / 2f) * baselineAspect);
+        Camera.main.orthographicSize = adjustedOrthoSize;
 
-        // Now compute the new vertical FOV that gives the same horizontal FOV at the new aspect
-        float newVertFOVRad = 2f * Mathf.Atan(Mathf.Tan(baselineHorzFOVRad / 2f) / targetAspect);
-
-        // Set the camera's vertical FOV in degrees
-        Camera.main.fieldOfView = newVertFOVRad * Mathf.Rad2Deg;
-
-        Debug.Log($"[FOV Adjust] Aspect: {targetAspect:F3}, Adjusted FOV: {Camera.main.fieldOfView:F2}");
+        Debug.Log($"[Ortho Adjust] Aspect: {targetAspect:F3}, Adjusted OrthoSize: {adjustedOrthoSize:F2}");
 
     }
 
@@ -77,8 +90,18 @@ public class TileStacksGameManager : MonoBehaviour
     {
         activeLevel = TileStacksModelManager.Instance.GetLevel(levelIndex);
         (activeTiles, stackViews,numColorInLevel) = levelVisualizer.BuildLevel(activeLevel, TILES_VERTICAL_OFFSET);
-        uiManager.SetTurns(activeLevel.numTurns);
+
+        levelStartTotalTiles = activeLevel.stacks.Count * activeLevel.stacks[0].tiles.Count;
+
+        uiManager.InitLevel(activeLevel,levelIndex);
         gameActive = true;
+    }
+
+    public void HideTutorialImage()
+    {
+        uiManager.ShowTutorialImage(false, 0);
+        BuildLevel();
+
     }
 
     public void OnColorButtonClicked(int colorID, int buttonIndex, TileStacksColorButtonView clickedButton)
@@ -108,10 +131,16 @@ public class TileStacksGameManager : MonoBehaviour
         {
             Debug.Log("No matching top tiles for color " + colorID + " — skipping.");
             clickedButton.ShowButton();
+            SoundsManager.Instance.ButtonClick(false);
+            activeLevel.numTurns--;
+            uiManager.SetTurns(activeLevel.numTurns);
+            CheckGameOver();
             return;
         }
 
         Debug.Log("Color button clicked: " + colorID);
+
+        SoundsManager.Instance.ButtonClick(true);
 
         List<(TileStacksTileView view, float delay)> flights = CollectTileFlights(colorID, out bool removedAny);
 
@@ -141,20 +170,53 @@ public class TileStacksGameManager : MonoBehaviour
             }
         }
 
-        if (allCleared)
+        if(allCleared || activeLevel.numTurns<=0)
         {
-            Debug.Log("Game Over: You Win!");
-            uiManager.ShowGameOver(true);
             gameActive = false;
-            // Handle win state here
+
+            bool win = allCleared;
+
+            if (activeLevel.numTurns <= 0)
+                win = false;
+
+            gameOverView.InitEndScreen(win, levelIndex, () =>
+            {
+                StartCoroutine(ResetScene(() =>
+                {
+                    if (win)
+                    {
+                        TileStacksModelManager.Instance.SetLastPlayedLevel(levelIndex);
+                        // Advance to next level (or loop)
+                        levelIndex = (levelIndex + 1) % TileStacksModelManager.Instance.GetNumLevels();
+                    }
+
+                    int unlockIndex = TileStacksModelManager.Instance.GetUnlock(levelIndex);
+
+                    if (unlockIndex != -1)
+                    {
+                        uiManager.ShowTutorialImage(true, unlockIndex + 1);
+
+                    }
+                    else
+                        BuildLevel();
+
+
+                }));
+
+            });
         }
-        else if (activeLevel.numTurns <= 0)
+
+    }
+
+    public float GetPlayedPercentage()
+    {
+        int totalPlayed = 0;
+        foreach (int count in activeLevel.playedTiles)
         {
-            Debug.Log("Game Over: You Lose!");
-            uiManager.ShowGameOver(false);
-            gameActive = false;
-            // Handle lose state here
+            totalPlayed += count;
         }
+
+        return (float)totalPlayed / levelStartTotalTiles;
     }
 
     public void EndGameScreenClicked(bool lastLevelWon)
@@ -165,7 +227,17 @@ public class TileStacksGameManager : MonoBehaviour
                 // Advance to next level (or loop)
                 levelIndex = (levelIndex + 1) % TileStacksModelManager.Instance.GetNumLevels();
 
-            BuildLevel();
+                int unlockIndex = TileStacksModelManager.Instance.GetUnlock(levelIndex);
+
+                if (unlockIndex != -1)
+                {
+                    uiManager.ShowTutorialImage(true, unlockIndex + 1);
+
+                }
+                else
+                    BuildLevel();
+           
+
         }));
 
         
@@ -311,9 +383,12 @@ public class TileStacksGameManager : MonoBehaviour
             pendingCallbacks++;
             animCompleteCounter++;
 
-            view.FlyTo(new Vector3(levelVisualizer.GetButtonPositionX(buttonIndex), yPos, -9.5f), cumulativeDelay, TILES_FLY_TIME, () =>
+            view.FlyTo(new Vector3(levelVisualizer.GetButtonPositionX(buttonIndex), yPos, GetButtonRowZ()+0.1f), cumulativeDelay, TILES_FLY_TIME, () =>
             {
                 activeLevel.playedTiles[colorID]++;
+
+                uiManager.UpdateProgressBar(GetPlayedPercentage());
+
                 clickedButton.UpdateStackingCounter(activeLevel.playedTiles[colorID]);
 
                 for (int si = 0; si < activeLevel.stacks.Count; si++)
@@ -366,5 +441,21 @@ public class TileStacksGameManager : MonoBehaviour
     }
 
     #endregion
+
+    public float GetButtonRowZ()
+    {
+        float baselineAspect = 9f / 16f;
+        float baselineZ = -9.25f;
+
+        float targetAspect = Camera.main.aspect;
+
+        // For each step of aspect ratio increase (from 9:16 to 9:20), the Z offset goes -2 units.
+        // So we compute how much wider we are relative to baseline, and scale that change.
+        float zPerAspectUnit = (-11.25f - baselineZ) / ((9f / 20f) - baselineAspect); // -2 over delta
+        float aspectDelta = targetAspect - baselineAspect;
+
+        float adjustedZ = baselineZ + (zPerAspectUnit * aspectDelta);
+        return adjustedZ;
+    }
 
 }

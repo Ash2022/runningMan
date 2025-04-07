@@ -103,7 +103,7 @@ public class TileStacksLevelVisualizer : MonoBehaviour
             float xPos = startX + buttonIndex * (scaledButtonWidth + gap);
 
             GameObject button = Instantiate(buttonPrefab, uiRoot);
-            button.transform.localPosition = new Vector3(xPos, 0, -9.25f);
+            button.transform.localPosition = new Vector3(xPos, 0, TileStacksGameManager.Instance.GetButtonRowZ());
             button.transform.localScale = Vector3.one * scaleFactor;
 
             TileStacksColorButtonView cb = button.GetComponent<TileStacksColorButtonView>();

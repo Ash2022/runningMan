@@ -22,15 +22,9 @@ public class TileStacksTileView : MonoBehaviour
 
     public void RevealTileColor()
     {
+        SoundsManager.Instance.HiddenTileUnlocked();
 
-        particleSystem.gameObject.SetActive(false);
-
-        Color color = TileStacksModelManager.Instance.GetTileColor(tileData.colorIndex);
-
-        var main = particleSystem.main;
-        main.startColor = color;
-
-        particleSystem.gameObject.SetActive(true);
+        DoTileParticles();
 
         renderer.material = TileStacksModelManager.Instance.GetTileMaterial(tileData.colorIndex);
     }
@@ -38,6 +32,8 @@ public class TileStacksTileView : MonoBehaviour
 
     public void FlyTo(Vector3 targetPosition, float startDelay, float duration, Action done)
     {
+        //SoundsManager.Instance.TileStartFlying();
+
         Debug.Log("StartDelay: " + startDelay);
 
         Vector3 midPoint = (transform.position + targetPosition) / 2f;
@@ -48,6 +44,8 @@ public class TileStacksTileView : MonoBehaviour
         transform.DOMove(midPoint, duration / 2f).SetEase(Ease.OutSine).SetDelay(startDelay);
         transform.DOMove(targetPosition, duration / 2f).SetEase(Ease.InSine).SetDelay(startDelay + (duration / 2f)).OnComplete(() =>
         {
+            SoundsManager.Instance.TileHitButton();
+            SoundsManager.Instance.PlayHaptics(SoundsManager.TapticsStrenght.Light);
             done?.Invoke();
         });
 
@@ -66,19 +64,24 @@ public class TileStacksTileView : MonoBehaviour
 
         renderer.enabled = false;
 
-        particleSystem.gameObject.SetActive(false);
-
-        Color color = TileStacksModelManager.Instance.GetTileColor(tileData.colorIndex);
-
-        var main = particleSystem.main;
-        main.startColor = color;
-
-        particleSystem.gameObject.SetActive(true);
+        DoTileParticles();
 
         yield return new WaitForSeconds(1);
 
         done?.Invoke();
         Destroy(gameObject);
+    }
+
+    private void DoTileParticles()
+    {
+        particleSystem.gameObject.SetActive(false);
+
+        Color tileColor = TileStacksModelManager.Instance.GetTileColor(tileData.colorIndex);
+
+        var main = particleSystem.main;
+        main.startColor = new ParticleSystem.MinMaxGradient(TileStacksUtils.GetLessSaturatedColor(tileColor), tileColor);
+
+        particleSystem.gameObject.SetActive(true);
     }
 
 }

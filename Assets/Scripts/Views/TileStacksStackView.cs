@@ -1,3 +1,4 @@
+using DG.Tweening;
 using System;
 using TMPro;
 using UnityEngine;
@@ -5,7 +6,9 @@ using UnityEngine;
 public class TileStacksStackView : MonoBehaviour
 {
     [SerializeField] private GameObject lockIndicator;
+    [SerializeField] private SpriteRenderer lockIndicationBG;
     [SerializeField] private SpriteRenderer lockColor;
+    [SerializeField] private SpriteRenderer lockDataBG;
     [SerializeField] private TMP_Text lockCounter;
 
     public void Setup(StackData data)
@@ -18,9 +21,9 @@ public class TileStacksStackView : MonoBehaviour
             lockIndicator.transform.localPosition = pos;
 
             var sr = lockIndicator.GetComponent<SpriteRenderer>();
-            sr.size = new Vector2(sr.size.x, scaleY);
+            sr.size = new Vector2(sr.size.x, scaleY*2);
 
-            lockColor.color = TileStacksModelManager.Instance.GetTileColor(data.lockColor);
+            lockColor.sprite = TileStacksModelManager.Instance.GetLocksIndication(data.lockColor);
             lockCounter.text = data.lockCount.ToString();
 
             
@@ -49,6 +52,17 @@ public class TileStacksStackView : MonoBehaviour
 
     internal void UnlockStackCover()
     {
-        lockIndicator.SetActive(false);
+        SoundsManager.Instance.StackUnlcoked();
+
+        lockIndicationBG.DOFade(0, 1f);
+        lockColor.DOFade(0, 1f);
+        lockDataBG.DOFade(0, 1f);
+        lockCounter.DOFade(0, 1f);
+
+        lockIndicator.transform.DOLocalMoveY(lockIndicator.transform.localPosition.y + 3, 1).OnComplete(()=>
+        {
+            lockIndicator.SetActive(false);
+        });
+                
     }
 }

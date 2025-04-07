@@ -1,0 +1,629 @@
+{
+  "numTurns": 14,
+  "stacks": [
+    {
+      "tiles": [
+        {
+          "colorIndex": 0,
+          "startHidden": false
+        },
+        {
+          "colorIndex": 0,
+          "startHidden": false
+        },
+        {
+          "colorIndex": 3,
+          "startHidden": false
+        },
+        {
+          "colorIndex": 3,
+          "startHidden": false
+        },
+        {
+          "colorIndex": 3,
+          "startHidden": false
+        },
+        {
+          "colorIndex": 3,
+          "startHidden": false
+        },
+        {
+          "colorIndex": 3,
+          "startHidden": false
+        },
+        {
+          "colorIndex": 4,
+          "startHidden": false
+        },
+        {
+          "colorIndex": 4,
+          "startHidden": false
+        },
+        {
+          "colorIndex": 4,
+          "startHidden": false
+        },
+        {
+          "colorIndex": 4,
+          "startHidden": false
+        },
+        {
+          "colorIndex": 4,
+          "startHidden": false
+        },
+        {
+          "colorIndex": 4,
+          "startHidden": false
+        },
+        {
+          "colorIndex": 4,
+          "startHidden": false
+        },
+        {
+          "colorIndex": 0,
+          "startHidden": false
+        }
+      ],
+      "position": {
+        "x": 0.0,
+        "y": 1.0,
+        "magnitude": 1.0,
+        "sqrMagnitude": 1.0
+      },
+      "lockCount": 0,
+      "lockColor": 0
+    },
+    {
+      "tiles": [
+        {
+          "colorIndex": 4,
+          "startHidden": false
+        },
+        {
+          "colorIndex": 4,
+          "startHidden": false
+        },
+        {
+          "colorIndex": 4,
+          "startHidden": false
+        },
+        {
+          "colorIndex": 4,
+          "startHidden": false
+        },
+        {
+          "colorIndex": 2,
+          "startHidden": false
+        },
+        {
+          "colorIndex": 2,
+          "startHidden": false
+        },
+        {
+          "colorIndex": 2,
+          "startHidden": false
+        },
+        {
+          "colorIndex": 2,
+          "startHidden": false
+        },
+        {
+          "colorIndex": 2,
+          "startHidden": false
+        },
+        {
+          "colorIndex": 2,
+          "startHidden": false
+        },
+        {
+          "colorIndex": 2,
+          "startHidden": false
+        },
+        {
+          "colorIndex": 2,
+          "startHidden": false
+        },
+        {
+          "colorIndex": 2,
+          "startHidden": false
+        },
+        {
+          "colorIndex": 3,
+          "startHidden": false
+        },
+        {
+          "colorIndex": 3,
+          "startHidden": false
+        }
+      ],
+      "position": {
+        "x": 1.0,
+        "y": 1.0,
+        "normalized": {
+          "x": 0.707106769,
+          "y": 0.707106769,
+          "magnitude": 1.0,
+          "sqrMagnitude": 0.99999994
+        },
+        "magnitude": 1.41421354,
+        "sqrMagnitude": 2.0
+      },
+      "lockCount": 0,
+      "lockColor": 0
+    },
+    {
+      "tiles": [
+        {
+          "colorIndex": 1,
+          "startHidden": false
+        },
+        {
+          "colorIndex": 4,
+          "startHidden": false
+        },
+        {
+          "colorIndex": 4,
+          "startHidden": false
+        },
+        {
+          "colorIndex": 4,
+          "startHidden": false
+        },
+        {
+          "colorIndex": 4,
+          "startHidden": false
+        },
+        {
+          "colorIndex": 4,
+          "startHidden": false
+        },
+        {
+          "colorIndex": 4,
+          "startHidden": false
+        },
+        {
+          "colorIndex": 4,
+          "startHidden": false
+        },
+        {
+          "colorIndex": 4,
+          "startHidden": false
+        },
+        {
+          "colorIndex": 1,
+          "startHidden": false
+        },
+        {
+          "colorIndex": 1,
+          "startHidden": false
+        },
+        {
+          "colorIndex": 1,
+          "startHidden": false
+        },
+        {
+          "colorIndex": 1,
+          "startHidden": false
+        },
+        {
+          "colorIndex": 1,
+          "startHidden": false
+        },
+        {
+          "colorIndex": 1,
+          "startHidden": false
+        }
+      ],
+      "position": {
+        "x": 2.0,
+        "y": 1.0,
+        "normalized": {
+          "x": 0.8944272,
+          "y": 0.4472136,
+          "magnitude": 1.0,
+          "sqrMagnitude": 1.0
+        },
+        "magnitude": 2.236068,
+        "sqrMagnitude": 5.0
+      },
+      "lockCount": 0,
+      "lockColor": 0
+    },
+    {
+      "tiles": [
+        {
+          "colorIndex": 0,
+          "startHidden": false
+        },
+        {
+          "colorIndex": 3,
+          "startHidden": false
+        },
+        {
+          "colorIndex": 3,
+          "startHidden": false
+        },
+        {
+          "colorIndex": 3,
+          "startHidden": false
+        },
+        {
+          "colorIndex": 3,
+          "startHidden": false
+        },
+        {
+          "colorIndex": 1,
+          "startHidden": false
+        },
+        {
+          "colorIndex": 1,
+          "startHidden": false
+        },
+        {
+          "colorIndex": 1,
+          "startHidden": false
+        },
+        {
+          "colorIndex": 1,
+          "startHidden": false
+        },
+        {
+          "colorIndex": 1,
+          "startHidden": false
+        },
+        {
+          "colorIndex": 0,
+          "startHidden": false
+        },
+        {
+          "colorIndex": 0,
+          "startHidden": false
+        },
+        {
+          "colorIndex": 0,
+          "startHidden": false
+        },
+        {
+          "colorIndex": 0,
+          "startHidden": false
+        },
+        {
+          "colorIndex": 0,
+          "startHidden": false
+        }
+      ],
+      "position": {
+        "x": 3.0,
+        "y": 1.0,
+        "normalized": {
+          "x": 0.948683262,
+          "y": 0.316227764,
+          "normalized": {
+            "x": 0.9486833,
+            "y": 0.3162278,
+            "magnitude": 1.0,
+            "sqrMagnitude": 1.00000012
+          },
+          "magnitude": 0.99999994,
+          "sqrMagnitude": 0.99999994
+        },
+        "magnitude": 3.1622777,
+        "sqrMagnitude": 10.0
+      },
+      "lockCount": 0,
+      "lockColor": 0
+    },
+    {
+      "tiles": [
+        {
+          "colorIndex": 3,
+          "startHidden": false
+        },
+        {
+          "colorIndex": 3,
+          "startHidden": false
+        },
+        {
+          "colorIndex": 3,
+          "startHidden": false
+        },
+        {
+          "colorIndex": 3,
+          "startHidden": false
+        },
+        {
+          "colorIndex": 3,
+          "startHidden": false
+        },
+        {
+          "colorIndex": 3,
+          "startHidden": false
+        },
+        {
+          "colorIndex": 3,
+          "startHidden": false
+        },
+        {
+          "colorIndex": 3,
+          "startHidden": false
+        },
+        {
+          "colorIndex": 3,
+          "startHidden": false
+        },
+        {
+          "colorIndex": 3,
+          "startHidden": false
+        },
+        {
+          "colorIndex": 3,
+          "startHidden": false
+        },
+        {
+          "colorIndex": 1,
+          "startHidden": false
+        },
+        {
+          "colorIndex": 1,
+          "startHidden": false
+        },
+        {
+          "colorIndex": 1,
+          "startHidden": false
+        },
+        {
+          "colorIndex": 1,
+          "startHidden": false
+        }
+      ],
+      "position": {
+        "x": 4.0,
+        "y": 1.0,
+        "normalized": {
+          "x": 0.970142543,
+          "y": 0.242535636,
+          "magnitude": 1.0,
+          "sqrMagnitude": 1.00000012
+        },
+        "magnitude": 4.12310553,
+        "sqrMagnitude": 17.0
+      },
+      "lockCount": 0,
+      "lockColor": 0
+    },
+    {
+      "tiles": [
+        {
+          "colorIndex": 3,
+          "startHidden": false
+        },
+        {
+          "colorIndex": 3,
+          "startHidden": false
+        },
+        {
+          "colorIndex": 3,
+          "startHidden": false
+        },
+        {
+          "colorIndex": 3,
+          "startHidden": false
+        },
+        {
+          "colorIndex": 4,
+          "startHidden": true
+        },
+        {
+          "colorIndex": 4,
+          "startHidden": true
+        },
+        {
+          "colorIndex": 4,
+          "startHidden": true
+        },
+        {
+          "colorIndex": 4,
+          "startHidden": true
+        },
+        {
+          "colorIndex": 4,
+          "startHidden": true
+        },
+        {
+          "colorIndex": 4,
+          "startHidden": true
+        },
+        {
+          "colorIndex": 4,
+          "startHidden": true
+        },
+        {
+          "colorIndex": 1,
+          "startHidden": false
+        },
+        {
+          "colorIndex": 1,
+          "startHidden": false
+        },
+        {
+          "colorIndex": 1,
+          "startHidden": false
+        },
+        {
+          "colorIndex": 1,
+          "startHidden": false
+        }
+      ],
+      "position": {
+        "x": 1.0,
+        "y": 2.0,
+        "normalized": {
+          "x": 0.4472136,
+          "y": 0.8944272,
+          "magnitude": 1.0,
+          "sqrMagnitude": 1.0
+        },
+        "magnitude": 2.236068,
+        "sqrMagnitude": 5.0
+      },
+      "lockCount": 0,
+      "lockColor": 0
+    },
+    {
+      "tiles": [
+        {
+          "colorIndex": 4,
+          "startHidden": false
+        },
+        {
+          "colorIndex": 4,
+          "startHidden": false
+        },
+        {
+          "colorIndex": 4,
+          "startHidden": false
+        },
+        {
+          "colorIndex": 4,
+          "startHidden": false
+        },
+        {
+          "colorIndex": 4,
+          "startHidden": false
+        },
+        {
+          "colorIndex": 4,
+          "startHidden": false
+        },
+        {
+          "colorIndex": 4,
+          "startHidden": false
+        },
+        {
+          "colorIndex": 4,
+          "startHidden": false
+        },
+        {
+          "colorIndex": 4,
+          "startHidden": false
+        },
+        {
+          "colorIndex": 4,
+          "startHidden": false
+        },
+        {
+          "colorIndex": 4,
+          "startHidden": false
+        },
+        {
+          "colorIndex": 4,
+          "startHidden": false
+        },
+        {
+          "colorIndex": 4,
+          "startHidden": false
+        },
+        {
+          "colorIndex": 2,
+          "startHidden": false
+        },
+        {
+          "colorIndex": 2,
+          "startHidden": false
+        }
+      ],
+      "position": {
+        "x": 3.0,
+        "y": 2.0,
+        "normalized": {
+          "x": 0.8320503,
+          "y": 0.5547002,
+          "magnitude": 1.0,
+          "sqrMagnitude": 1.0
+        },
+        "magnitude": 3.60555124,
+        "sqrMagnitude": 13.0
+      },
+      "lockCount": 0,
+      "lockColor": 0
+    },
+    {
+      "tiles": [
+        {
+          "colorIndex": 3,
+          "startHidden": false
+        },
+        {
+          "colorIndex": 3,
+          "startHidden": false
+        },
+        {
+          "colorIndex": 3,
+          "startHidden": false
+        },
+        {
+          "colorIndex": 3,
+          "startHidden": false
+        },
+        {
+          "colorIndex": 0,
+          "startHidden": false
+        },
+        {
+          "colorIndex": 0,
+          "startHidden": false
+        },
+        {
+          "colorIndex": 0,
+          "startHidden": false
+        },
+        {
+          "colorIndex": 4,
+          "startHidden": false
+        },
+        {
+          "colorIndex": 4,
+          "startHidden": false
+        },
+        {
+          "colorIndex": 2,
+          "startHidden": false
+        },
+        {
+          "colorIndex": 2,
+          "startHidden": false
+        },
+        {
+          "colorIndex": 2,
+          "startHidden": false
+        },
+        {
+          "colorIndex": 2,
+          "startHidden": false
+        },
+        {
+          "colorIndex": 2,
+          "startHidden": false
+        },
+        {
+          "colorIndex": 2,
+          "startHidden": false
+        }
+      ],
+      "position": {
+        "x": 2.0,
+        "y": 3.0,
+        "normalized": {
+          "x": 0.5547002,
+          "y": 0.8320503,
+          "magnitude": 1.0,
+          "sqrMagnitude": 1.0
+        },
+        "magnitude": 3.60555124,
+        "sqrMagnitude": 13.0
+      },
+      "lockCount": 0,
+      "lockColor": 0
+    }
+  ]
+}
