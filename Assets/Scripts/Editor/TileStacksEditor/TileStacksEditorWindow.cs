@@ -1,10 +1,12 @@
-using UnityEditor;
+﻿using UnityEditor;
 using UnityEngine;
 using System.Collections.Generic;
 using System.IO;
 using System.Collections;
 using static UnityEngine.UI.Image;
 using Newtonsoft.Json;
+using System;
+using Random = System.Random;
 
 public class TileStacksEditorWindow : EditorWindow
 {
@@ -217,6 +219,7 @@ public class TileStacksEditorWindow : EditorWindow
 
     private void DrawAllStacksFlipped()
     {
+        float colSpacing = (totalWidth * 0.75f) / numCols;
         float tileHeight = tileWidth * tileHeightFactor;
         float maxZ = 0f;
         foreach (var stack in stacks) maxZ = Mathf.Max(maxZ, stack.position.y);
@@ -224,8 +227,8 @@ public class TileStacksEditorWindow : EditorWindow
         for (int s = 0; s < stacks.Count; s++)
         {
             StackData stack = stacks[s];
-            float x = stack.position.x;
-            float visualYBase = (maxZ - stack.position.y) * 100f + editorYOffset;
+            float x = s * colSpacing / 1.05f;// stack.position.x;
+            float visualYBase = (maxZ) * 100f + editorYOffset;
 
             for (int i = 0; i < stack.tiles.Count; i++)
             {
@@ -256,6 +259,12 @@ public class TileStacksEditorWindow : EditorWindow
                 GUI.color = prev;
             }
 
+            // Default to Accumulate if missing (e.g., older levels)
+            if (!Enum.IsDefined(typeof(LockType), stack.lockType))
+            {
+                stack.lockType = LockType.Accum;
+            }
+
             // After drawing all the tile buttons in the stack
             Rect lockRect = new Rect(x, visualYBase + 20f, tileWidth * 1.5f, 16f);
             string newText = EditorGUI.TextField(lockRect, stack.lockCount.ToString());
@@ -268,14 +277,29 @@ public class TileStacksEditorWindow : EditorWindow
             // Color cycle box (square next to the lock textbox)
             Rect colorBox = new Rect(x + tileWidth * 1.6f, visualYBase + 20f, tileWidth, tileWidth * 0.6f);
             Color prevColor = GUI.color;
-            GUI.color = TileStacksUtils.GetColorFromID(stack.lockColor);
+
+            // Show white for wildcard (-1), otherwise normal color
+            GUI.color = stack.lockColor == -1 ? Color.white : TileStacksUtils.GetColorFromID(stack.lockColor);
 
             if (GUI.Button(colorBox, ""))
             {
-                stack.lockColor = (stack.lockColor + 1) % numColors;
+                stack.lockColor++;
+                if (stack.lockColor > numColors - 1)
+                    stack.lockColor = -1; // wrap around to wildcard
             }
 
             GUI.color = prevColor;
+
+            EditorGUI.BeginChangeCheck();
+            stack.lockType = (LockType)EditorGUI.EnumPopup(
+                new Rect(x , visualYBase + 40f, 50, 18),
+                stack.lockType
+            );
+            if (EditorGUI.EndChangeCheck())
+            {
+                GUI.changed = true;
+            }
+
 
         }
 
@@ -313,6 +337,7 @@ public class TileStacksEditorWindow : EditorWindow
                 position = new Vector2(gridPos.x, gridPos.y),
                 lockColor = original.lockColor,
                 lockCount = original.lockCount,
+                lockType = original.lockType,
                 tiles = new List<TileData>()
             };
 
@@ -416,22 +441,19 @@ public class TileStacksEditorWindow : EditorWindow
             numStacks = stacks.Count;
             tilesPerStack = stacks.Count > 0 ? stacks[0].tiles.Count : 10;
 
-            // Reposition stacks in a single horizontal row (left to right)
-            float colSpacing = (totalWidth * 0.75f) / 5f;
-
-            for (int i = 0; i < stacks.Count; i++)
-            {
-                stacks[i].position = new Vector2(i * colSpacing, 0f);
-            }
-
-            // Reset selected grid (not really needed anymore, but cleaned up)
+            // Rebuild selection grid from saved stack positions
             selectedGrid = new bool[4, 5];
-            for (int i = 0; i < stacks.Count; i++)
+
+            foreach (var stack in stacks)
             {
-                if (i < 20)
+                Vector2Int pos = Vector2Int.RoundToInt(stack.position);
+                int x = pos.x;
+                int y = pos.y;
+
+                if (x >= 0 && x < 5 && y >= 0 && y < 4)
                 {
-                    int row = 3 - (i / 5);
-                    int col = i % 5;
+                    int row = 3 - y; // grid row is from top (0) to bottom (3), so flip
+                    int col = x;
                     selectedGrid[row, col] = true;
                 }
             }
@@ -441,17 +463,18 @@ public class TileStacksEditorWindow : EditorWindow
     }
 
 
+
     private void ApplyRandomColors()
     {
         foreach (var stack in stacks)
         {
-            int currentColor = Random.Range(0, numColors);
+            int currentColor = UnityEngine.Random.Range(0, numColors);
 
             for (int i = 0; i < stack.tiles.Count; i++)
             {
-                if (Random.value < fragmentation)
+                if (UnityEngine.Random.value < fragmentation)
                 {
-                    currentColor = Random.Range(0, numColors);
+                    currentColor = UnityEngine.Random.Range(0, numColors);
                 }
 
                 stack.tiles[i].colorIndex = currentColor;

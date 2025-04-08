@@ -29,10 +29,17 @@ public static class TileStacksUtils
         return -3f + unitWidth * (buttonIndex + 0.5f);
     }
 
-    public static Color GetLessSaturatedColor(Color original)
+    public static Color GetLessSaturatedColor(Color original, float saturationToReduce)
     {
         Color.RGBToHSV(original, out float h, out float s, out float v);
-        s = Mathf.Clamp01(s - 0.5f);
+        s = Mathf.Clamp01(s - saturationToReduce);
+        return Color.HSVToRGB(h, s, v);
+    }
+
+    public static Color GetDarkerColor(Color original)
+    {
+        Color.RGBToHSV(original, out float h, out float s, out float v);
+        v = Mathf.Clamp01(v - 0.35f);
         return Color.HSVToRGB(h, s, v);
     }
 }

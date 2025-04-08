@@ -2,13 +2,21 @@ using System;
 using System.Collections.Generic;
 using UnityEngine;
 
+public enum LockType
+{
+    Accum,
+    SngPl
+}
+
 [System.Serializable]
 public class StackData
 {
     public List<TileData> tiles = new List<TileData>();
-    public Vector2 position; // X = horizontal, Y = Z (depth)
-    public int lockCount = 0;
-    public int lockColor = 0;
+    public Vector2 position;
+    public int lockColor;
+    public int lockCount;
+    public LockType lockType = LockType.Accum;
+    public bool isLocked=false;
 }
 
 [Serializable]

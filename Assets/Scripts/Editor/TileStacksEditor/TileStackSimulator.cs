@@ -1,4 +1,5 @@
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 
 public class SimulationReport
@@ -48,12 +49,11 @@ public static class TileStacksSimulator
     private static bool SimulateOne(TilesStacksLevelData original, out int stepsUsed)
     {
         List<List<TileData>> stacks = new List<List<TileData>>();
-        List<int> lockCounts = new List<int>();
-        List<int> lockColors = new List<int>();
+        List<StackData> stackMetadata = new List<StackData>();
 
         foreach (var stack in original.stacks)
         {
-            List<TileData> tileCopy = new List<TileData>();
+            var tileCopy = new List<TileData>();
             foreach (var tile in stack.tiles)
             {
                 tileCopy.Add(new TileData
@@ -62,98 +62,103 @@ public static class TileStacksSimulator
                     startHidden = tile.startHidden
                 });
             }
+
             stacks.Add(tileCopy);
-            lockCounts.Add(stack.lockCount);
-            lockColors.Add(stack.lockColor);
+
+            stackMetadata.Add(new StackData
+            {
+                lockCount = stack.lockCount,
+                lockColor = stack.lockColor,
+                lockType = stack.lockType,
+                isLocked = stack.lockCount > 0,
+                tiles = tileCopy
+            });
         }
 
-        Dictionary<int, int> collectedColors = new Dictionary<int, int>();
-        for (int i = 0; i < 9; i++) collectedColors[i] = 0;
-
-        int turnsLeft = original.numTurns;
-        stepsUsed = 0;
-
-        int counter = 0;
-
-        while (turnsLeft > 0 && counter < 1000)
+        Dictionary<int, int> collectedColors = new();
+        Dictionary<int, int> removedThisTurn = new();
+        for (int i = 0; i < 9; i++)
         {
-            counter++;
-            HashSet<int> topColors = new HashSet<int>();
+            collectedColors[i] = 0;
+            removedThisTurn[i] = 0;
+        }
 
-            for (int i = 0; i < stacks.Count; i++)
+        stepsUsed = 0;
+        int turnsLeft = original.numTurns;
+
+
+        while (turnsLeft > 0)
+        {
+            for (int i = 0; i < 9; i++) removedThisTurn[i] = 0;
+                       
+
+            HashSet<int> topColors = new();
+            for (int i = 0; i < stackMetadata.Count; i++)
             {
-                if (stacks[i].Count == 0) continue;
+                if (stackMetadata[i].isLocked || stackMetadata[i].tiles.Count == 0)
+                    continue;
 
-                int lockColor = lockColors[i];
-                int lockCount = lockCounts[i];
-                if (lockCount > 0 && collectedColors[lockColor] < lockCount)
-                    continue; // skip locked stack's top tile
-
-                topColors.Add(stacks[i][stacks[i].Count - 1].colorIndex);
+                topColors.Add(stackMetadata[i].tiles[^1].colorIndex);
             }
 
             if (topColors.Count == 0)
+            {
                 return false;
+            }
 
             int colorToClick = PickRandomFromSet(topColors);
 
-            bool turnRemovedAny = false;
-            bool removedAny;
-            do
+            bool removedAny = false;
+            for (int i = 0; i < stackMetadata.Count; i++)
             {
-                removedAny = false;
-                for (int i = 0; i < stacks.Count; i++)
+                if (stackMetadata[i].isLocked) continue;
+
+                var tileList = stackMetadata[i].tiles;
+                while (tileList.Count > 0 && tileList[^1].colorIndex == colorToClick)
                 {
-                    if (stacks[i].Count == 0) continue;
-
-                    int lockColor = lockColors[i];
-                    int lockCount = lockCounts[i];
-
-                    if (lockCount > 0 && collectedColors[lockColor] < lockCount)
-                        continue;
-
-                    TileData topTile = stacks[i][stacks[i].Count - 1];
-
-                    if (topTile.colorIndex == colorToClick)
-                    {
-                        stacks[i].RemoveAt(stacks[i].Count - 1);
-                        collectedColors[colorToClick]++;
-                        removedAny = true;
-                        turnRemovedAny = true;
-                    }
+                    tileList.RemoveAt(tileList.Count - 1);
+                    collectedColors[colorToClick]++;
+                    removedThisTurn[colorToClick]++;
+                    removedAny = true;
                 }
-            } while (removedAny);
+            }
 
-            if (turnRemovedAny)
+            if (removedAny)
             {
+                UpdateStackLocks(stackMetadata, collectedColors, removedThisTurn);
                 stepsUsed++;
                 turnsLeft--;
             }
 
-            bool allEmpty = true;
-            foreach (var s in stacks)
-            {
-                if (s.Count > 0)
-                {
-                    allEmpty = false;
-                    break;
-                }
-            }
-
-            if (allEmpty)
-            {
-                //stepsUsed++; // final move counts
-                return true;
-            }
+            bool allEmpty = stackMetadata.All(s => s.tiles.Count == 0);
+            if (allEmpty) return true;
         }
 
+        return stackMetadata.All(s => s.tiles.Count == 0);
+    }
+
+    private static void UpdateStackLocks(List<StackData> stacks, Dictionary<int, int> collectedColors, Dictionary<int, int> removedThisTurn)
+    {
         foreach (var stack in stacks)
         {
-            if (stack.Count > 0)
-                return false;
-        }
+            if (stack.lockCount <= 0)
+            {
+                stack.isLocked = false;
+                continue;
+            }
 
-        return true;
+            var data = (stack.lockType == LockType.SngPl) ? removedThisTurn : collectedColors;
+
+            if (stack.lockColor == -1)
+            {
+                int total = data.Values.Sum();
+                stack.isLocked = total < stack.lockCount;
+            }
+            else
+            {
+                stack.isLocked = data[stack.lockColor] < stack.lockCount;
+            }
+        }
     }
 
 

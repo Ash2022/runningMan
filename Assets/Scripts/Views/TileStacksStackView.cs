@@ -11,8 +11,14 @@ public class TileStacksStackView : MonoBehaviour
     [SerializeField] private SpriteRenderer lockDataBG;
     [SerializeField] private TMP_Text lockCounter;
 
+    StackData data;
+
+    int lockValue = 0;
+
     public void Setup(StackData data)
     {
+        this.data = data;
+
         if (data.lockCount > 0)
         {
             lockIndicator.SetActive(true);
@@ -26,7 +32,15 @@ public class TileStacksStackView : MonoBehaviour
             lockColor.sprite = TileStacksModelManager.Instance.GetLocksIndication(data.lockColor);
             lockCounter.text = data.lockCount.ToString();
 
-            
+            lockValue = data.lockCount;
+
+            if (data.lockType == LockType.Accum)
+                lockIndicationBG.color = Color.yellow;
+            else
+                lockIndicationBG.color = Color.white;
+
+
+
         }
         else
         {
@@ -52,17 +66,46 @@ public class TileStacksStackView : MonoBehaviour
 
     internal void UnlockStackCover()
     {
-        SoundsManager.Instance.StackUnlcoked();
 
-        lockIndicationBG.DOFade(0, 1f);
-        lockColor.DOFade(0, 1f);
-        lockDataBG.DOFade(0, 1f);
-        lockCounter.DOFade(0, 1f);
-
-        lockIndicator.transform.DOLocalMoveY(lockIndicator.transform.localPosition.y + 3, 1).OnComplete(()=>
+        UpdateLockCounter(data.lockCount,()=>
         {
-            lockIndicator.SetActive(false);
+            SoundsManager.Instance.StackUnlcoked();
+            lockIndicationBG.DOFade(0, 1f);
+            lockColor.DOFade(0, 1f);
+            lockDataBG.DOFade(0, 1f);
+            lockCounter.DOFade(0, 1f);
+
+            lockIndicator.transform.DOLocalMoveY(lockIndicator.transform.localPosition.y + 3, 1).OnComplete(() =>
+            {
+                lockIndicator.SetActive(false);
+            });
         });
-                
+   
+    }
+
+    internal void UpdateLockCounter(int total,Action done=null)
+    {
+        //startStackData.lockCount-=total;
+
+        
+        DOVirtual.Int(data.lockCount, data.lockCount - total, total * TileStacksGameManager.TILES_FLY_DELAY, (counter) =>
+        {
+            lockCounter.text = counter.ToString();
+        }).SetDelay(TileStacksGameManager.TILES_FLY_TIME).OnComplete(()=>
+        {
+            done?.Invoke();
+
+            //in this mode we count it back
+            if (data.lockType == LockType.SngPl && done==null)
+            {
+                DOVirtual.Int(data.lockCount - total, data.lockCount, 0.5f, (counter) =>
+                {
+                    lockCounter.text = counter.ToString();
+                }).SetDelay(0.25f);
+            }
+        });
+       
+        //lockCounter.text = (data.lockCount -total).ToString();
+
     }
 }

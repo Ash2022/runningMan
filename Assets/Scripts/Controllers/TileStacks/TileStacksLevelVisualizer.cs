@@ -14,15 +14,14 @@ public class TileStacksLevelVisualizer : MonoBehaviour
     List<TileStacksColorButtonView> tileStacksColorButtonViews = new List<TileStacksColorButtonView>();
 
     float xSpacing = 1f;
-    float zSpacing = 2.5f;
+    float zSpacing = 2.25f;
 
     public Transform LevelRoot { get => levelRoot; set => levelRoot = value; }
     public Transform UiRoot { get => uiRoot; set => uiRoot = value; }
 
     public (List<List<TileStacksTileView>>, List<TileStacksStackView>, int) BuildLevel(TilesStacksLevelData data, float verticalStackOffset)
     {
-        //Debug.Log("rectPos: " + TileStacksGameManager.Instance.RectToWorld(uiRoot.gameObject.GetComponent<RectTransform>().localPosition));
-
+        
         List<List<TileStacksTileView>> allViews = new List<List<TileStacksTileView>>();
         List<TileStacksStackView> allStackViews = new List<TileStacksStackView>();
         HashSet<int> uniqueColors = new HashSet<int>();
@@ -53,7 +52,7 @@ public class TileStacksLevelVisualizer : MonoBehaviour
             List<TileStacksTileView> stackViews = new List<TileStacksTileView>();
 
             float worldX = -2f + stack.position.x * xSpacing;
-            float worldZ = -7f + stack.position.y * zSpacing;
+            float worldZ = -6f + stack.position.y * zSpacing;
 
             // Create a stack container
             GameObject stackRoot = Instantiate(stackViewPrefab, levelRoot);
@@ -76,6 +75,27 @@ public class TileStacksLevelVisualizer : MonoBehaviour
 
                 stackViews.Add(view);
             }
+
+            // Detect and mark hidden tile batches
+            for (int j = stack.tiles.Count - 1; j >= 0; j--)
+            {
+                if (stack.tiles[j].startHidden)
+                {
+                    int batchCount = 1;
+                    int k = j - 1;
+                    while (k >= 0 && stack.tiles[k].startHidden)
+                    {
+                        batchCount++;
+                        k--;
+                    }
+
+                    // Notify the top tile in the hidden batch
+                    stackViews[j].SetHiddenBatchSize(batchCount);
+                    break; // Only the topmost batch matters
+                }
+            }
+
+
 
             allViews.Add(stackViews);
         }

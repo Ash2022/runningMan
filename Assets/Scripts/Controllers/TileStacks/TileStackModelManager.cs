@@ -1,3 +1,4 @@
+using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
 using UnityEngine;
@@ -15,6 +16,7 @@ public class TileStacksModelManager : MonoBehaviour
     [SerializeField] List<Sprite> buttonsIdle = new List<Sprite>();
     [SerializeField] List<Sprite> buttonsDown = new List<Sprite>();
     [SerializeField] List<Sprite> locksColorIndications = new List<Sprite>();
+    [SerializeField] Sprite wildCardColorIndication;
 
     List<int> unlocksIndexList = new List<int>();
     [SerializeField] List<Sprite> unlockBGs = new List<Sprite>();
@@ -32,14 +34,15 @@ public class TileStacksModelManager : MonoBehaviour
         unlocksIndexList.Add(14);//color 5
         unlocksIndexList.Add(19);//hidden stack
         unlocksIndexList.Add(24);//color 6
-        unlocksIndexList.Add(32);//color 7 
+        unlocksIndexList.Add(29);//hidden stack 1 shot
+        unlocksIndexList.Add(34);//color 7 
 
 
 
         levels.Clear();
         foreach (var file in levelFiles)
         {
-            TilesStacksLevelData level = JsonUtility.FromJson<TilesStacksLevelData>(file.text);
+            TilesStacksLevelData level = JsonConvert.DeserializeObject<TilesStacksLevelData>(file.text);
             levels.Add(level);
         }
     }
@@ -57,6 +60,7 @@ public class TileStacksModelManager : MonoBehaviour
             s.position = stack.position;
             s.lockColor = stack.lockColor;
             s.lockCount = stack.lockCount;
+            s.lockType = stack.lockType;
             s.tiles = new List<TileData>();
 
             foreach (var tile in stack.tiles)
@@ -118,6 +122,9 @@ public class TileStacksModelManager : MonoBehaviour
 
     public Sprite GetLocksIndication(int index)
     {
+        if (index == -1)
+            return wildCardColorIndication;
+
         return locksColorIndications[index];
     }
 

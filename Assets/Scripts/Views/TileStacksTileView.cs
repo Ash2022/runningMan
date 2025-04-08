@@ -10,6 +10,10 @@ public class TileStacksTileView : MonoBehaviour
     [SerializeField] Renderer renderer;
     [SerializeField]ParticleSystem particleSystem;
     TileData tileData;
+    public int stackIndex;
+
+    GameObject hiddenIndication = null;
+
     internal void SetColor(TileData _tileData)
     {
         tileData = _tileData;
@@ -24,6 +28,9 @@ public class TileStacksTileView : MonoBehaviour
     {
         SoundsManager.Instance.HiddenTileUnlocked();
 
+        if (hiddenIndication != null)
+            Destroy(hiddenIndication);
+
         DoTileParticles();
 
         renderer.material = TileStacksModelManager.Instance.GetTileMaterial(tileData.colorIndex);
@@ -32,6 +39,8 @@ public class TileStacksTileView : MonoBehaviour
 
     public void FlyTo(Vector3 targetPosition, float startDelay, float duration, Action done)
     {
+        
+
         //SoundsManager.Instance.TileStartFlying();
 
         Debug.Log("StartDelay: " + startDelay);
@@ -69,6 +78,7 @@ public class TileStacksTileView : MonoBehaviour
         yield return new WaitForSeconds(1);
 
         done?.Invoke();
+
         Destroy(gameObject);
     }
 
@@ -79,9 +89,22 @@ public class TileStacksTileView : MonoBehaviour
         Color tileColor = TileStacksModelManager.Instance.GetTileColor(tileData.colorIndex);
 
         var main = particleSystem.main;
-        main.startColor = new ParticleSystem.MinMaxGradient(TileStacksUtils.GetLessSaturatedColor(tileColor), tileColor);
+        main.startColor = new ParticleSystem.MinMaxGradient(TileStacksUtils.GetLessSaturatedColor(tileColor,0.5f), tileColor);
 
         particleSystem.gameObject.SetActive(true);
     }
 
+    public void SetHiddenBatchSize(int size)
+    {
+        // Store the size and optionally trigger visual logic
+        //hiddenBatchSize = size;
+        //ShowHiddenBatchVisual(size); // Your own method to show visuals
+
+        hiddenIndication = TileStacksGameManager.Instance.UiManager.GenerateHiddenTilesIndication(transform.position - new Vector3(0,TileStacksGameManager.TILES_VERTICAL_OFFSET*size/2f,0));
+    }
+
+    public int GetTileColorIndex()
+    {
+        return tileData.colorIndex;
+    }
 }
