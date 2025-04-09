@@ -992,6 +992,7 @@ MonoBehaviour:
   - {fileID: 21300000, guid: a3e0f972f09c8de4db07523e3d0a59f5, type: 3}
   - {fileID: 21300000, guid: a3e0f972f09c8de4db07523e3d0a59f5, type: 3}
   - {fileID: 21300000, guid: a3e0f972f09c8de4db07523e3d0a59f5, type: 3}
+  - {fileID: 21300000, guid: a3e0f972f09c8de4db07523e3d0a59f5, type: 3}
   tutorialImageView: {fileID: 2138456202}
   completionWords:
   - {fileID: 21300000, guid: 20ee957a424c272429b4bbe2191d3bcf, type: 3}
@@ -1030,7 +1031,7 @@ MonoBehaviour:
   levelVisualizer: {fileID: 702425268}
   uiManager: {fileID: 702425266}
   gameOverView: {fileID: 1825985180}
-  levelIndex: 0
+  levelIndex: -1
 --- !u!114 &702425268
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1116,10 +1117,12 @@ MonoBehaviour:
   - {fileID: 21300000, guid: 7928109931d3fd34192f801f4d9579b3, type: 3}
   - {fileID: 21300000, guid: 7928109931d3fd34192f801f4d9579b3, type: 3}
   - {fileID: 21300000, guid: 7928109931d3fd34192f801f4d9579b3, type: 3}
+  - {fileID: 21300000, guid: 7928109931d3fd34192f801f4d9579b3, type: 3}
   unlockFills:
   - {fileID: 21300000, guid: 41b49f4204fffea45916afcfeb48bc56, type: 3}
   - {fileID: 21300000, guid: 46daeb07ad2b9684fa9e96be629fc9be, type: 3}
   - {fileID: 21300000, guid: 996fa9db8c436514f96e243298199894, type: 3}
+  - {fileID: 21300000, guid: 249819ca7e363fe43bf6ba0b0160c1d9, type: 3}
   - {fileID: 21300000, guid: 249819ca7e363fe43bf6ba0b0160c1d9, type: 3}
   - {fileID: 21300000, guid: 249819ca7e363fe43bf6ba0b0160c1d9, type: 3}
   - {fileID: 21300000, guid: 249819ca7e363fe43bf6ba0b0160c1d9, type: 3}
@@ -1164,6 +1167,7 @@ MonoBehaviour:
   - {fileID: 4900000, guid: 4da2e9427df810e42957600a71cab760, type: 3}
   - {fileID: 4900000, guid: c3bce45ac31c2aa4fa6f4a5927a5609a, type: 3}
   - {fileID: 4900000, guid: 25afd1f0eb5b0b6499bfb7535513c68d, type: 3}
+  - {fileID: 4900000, guid: e60b379cfec4799449c29355a00baefd, type: 3}
 --- !u!1 &705507993
 GameObject:
   m_ObjectHideFlags: 0

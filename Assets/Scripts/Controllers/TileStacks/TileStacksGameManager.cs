@@ -6,6 +6,8 @@ using UnityEngine;
 
 public class TileStacksGameManager : MonoBehaviour
 {
+    public const int LOOP_SIZE = 30;
+
     const float BASE_DESTROY_DELAY = 0.075f;
     const float DESTORY_DELAY_FALLOUT_RATE = 0.95f;
 
@@ -96,55 +98,25 @@ public class TileStacksGameManager : MonoBehaviour
 
         levelStartTotalTiles = activeLevel.stacks.Count * activeLevel.stacks[0].tiles.Count;
 
+        SetInitalLockingState();
 
-        // ✅ First: update lock states before checking
-        for (int i = 0; i < activeLevel.stacks.Count; i++)
-        {
-            var stack = activeLevel.stacks[i];
-
-            if (stack.lockCount > 0)
-            {
-                if (stack.lockType == LockType.Accum)
-                {
-                    if (stack.lockColor == -1)
-                    {
-                        int total = activeLevel.playedTiles.Sum();
-                        stack.isLocked = total < stack.lockCount;
-                    }
-                    else
-                    {
-                        stack.isLocked = activeLevel.playedTiles[stack.lockColor] < stack.lockCount;
-                    }
-                }
-                else if (stack.lockType == LockType.SngPl)
-                {
-                    stack.isLocked = true; // will resolve at end of this turn
-                }
-            }
-            else
-            {
-                stack.isLocked = false;
-            }
-        }
-
+        if(activeLevel.alternateLocking)
+            ApplyInitialAlternateButtonLocks();
 
         uiManager.InitLevel(activeLevel,levelIndex);
         gameActive = true;
     }
 
-    public void HideTutorialImage()
-    {
-        uiManager.ShowTutorialImage(false, 0);
-        BuildLevel();
 
-    }
+    
 
     public void OnColorButtonClicked(int colorID, int buttonIndex, TileStacksColorButtonView clickedButton)
     {
         if (!gameActive)
             return;
 
-        
+        if (activeLevel.alternateLocking)
+            ToggleButtonLocks();
 
         // ✅ Check if there's any playable tile
         bool hasMatchingTopTile = false;
@@ -260,7 +232,62 @@ public class TileStacksGameManager : MonoBehaviour
         }
     }
 
+    private void SetInitalLockingState()
+    {
+        // ✅ First: update lock states before checking
+        for (int i = 0; i < activeLevel.stacks.Count; i++)
+        {
+            var stack = activeLevel.stacks[i];
 
+            if (stack.lockCount > 0)
+            {
+                if (stack.lockType == LockType.Accum)
+                {
+                    if (stack.lockColor == -1)
+                    {
+                        int total = activeLevel.playedTiles.Sum();
+                        stack.isLocked = total < stack.lockCount;
+                    }
+                    else
+                    {
+                        stack.isLocked = activeLevel.playedTiles[stack.lockColor] < stack.lockCount;
+                    }
+                }
+                else if (stack.lockType == LockType.SngPl)
+                {
+                    stack.isLocked = true; // will resolve at end of this turn
+                }
+            }
+            else
+            {
+                stack.isLocked = false;
+            }
+        }
+    }
+
+    private void ApplyInitialAlternateButtonLocks()
+    {
+        for (int i = 0; i < levelVisualizer.TileStacksColorButtonViews.Count; i++)
+        {
+            bool shouldLock = (i % 2 == 0); // even index = locked, odd index = unlocked
+            levelVisualizer.TileStacksColorButtonViews[i].SetLock(shouldLock); // assuming this method exists
+        }
+    }
+
+    private void ToggleButtonLocks()
+    {
+        foreach (var button in levelVisualizer.TileStacksColorButtonViews)
+        {
+            button.SetLock(!button.IsLocked); // assuming `IsLocked` is a property you have
+        }
+    }
+
+    public void HideTutorialImage()
+    {
+        uiManager.ShowTutorialImage(false, 0);
+        BuildLevel();
+
+    }
     private void CheckGameOver()
     {
 
@@ -277,16 +304,18 @@ public class TileStacksGameManager : MonoBehaviour
             }
         }
 
-        if(allCleared || activeLevel.numTurns<=0)
+        bool levelCannotComplete = IsLevelUnwinnableDueToLocks();
+
+        if (allCleared || activeLevel.numTurns<=0 || levelCannotComplete)
         {
             gameActive = false;
 
             bool win = allCleared;
 
-            if (activeLevel.numTurns <= 0)
+            if (activeLevel.numTurns <= 0 || levelCannotComplete)
                 win = false;
 
-            gameOverView.InitEndScreen(win, levelIndex, () =>
+            gameOverView.InitEndScreen(win, levelCannotComplete, levelIndex, () =>
             {
                 StartCoroutine(ResetScene(() =>
                 {
@@ -314,6 +343,53 @@ public class TileStacksGameManager : MonoBehaviour
         }
 
     }
+
+    private bool IsLevelUnwinnableDueToLocks()
+    {
+        int[] remainingColorCounts = new int[9];
+
+        // Count all remaining visible tiles
+        foreach (var stack in activeLevel.stacks)
+        {
+            foreach (var tile in stack.tiles)
+            {
+                remainingColorCounts[tile.colorIndex]++;
+            }
+        }
+
+        foreach (var stack in activeLevel.stacks)
+        {
+            if (stack.tiles.Count == 0 || stack.lockCount == 0)
+                continue;
+
+            // Skip already unlocked stacks
+            if (!stack.isLocked)
+                continue;
+
+            if (stack.lockColor == -1)
+            {
+                int totalRemaining = remainingColorCounts.Sum();
+                if (totalRemaining < stack.lockCount)
+                {
+                    Debug.Log($"[Unwinnable] Stack requires {stack.lockCount} of ANY color, but only {totalRemaining} tiles remain.");
+                    return true;
+                }
+            }
+            else
+            {
+                int required = stack.lockCount;
+                int available = remainingColorCounts[stack.lockColor];
+                if (available < required)
+                {
+                    Debug.Log($"[Unwinnable] Stack requires {required} of color {stack.lockColor}, but only {available} remain.");
+                    return true;
+                }
+            }
+        }
+
+        return false;
+    }
+
 
     public float GetPlayedPercentage()
     {

@@ -22,6 +22,7 @@ public class StackData
 [Serializable]
 public class TilesStacksLevelData
 {
+    public bool alternateLocking;
     public int numTurns;
     public List<StackData> stacks = new List<StackData>();
 

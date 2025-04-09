@@ -14,6 +14,10 @@ public class TileStacksColorButtonView : MonoBehaviour
     private int buttonIndex;
     private int startCounterValue = 0;
     Vector3 counterBoxStartPosition;
+    bool isLocked;
+    [SerializeField] GameObject lockIndication;
+
+    public bool IsLocked { get => isLocked; set => isLocked = value; }
 
     public void Setup(int _colorID, int _index, Vector3 worldPosition, Vector3 scale)
     {
@@ -31,6 +35,9 @@ public class TileStacksColorButtonView : MonoBehaviour
 
     private void ButtonClicked()
     {
+        if(isLocked) 
+            return;
+
         buttonClickForwarder.EndableDisableButton(false);
 
         Color orgColor = buttonImage.color;
@@ -59,5 +66,11 @@ public class TileStacksColorButtonView : MonoBehaviour
         int modifiedValue = counterValue - startCounterValue;
         counter.text = (modifiedValue).ToString();
         counterBox.transform.localPosition = counterBoxStartPosition - new Vector3(0, 0, TileStacksGameManager.TILES_VERTICAL_OFFSET * modifiedValue);
+    }
+
+    internal void SetLock(bool shouldLock)
+    {
+        isLocked = shouldLock;
+        lockIndication.gameObject.SetActive(isLocked);
     }
 }

@@ -36,6 +36,7 @@ public class TileStacksModelManager : MonoBehaviour
         unlocksIndexList.Add(24);//color 6
         unlocksIndexList.Add(29);//hidden stack 1 shot
         unlocksIndexList.Add(34);//color 7 
+        UnlocksIndexList.Add(39);//alternating lock
 
 
 
@@ -49,9 +50,19 @@ public class TileStacksModelManager : MonoBehaviour
 
     public TilesStacksLevelData GetLevel(int index)
     {
-        TilesStacksLevelData original = levels[index];
+
+        int numLevels = levels.Count;
+
+        int loopedIndex = index;
+
+        while (loopedIndex >= numLevels)
+            loopedIndex -= TileStacksGameManager.LOOP_SIZE;
+
+
+        TilesStacksLevelData original = levels[loopedIndex];
         TilesStacksLevelData copy = new TilesStacksLevelData();
         copy.numTurns = original.numTurns;
+        copy.alternateLocking = original.alternateLocking;
         copy.stacks = new List<StackData>();
 
         foreach (var stack in original.stacks)

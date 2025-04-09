@@ -24,7 +24,7 @@ public class GameOverView : MonoBehaviour
     bool noMoreUnlocks;
     Action endGameComplete;
 
-    public void InitEndScreen(bool levelWon, int levelIndex, Action endGameResumeClicked)
+    public void InitEndScreen(bool levelWon,bool lostNoMoves, int levelIndex, Action endGameResumeClicked)
     {
         currLevelIndex = levelIndex;
         endScreenUnlockView.BackParticles.SetActive(false);
@@ -63,6 +63,12 @@ public class GameOverView : MonoBehaviour
         else
         {
             titleText.text = "LEVEL " + (levelIndex + 1) + "\nFAILED";
+
+            if (lostNoMoves)
+                titleText.text += "\n<size=50>BLOCKED: GOAL NO LONGER REACHABLE";
+            else
+                titleText.text += "\n<size=50>NO MORE MOVES";
+
             titleText.transform.localPosition = Vector3.zero;
             endScreenUnlockView.HideEndScreenUnlocks();
 

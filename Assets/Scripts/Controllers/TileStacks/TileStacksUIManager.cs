@@ -40,7 +40,7 @@ public class TileStacksUIManager : MonoBehaviour
 
     public void SetTurns(int turns)
     {
-        turnsText.text = "TURNS:<color=orange> " + turns.ToString();
+        turnsText.text = "MOVES:<color=orange> " + turns.ToString();
     }
 
     public void ShowTutorialImage(bool show, int imageIndex)

@@ -18,6 +18,7 @@ public class TileStacksLevelVisualizer : MonoBehaviour
 
     public Transform LevelRoot { get => levelRoot; set => levelRoot = value; }
     public Transform UiRoot { get => uiRoot; set => uiRoot = value; }
+    public List<TileStacksColorButtonView> TileStacksColorButtonViews { get => tileStacksColorButtonViews; set => tileStacksColorButtonViews = value; }
 
     public (List<List<TileStacksTileView>>, List<TileStacksStackView>, int) BuildLevel(TilesStacksLevelData data, float verticalStackOffset)
     {
