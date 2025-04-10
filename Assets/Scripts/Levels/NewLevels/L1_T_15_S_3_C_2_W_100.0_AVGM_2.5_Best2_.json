@@ -1,4 +1,5 @@
 {
+  "alternateLocking": false,
   "numTurns": 10,
   "stacks": [
     {
@@ -36,8 +37,10 @@
         "magnitude": 1.41421354,
         "sqrMagnitude": 2.0
       },
+      "lockColor": 0,
       "lockCount": 0,
-      "lockColor": 0
+      "lockType": 0,
+      "isLocked": false
     },
     {
       "tiles": [
@@ -46,11 +49,11 @@
           "startHidden": false
         },
         {
-          "colorIndex": 1,
+          "colorIndex": 2,
           "startHidden": false
         },
         {
-          "colorIndex": 1,
+          "colorIndex": 2,
           "startHidden": false
         },
         {
@@ -80,8 +83,10 @@
         "magnitude": 3.1622777,
         "sqrMagnitude": 10.0
       },
+      "lockColor": 0,
       "lockCount": 0,
-      "lockColor": 0
+      "lockType": 0,
+      "isLocked": false
     },
     {
       "tiles": [
@@ -118,8 +123,10 @@
         "magnitude": 2.828427,
         "sqrMagnitude": 8.0
       },
+      "lockColor": 0,
       "lockCount": 0,
-      "lockColor": 0
+      "lockType": 0,
+      "isLocked": false
     }
   ]
 }

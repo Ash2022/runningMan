@@ -35,9 +35,9 @@ public class TileStacksStackView : MonoBehaviour
             lockValue = data.lockCount;
 
             if (data.lockType == LockType.Accum)
-                lockIndicationBG.color = Color.yellow;
+                lockIndicationBG.sprite = TileStacksModelManager.Instance.GetStackCover(true);
             else
-                lockIndicationBG.color = Color.white;
+                lockIndicationBG.sprite = TileStacksModelManager.Instance.GetStackCover(false);
 
 
 

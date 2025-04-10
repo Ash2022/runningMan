@@ -1,4 +1,5 @@
 {
+  "alternateLocking": false,
   "numTurns": 20,
   "stacks": [
     {
@@ -126,8 +127,8 @@
         "magnitude": 1.41421354,
         "sqrMagnitude": 2.0
       },
-      "lockColor": 0,
-      "lockCount": 0,
+      "lockColor": -1,
+      "lockCount": 40,
       "lockType": 0,
       "isLocked": false
     },

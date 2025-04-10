@@ -15,7 +15,6 @@ public class TileStacksUIManager : MonoBehaviour
     [SerializeField] GameObject gameOverPanel;
     [SerializeField] TMP_Text resultText;
     [SerializeField] TMP_Text buttonText;
-    [SerializeField] Image progressBar;
 
     [SerializeField] List<Sprite> tutorialImages = new List<Sprite>();
     [SerializeField] TutorialImageView tutorialImageView;
@@ -34,7 +33,6 @@ public class TileStacksUIManager : MonoBehaviour
     public void InitLevel(TilesStacksLevelData levelData,int levelIndex)
     {
         levelText.text = "LEVEL "+(levelIndex+1).ToString();
-        progressBar.fillAmount = 0;
         SetTurns(levelData.numTurns);
     }
 
@@ -47,10 +45,26 @@ public class TileStacksUIManager : MonoBehaviour
     {
         if (show)
         {
+            levelText.text = "";
+            turnsText.text = "";
+
             if (imageIndex == 0)
                 tutorialImageView.ShowTutorial(tutorialImages[0]);
             else
-                tutorialImageView.ShowTutorial(tutorialImages[imageIndex]);
+            {
+                Sprite auxImage = null;
+
+                if (imageIndex == 1)
+                    auxImage=TileStacksModelManager.Instance.GetLocksIndication(3);
+                else if(imageIndex == 3)
+                    auxImage = TileStacksModelManager.Instance.GetLocksIndication(4);
+                else if(imageIndex == 5)
+                    auxImage = TileStacksModelManager.Instance.GetLocksIndication(5);
+                else if(imageIndex == 7)
+                    auxImage = TileStacksModelManager.Instance.GetLocksIndication(6);
+
+                tutorialImageView.ShowTutorial(tutorialImages[imageIndex],auxImage);
+            }
         }
         else
         {
@@ -64,17 +78,12 @@ public class TileStacksUIManager : MonoBehaviour
         return tutorialImageView.gameObject.activeInHierarchy;
     }
 
-    public void UpdateProgressBar(float progressValue)
-    {
-        progressBar.fillAmount = progressValue;
-    }
-
 
     public GameObject GenerateHiddenTilesIndication(Vector3 worldPos)
     {
         GameObject hiddenTilesIndication = Instantiate(hiddenTilesPrefab,dynamicUIElementsHolder);
 
-        hiddenTilesIndication.GetComponent<RectTransform>().localPosition = TileStacksGameManager.Instance.WorldToRect(worldPos) - new Vector2(0,70);
+        hiddenTilesIndication.GetComponent<RectTransform>().localPosition = TileStacksGameManager.Instance.WorldToRect(worldPos) - new Vector2(0,60);
 
         return hiddenTilesIndication;
     }
@@ -88,8 +97,9 @@ public class TileStacksUIManager : MonoBehaviour
         RectTransform counterRect = counterEffectGO.GetComponent<RectTransform>();
         TMP_Text counterText = counterEffectGO.GetComponent<TMP_Text>();
         counterText.text = "0";
-        //counterText.color = TileStacksUtils.GetDarkerColor(TileStacksModelManager.Instance.GetTileColor(colorIndex));
         
+        counterText.color = TileStacksUtils.GetLessSaturatedColor(TileStacksModelManager.Instance.GetTileColor(colorIndex), 0.35f);
+
         float startY = counterRect.localPosition.y;
 
         counterRect.DOAnchorPosY(startY + (count * 10.5f),delay).OnComplete(()=>
@@ -142,19 +152,23 @@ public class TileStacksUIManager : MonoBehaviour
                     //put the effect on the number and show the word
 
                     effectRect.localPosition = counterRect.localPosition;
-                    effectRect.localScale = Vector3.one * 0.25f;
+                    effectRect.localScale = Vector3.one * 0.35f;
 
                     float startY = effectRect.localPosition.y;
 
-                    effectRect.DOLocalMove(new Vector2(0, startY + 200), 1).SetEase(Ease.InOutSine);
+                    effectRect.DOLocalMoveY(startY + 300, 1.15f).SetEase(Ease.OutBack);
+                    effectRect.DOLocalMoveX(0, 1.15f).SetEase(Ease.OutCirc);
+
+
+
                     effectCanvas.DOFade(1, 0.25f).OnComplete(() =>
                     {
-                        effectCanvas.DOFade(0, 0.15f).SetDelay(0.6f).OnComplete(() =>
+                        effectCanvas.DOFade(0, 0.15f).SetDelay(0.75f).OnComplete(() =>
                         {
                             Destroy(wordEffectGO);
                         });
                     });
-                    effectRect.DOScale(1.1f, 0.95f).SetEase(Ease.InCubic);
+                    effectRect.DOScale(1.15f, 0.95f).SetEase(Ease.OutCirc);
                 }
 
 
@@ -240,7 +254,7 @@ public class TileStacksUIManager : MonoBehaviour
         if (currentCombo > 20) return "Gigantic";
         if (currentCombo > 16) return "Massive";
         if (currentCombo > 12) return "Huge";
-        if (currentCombo > MIN_COMBO_FOR_WORD) return "";   // Big
+        if (currentCombo > MIN_COMBO_FOR_WORD) return "Big";   // Big
 
         return ""; // Default case, should never be reached
     }

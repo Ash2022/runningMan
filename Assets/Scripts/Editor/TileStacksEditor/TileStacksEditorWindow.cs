@@ -50,7 +50,7 @@ public class TileStacksEditorWindow : EditorWindow
         EditorGUILayout.LabelField("Level Settings", EditorStyles.boldLabel);
 
         numStacks = EditorGUILayout.IntSlider("Number of Stacks", numStacks, 1, maxStacks);
-        tilesPerStack = EditorGUILayout.IntSlider("Tiles per Stack", tilesPerStack, 5, 25);
+        tilesPerStack = EditorGUILayout.IntSlider("Tiles per Stack", tilesPerStack, 5, 50);
         numTurns = EditorGUILayout.IntSlider("Number of Turns", numTurns, 10, 50);
         numColors = EditorGUILayout.IntSlider("Number of Colors", numColors, 3, 9);
         zOffset = EditorGUILayout.Slider("Z Offset per Row", zOffset, 0.5f, 2.0f);

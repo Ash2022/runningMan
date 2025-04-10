@@ -188,7 +188,7 @@ public class TileStacksGameManager : MonoBehaviour
                 }
                 else
                 {
-                    if (clickedColor == stack.lockColor && activeLevel.playedTiles[stack.lockColor] >= stack.lockCount)
+                    if (clickedColor == stack.lockColor && removedThisTurn[stack.lockColor] >= stack.lockCount)
                     {
                         stack.isLocked = false;
                         stackViews[i].UnlockStackCover();
@@ -196,8 +196,8 @@ public class TileStacksGameManager : MonoBehaviour
                     else if(clickedColor == stack.lockColor)
                     {
                         //an accum lock collected tiles but not enough to unlock - update its counter
-                        stackViews[i].UpdateLockCounter(activeLevel.playedTiles[stack.lockColor]);
-                        stack.lockCount -= removedThisTurn[clickedColor];
+                        stackViews[i].UpdateLockCounter(removedThisTurn[stack.lockColor]);
+                        stack.lockCount -= removedThisTurn[stack.lockColor];
                     }
                 }
 
@@ -323,7 +323,7 @@ public class TileStacksGameManager : MonoBehaviour
                     {
                         TileStacksModelManager.Instance.SetLastPlayedLevel(levelIndex);
                         // Advance to next level (or loop)
-                        levelIndex = (levelIndex + 1) % TileStacksModelManager.Instance.GetNumLevels();
+                        levelIndex++;
                     }
 
                     int unlockIndex = TileStacksModelManager.Instance.GetUnlock(levelIndex);
@@ -408,7 +408,7 @@ public class TileStacksGameManager : MonoBehaviour
         {
             if (lastLevelWon)
                 // Advance to next level (or loop)
-                levelIndex = (levelIndex + 1) % TileStacksModelManager.Instance.GetNumLevels();
+                levelIndex++;
 
                 int unlockIndex = TileStacksModelManager.Instance.GetUnlock(levelIndex);
 
@@ -613,7 +613,7 @@ public class TileStacksGameManager : MonoBehaviour
                     uiManager.GenerateCounterEffect(flights.Count, cumulativeDelay, colorID, clickedButton);
                 }
 
-                uiManager.UpdateProgressBar(GetPlayedPercentage());
+                //uiManager.UpdateProgressBar(GetPlayedPercentage());
 
                 pendingCallbacks--;
                 if (pendingCallbacks == 0)

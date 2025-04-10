@@ -1,4 +1,5 @@
 {
+  "alternateLocking": false,
   "numTurns": 17,
   "stacks": [
     {
@@ -50,30 +51,32 @@
         "magnitude": 1.0,
         "sqrMagnitude": 1.0
       },
+      "lockColor": 0,
       "lockCount": 0,
-      "lockColor": 0
+      "lockType": 0,
+      "isLocked": false
     },
     {
       "tiles": [
         {
           "colorIndex": 0,
-          "startHidden": false
+          "startHidden": true
         },
         {
           "colorIndex": 0,
-          "startHidden": false
+          "startHidden": true
         },
         {
           "colorIndex": 0,
-          "startHidden": false
+          "startHidden": true
         },
         {
           "colorIndex": 0,
-          "startHidden": false
+          "startHidden": true
         },
         {
           "colorIndex": 0,
-          "startHidden": false
+          "startHidden": true
         },
         {
           "colorIndex": 2,
@@ -108,8 +111,10 @@
         "magnitude": 1.41421354,
         "sqrMagnitude": 2.0
       },
+      "lockColor": 0,
       "lockCount": 0,
-      "lockColor": 0
+      "lockType": 0,
+      "isLocked": false
     },
     {
       "tiles": [
@@ -166,8 +171,10 @@
         "magnitude": 2.236068,
         "sqrMagnitude": 5.0
       },
+      "lockColor": 0,
       "lockCount": 0,
-      "lockColor": 0
+      "lockType": 0,
+      "isLocked": false
     },
     {
       "tiles": [
@@ -230,8 +237,10 @@
         "magnitude": 3.1622777,
         "sqrMagnitude": 10.0
       },
+      "lockColor": 0,
       "lockCount": 0,
-      "lockColor": 0
+      "lockType": 0,
+      "isLocked": false
     },
     {
       "tiles": [
@@ -288,8 +297,10 @@
         "magnitude": 4.12310553,
         "sqrMagnitude": 17.0
       },
+      "lockColor": 0,
       "lockCount": 0,
-      "lockColor": 0
+      "lockType": 0,
+      "isLocked": false
     },
     {
       "tiles": [
@@ -346,8 +357,10 @@
         "magnitude": 2.236068,
         "sqrMagnitude": 5.0
       },
+      "lockColor": 0,
       "lockCount": 0,
-      "lockColor": 0
+      "lockType": 0,
+      "isLocked": false
     },
     {
       "tiles": [
@@ -361,31 +374,31 @@
         },
         {
           "colorIndex": 2,
-          "startHidden": false
+          "startHidden": true
         },
         {
           "colorIndex": 2,
-          "startHidden": false
+          "startHidden": true
         },
         {
           "colorIndex": 2,
-          "startHidden": false
+          "startHidden": true
         },
         {
           "colorIndex": 2,
-          "startHidden": false
+          "startHidden": true
         },
         {
           "colorIndex": 2,
-          "startHidden": false
+          "startHidden": true
         },
         {
           "colorIndex": 2,
-          "startHidden": false
+          "startHidden": true
         },
         {
           "colorIndex": 2,
-          "startHidden": false
+          "startHidden": true
         },
         {
           "colorIndex": 1,
@@ -404,8 +417,10 @@
         "magnitude": 2.828427,
         "sqrMagnitude": 8.0
       },
+      "lockColor": 0,
       "lockCount": 0,
-      "lockColor": 0
+      "lockType": 0,
+      "isLocked": false
     },
     {
       "tiles": [
@@ -462,8 +477,10 @@
         "magnitude": 3.60555124,
         "sqrMagnitude": 13.0
       },
+      "lockColor": 0,
       "lockCount": 0,
-      "lockColor": 0
+      "lockType": 0,
+      "isLocked": false
     },
     {
       "tiles": [
@@ -520,8 +537,10 @@
         "magnitude": 3.60555124,
         "sqrMagnitude": 13.0
       },
+      "lockColor": 0,
       "lockCount": 0,
-      "lockColor": 0
+      "lockType": 0,
+      "isLocked": false
     }
   ]
 }

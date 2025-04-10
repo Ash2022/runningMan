@@ -22,6 +22,10 @@ public class TileStacksModelManager : MonoBehaviour
     [SerializeField] List<Sprite> unlockBGs = new List<Sprite>();
     [SerializeField] List<Sprite> unlockFills = new List<Sprite>();
 
+    [SerializeField] Sprite stackCoverAccum;
+    [SerializeField] Sprite stackCoverSingle;
+
+
     [SerializeField] private List<TextAsset> levelFiles;
 
     private List<TilesStacksLevelData> levels = new List<TilesStacksLevelData>();
@@ -29,13 +33,13 @@ public class TileStacksModelManager : MonoBehaviour
 
     public void Init()
     {
-        unlocksIndexList.Add(4);//color 4 
+        unlocksIndexList.Add(4);//color 4 - yellow 3
         unlocksIndexList.Add(9);//hidden tile
-        unlocksIndexList.Add(14);//color 5
-        unlocksIndexList.Add(19);//hidden stack
-        unlocksIndexList.Add(24);//color 6
+        unlocksIndexList.Add(14);//color 5 -- pink 4
+        unlocksIndexList.Add(19);//hidden stack 5
+        unlocksIndexList.Add(24);//color 6 -- purple
         unlocksIndexList.Add(29);//hidden stack 1 shot
-        unlocksIndexList.Add(34);//color 7 
+        unlocksIndexList.Add(34);//color 7 -- red 6
         UnlocksIndexList.Add(39);//alternating lock
 
 
@@ -165,5 +169,13 @@ public class TileStacksModelManager : MonoBehaviour
             index = unlocksIndexList.FindIndex(x => x.Equals(currLevelIndex));
 
         return index;
+    }
+
+    public Sprite GetStackCover(bool accum)
+    {
+        if (accum)
+            return stackCoverAccum;
+        else
+            return stackCoverSingle;
     }
 }
