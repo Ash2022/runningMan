@@ -26,6 +26,8 @@ public class TileStacksUIManager : MonoBehaviour
     [SerializeField] GameObject counterEffectPrefab;
     [SerializeField] GameObject wordEffectPrefab;
 
+    [SerializeField] Material bgMaterial;
+
     public bool spriteCombo;
 
     public Transform DynamicUIElementsHolder { get => dynamicUIElementsHolder; set => dynamicUIElementsHolder = value; }
@@ -34,6 +36,8 @@ public class TileStacksUIManager : MonoBehaviour
     {
         levelText.text = "LEVEL "+(levelIndex+1).ToString();
         SetTurns(levelData.numTurns);
+
+        bgMaterial.mainTexture = TileStacksModelManager.Instance.GetBGSprite((levelIndex / 4) % 4);
     }
 
     public void SetTurns(int turns)
@@ -46,7 +50,7 @@ public class TileStacksUIManager : MonoBehaviour
         if (show)
         {
             levelText.text = "";
-            turnsText.text = "";
+            turnsText.text = ""; 
 
             if (imageIndex == 0)
                 tutorialImageView.ShowTutorial(tutorialImages[0]);
@@ -55,13 +59,13 @@ public class TileStacksUIManager : MonoBehaviour
                 Sprite auxImage = null;
 
                 if (imageIndex == 1)
-                    auxImage=TileStacksModelManager.Instance.GetLocksIndication(3);
+                    auxImage=TileStacksModelManager.Instance.GetUnlockedColorSprite(0);
                 else if(imageIndex == 3)
-                    auxImage = TileStacksModelManager.Instance.GetLocksIndication(4);
+                    auxImage = TileStacksModelManager.Instance.GetUnlockedColorSprite(1);
                 else if(imageIndex == 5)
-                    auxImage = TileStacksModelManager.Instance.GetLocksIndication(5);
+                    auxImage = TileStacksModelManager.Instance.GetUnlockedColorSprite(2);
                 else if(imageIndex == 7)
-                    auxImage = TileStacksModelManager.Instance.GetLocksIndication(6);
+                    auxImage = TileStacksModelManager.Instance.GetUnlockedColorSprite(3);
 
                 tutorialImageView.ShowTutorial(tutorialImages[imageIndex],auxImage);
             }
@@ -156,8 +160,8 @@ public class TileStacksUIManager : MonoBehaviour
 
                     float startY = effectRect.localPosition.y;
 
-                    effectRect.DOLocalMoveY(startY + 300, 1.15f).SetEase(Ease.OutBack);
-                    effectRect.DOLocalMoveX(0, 1.15f).SetEase(Ease.OutCirc);
+                    effectRect.DOLocalMoveY(startY + 380, 1.15f).SetEase(Ease.OutBack);
+                    effectRect.DOLocalMoveX(0, 1.15f).SetEase(Ease.OutExpo);
 
 
 
@@ -168,7 +172,7 @@ public class TileStacksUIManager : MonoBehaviour
                             Destroy(wordEffectGO);
                         });
                     });
-                    effectRect.DOScale(1.15f, 0.95f).SetEase(Ease.OutCirc);
+                    effectRect.DOScale(1.15f, 0.95f).SetEase(Ease.OutExpo);
                 }
 
 
@@ -204,20 +208,20 @@ public class TileStacksUIManager : MonoBehaviour
         }
 
         // Define thresholds and return index based on the range
-        if (currentCombo > 48) return 14; // Sublime
-        if (currentCombo > 46) return 13; // Celestial
-        if (currentCombo > 44) return 12; // Glorious
-        if (currentCombo > 42) return 11; // Cosmic
-        if (currentCombo > 40) return 10; // Universal
-        if (currentCombo > 38) return 9; // Infinite
-        if (currentCombo > 35) return 8;  // Godlike
-        if (currentCombo > 33) return 7;  // Legendary
-        if (currentCombo > 30) return 6;  // Epic
-        if (currentCombo > 27) return 5;  // Enormous
-        if (currentCombo > 24) return 4;  // Colossal
-        if (currentCombo > 20) return 3;  // Gigantic
-        if (currentCombo > 16) return 2;  // Massive
-        if (currentCombo > 12) return 1;   // Huge
+        if (currentCombo > 73) return 14; // Sublime
+        if (currentCombo > 69) return 13; // Celestial
+        if (currentCombo > 65) return 12; // Glorious
+        if (currentCombo > 61) return 11; // Cosmic
+        if (currentCombo > 57) return 10; // Universal
+        if (currentCombo > 53) return 9; // Infinite
+        if (currentCombo > 48) return 8;  // Godlike
+        if (currentCombo > 43) return 7;  // Legendary
+        if (currentCombo > 38) return 6;  // Epic
+        if (currentCombo > 33) return 5;  // Enormous
+        if (currentCombo > 28) return 4;  // Colossal
+        if (currentCombo > 23) return 3;  // Gigantic
+        if (currentCombo > 18) return 2;  // Massive
+        if (currentCombo > 13) return 1;   // Huge
         if (currentCombo > MIN_COMBO_FOR_WORD) return 0;   // Big
 
         return 0; // Default case, should never be reached
@@ -234,26 +238,21 @@ public class TileStacksUIManager : MonoBehaviour
         //Celestial
         //Glorious
 
-        if (currentCombo > 50)
-        {
-            return "Sublime"; // Block Party
-        }
-
         // Define thresholds and return index based on the range
-        if (currentCombo > 48) return "Sublime";
-        if (currentCombo > 46) return "Celestial";
-        if (currentCombo > 44) return "Glorious";
-        if (currentCombo > 42) return "Cosmic";
-        if (currentCombo > 40) return "Universal";
-        if (currentCombo > 38) return "Infinite";
-        if (currentCombo > 35) return "Godlike";
-        if (currentCombo > 33) return "Legendary";
-        if (currentCombo > 30) return "Epic";
-        if (currentCombo > 27) return "Enormous";
-        if (currentCombo > 24) return "Colossal";
-        if (currentCombo > 20) return "Gigantic";
-        if (currentCombo > 16) return "Massive";
-        if (currentCombo > 12) return "Huge";
+        if (currentCombo > 73) return "Sublime";
+        if (currentCombo > 69) return "Celestial";
+        if (currentCombo > 65) return "Glorious";
+        if (currentCombo > 61) return "Cosmic";
+        if (currentCombo > 57) return "Universal";
+        if (currentCombo > 53) return "Infinite";
+        if (currentCombo > 48) return "Godlike";
+        if (currentCombo > 43) return "Legendary";
+        if (currentCombo > 38) return "Epic";
+        if (currentCombo > 33) return "Enormous";
+        if (currentCombo > 28) return "Colossal";
+        if (currentCombo > 23) return "Gigantic";
+        if (currentCombo > 18) return "Massive";
+        if (currentCombo > 13) return "Huge";
         if (currentCombo > MIN_COMBO_FOR_WORD) return "Big";   // Big
 
         return ""; // Default case, should never be reached

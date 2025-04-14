@@ -1,8 +1,11 @@
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
 public class TileStacksLevelVisualizer : MonoBehaviour
 {
+    public const float OFF_SCREEN_EXTRA_Y = 15f;
+
     [SerializeField] private Transform levelRoot;
     [SerializeField] private GameObject tilePrefab;
     [SerializeField] private Vector3 offset;
@@ -10,6 +13,8 @@ public class TileStacksLevelVisualizer : MonoBehaviour
     [SerializeField] private Transform uiRoot;
     [SerializeField] private GameObject buttonPrefab;
     [SerializeField] private GameObject stackViewPrefab;
+
+    [SerializeField] private GameObject stackClearIndication;
 
     List<TileStacksColorButtonView> tileStacksColorButtonViews = new List<TileStacksColorButtonView>();
 
@@ -48,12 +53,34 @@ public class TileStacksLevelVisualizer : MonoBehaviour
             Destroy(child.gameObject);
         }
 
+        int width = 5;
+        int height = 4;
+        float worldX;
+        float worldZ;
+
+        int validStacksCounter = 0;
+
+        //add empty indications
+        for (int i = 0; i < width; i++)
+        {
+            for (int j = 0; j < height; j++)
+            {
+                worldX = -2f + i * xSpacing;
+                worldZ = -6f + j * zSpacing;
+
+                GameObject stackRoot = Instantiate(stackClearIndication, levelRoot);
+                stackRoot.transform.position = new Vector3(worldX + offset.x, offset.y, worldZ + offset.z);
+
+                //Vector3 localPos = new Vector3(0, j * verticalStackOffset, 0);
+            }
+        }
+
         foreach (var stack in data.stacks)
         {
             List<TileStacksTileView> stackViews = new List<TileStacksTileView>();
 
-            float worldX = -2f + stack.position.x * xSpacing;
-            float worldZ = -6f + stack.position.y * zSpacing;
+            worldX = -2f + stack.position.x * xSpacing;
+            worldZ = -6f + stack.position.y * zSpacing;
 
             // Create a stack container
             GameObject stackRoot = Instantiate(stackViewPrefab, levelRoot);
@@ -64,9 +91,17 @@ public class TileStacksLevelVisualizer : MonoBehaviour
 
             allStackViews.Add(stackView);
 
+            float baseIncrement = TileStacksGameManager.TILES_FLY_DELAY / 3f ;
+            float decayRate = 0.9f;
+            float cumulativeDelay = 0f + (validStacksCounter * 0.035f);
+            float increment = 0.01f;
+
+            validStacksCounter++;
+
             for (int j = 0; j < stack.tiles.Count; j++)
             {
-                Vector3 localPos = new Vector3(0, j * verticalStackOffset, 0);
+
+                Vector3 localPos = new Vector3(0, (j+1)   * verticalStackOffset+ increment * 20, 0);
 
                 GameObject tileGO = Instantiate(tilePrefab, stackRoot.transform);
                 tileGO.transform.localPosition = localPos;
@@ -74,8 +109,15 @@ public class TileStacksLevelVisualizer : MonoBehaviour
                 TileStacksTileView view = tileGO.GetComponent<TileStacksTileView>();
                 view.SetColor(stack.tiles[j]);
 
+                view.DelayShowMe(0.3f, j * verticalStackOffset,cumulativeDelay);
+
                 stackViews.Add(view);
+
+                increment = baseIncrement * Mathf.Pow(decayRate, j);
+                cumulativeDelay += increment;
             }
+
+            stackView.ShowCoverIfApplicapble(cumulativeDelay);
 
             // Detect and mark hidden tile batches
             for (int j = stack.tiles.Count - 1; j >= 0; j--)

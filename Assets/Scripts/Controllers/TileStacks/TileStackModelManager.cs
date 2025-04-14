@@ -22,8 +22,12 @@ public class TileStacksModelManager : MonoBehaviour
     [SerializeField] List<Sprite> unlockBGs = new List<Sprite>();
     [SerializeField] List<Sprite> unlockFills = new List<Sprite>();
 
+    [SerializeField]List<Sprite> unlockColorsSprites = new List<Sprite>();
+
     [SerializeField] Sprite stackCoverAccum;
     [SerializeField] Sprite stackCoverSingle;
+
+    [SerializeField]List<Texture> bgs = new List<Texture>();
 
 
     [SerializeField] private List<TextAsset> levelFiles;
@@ -177,5 +181,15 @@ public class TileStacksModelManager : MonoBehaviour
             return stackCoverAccum;
         else
             return stackCoverSingle;
+    }
+
+    public Sprite GetUnlockedColorSprite(int index)
+    {
+        return unlockColorsSprites[index];
+    }
+
+    public Texture GetBGSprite(int index)
+    {
+        return bgs[index];
     }
 }

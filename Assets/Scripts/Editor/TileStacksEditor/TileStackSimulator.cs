@@ -7,7 +7,8 @@ public class SimulationReport
     public int successes;
     public int failures;
     public int totalStepsInWins;
-    public int bestStepsInWin = int.MaxValue;
+    public int bestStepsInWin;
+    public int worstStepsInWin;
 
     public float AverageStepsInWins => successes > 0 ? (float)totalStepsInWins / successes : 0f;
 }
@@ -20,6 +21,7 @@ public static class TileStacksSimulator
         int failure = 0;
         int totalStepsInWins = 0;
         int bestStepsInWin = int.MaxValue;
+        int worstStepsInWin = int.MinValue;
 
         for (int i = 0; i < iterations; i++)
         {
@@ -28,8 +30,12 @@ public static class TileStacksSimulator
             {
                 success++;
                 totalStepsInWins += stepsUsed;
+
                 if (stepsUsed < bestStepsInWin)
                     bestStepsInWin = stepsUsed;
+
+                if (stepsUsed > worstStepsInWin)
+                    worstStepsInWin = stepsUsed;
             }
             else
             {
@@ -42,9 +48,11 @@ public static class TileStacksSimulator
             successes = success,
             failures = failure,
             totalStepsInWins = totalStepsInWins,
-            bestStepsInWin = success > 0 ? bestStepsInWin : 0
+            bestStepsInWin = success > 0 ? bestStepsInWin : 0,
+            worstStepsInWin = success > 0 ? worstStepsInWin : 0
         };
     }
+
 
     private static bool SimulateOne(TilesStacksLevelData original, out int stepsUsed)
     {

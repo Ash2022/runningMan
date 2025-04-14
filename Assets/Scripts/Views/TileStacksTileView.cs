@@ -12,10 +12,11 @@ public class TileStacksTileView : MonoBehaviour
     TileData tileData;
     public int stackIndex;
 
-    GameObject hiddenIndication = null;
+    [SerializeField]GameObject hiddenIndication;
 
     internal void SetColor(TileData _tileData)
     {
+        gameObject.SetActive(false);
         tileData = _tileData;
 
         if (tileData.startHidden)
@@ -28,8 +29,7 @@ public class TileStacksTileView : MonoBehaviour
     {
         SoundsManager.Instance.HiddenTileUnlocked();
 
-        if (hiddenIndication != null)
-            Destroy(hiddenIndication);
+        hiddenIndication.SetActive(false);
 
         DoTileParticles();
 
@@ -100,11 +100,29 @@ public class TileStacksTileView : MonoBehaviour
         //hiddenBatchSize = size;
         //ShowHiddenBatchVisual(size); // Your own method to show visuals
 
-        hiddenIndication = TileStacksGameManager.Instance.UiManager.GenerateHiddenTilesIndication(transform.position - new Vector3(0,TileStacksGameManager.TILES_VERTICAL_OFFSET*size/2f,0));
+        hiddenIndication.SetActive(true);
+
+        hiddenIndication.transform.localPosition = new Vector3(0,-0.6f, TileStacksGameManager.TILES_VERTICAL_OFFSET * size / 5f); //= TileStacksGameManager.Instance.UiManager.GenerateHiddenTilesIndication(transform.position - new Vector3(0,TileStacksGameManager.TILES_VERTICAL_OFFSET*size/2f,0));
     }
 
     public int GetTileColorIndex()
     {
         return tileData.colorIndex;
+    }
+
+    internal void DelayShowMe(float moveTime,float targetY,float startDelay)
+    {
+        
+        transform.DOLocalMoveY(targetY, moveTime).SetDelay(startDelay).OnStart(()=>
+        {
+            gameObject.SetActive(true);
+        });
+
+        //Invoke("ShowMe",delay);
+    }
+
+    private void ShowMe()
+    {
+        gameObject.SetActive(true);
     }
 }

@@ -53,12 +53,12 @@ public class SoundsManager : MonoBehaviour
 
     public void StackUnlcoked()
     {
-        PlayClip(_stackUnlocked);
+        PlayClip(_stackUnlocked,0.5f);
     }
 
     public void HiddenTileUnlocked()
     {
-        PlayClip(_tileHiddenUnlocked);
+        PlayClip(_tileHiddenUnlocked, 0.5f);
     }
 
     public void TileHitButton()

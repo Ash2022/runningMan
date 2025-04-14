@@ -145,7 +145,7 @@ public class TileStacksEditorWindow : EditorWindow
 
             simulationReport = TileStacksSimulator.RunSimulations(level, simulationIterations);
             Debug.Log($"Simulation Results: Successes = {simulationReport.successes}, Failures = {simulationReport.failures}," +
-                $" Avg Steps in Wins = {simulationReport.AverageStepsInWins:F2},Best = {simulationReport.bestStepsInWin}");
+                $" Avg Steps in Wins = {simulationReport.AverageStepsInWins:F2},Best = {simulationReport.bestStepsInWin},Worst = {simulationReport.worstStepsInWin}");
         }
 
         EditorGUILayout.LabelField("Edit Tiles", EditorStyles.boldLabel);

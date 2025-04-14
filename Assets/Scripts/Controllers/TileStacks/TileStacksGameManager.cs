@@ -1,12 +1,14 @@
-﻿using System;
+﻿using DG.Tweening;
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
+using TMPro;
 using UnityEngine;
 
 public class TileStacksGameManager : MonoBehaviour
 {
-    public const int LOOP_SIZE = 30;
+    public const int LOOP_SIZE = 50;
 
     const float BASE_DESTROY_DELAY = 0.075f;
     const float DESTORY_DELAY_FALLOUT_RATE = 0.95f;
@@ -14,7 +16,7 @@ public class TileStacksGameManager : MonoBehaviour
     
     public const float TILES_FLY_DELAY = 0.1f;
     public const float TILES_FLY_TIME = 0.5f;
-    const float FLY_DELAY_FALLOUT_RATE = 0.95f;
+    public const float FLY_DELAY_FALLOUT_RATE = 0.95f;
 
 
     public const float TILES_VERTICAL_OFFSET = 0.075f;
@@ -30,6 +32,11 @@ public class TileStacksGameManager : MonoBehaviour
     private List<List<TileStacksTileView>> activeTiles;
     private TilesStacksLevelData activeLevel;
     private List<TileStacksStackView> stackViews;
+    public GameObject splashScreen;
+    public TMP_Text splashText;
+
+    [SerializeField] Texture2D _handTexture;
+    public bool recordingMode;
 
     public int levelIndex=0;
     bool gameActive = false;
@@ -52,27 +59,25 @@ public class TileStacksGameManager : MonoBehaviour
 
     private void Start()
     {
+        //PlayerPrefs.DeleteAll();
+
         Init();
 
-        if (levelIndex == -1)
-        {
-            levelIndex = TileStacksModelManager.Instance.GetLastPlayedLevel();
-
-            levelIndex++;
-
-        }
-
-        if(levelIndex == 0)
-        {
-            uiManager.ShowTutorialImage(true, levelIndex);            
-        }
-        else
-            BuildLevel();
+        
     }
 
-    private void Init()
+    private async void Init()
     {
+
+#if UNITY_EDITOR
+        if (recordingMode)
+            Cursor.SetCursor(_handTexture, Vector2.zero, CursorMode.ForceSoftware);
+#endif
+
+        DOTween.SetTweensCapacity(500,50);
         Application.targetFrameRate = 60;
+
+        splashScreen.SetActive(true);
 
         TileStacksModelManager.Instance.Init();
 
@@ -88,8 +93,32 @@ public class TileStacksGameManager : MonoBehaviour
 
         Debug.Log($"[Ortho Adjust] Aspect: {targetAspect:F3}, Adjusted OrthoSize: {adjustedOrthoSize:F2}");
 
+        TinySauce.SubscribeOnInitFinishedEvent((param1, param2) =>
+        {
+            if (levelIndex == -1)
+            {
+                levelIndex = TileStacksModelManager.Instance.GetLastPlayedLevel();
+
+                levelIndex++;
+
+            }
+
+            if (levelIndex == 0)
+            {
+                splashScreen.SetActive(false);
+                uiManager.ShowTutorialImage(true, levelIndex);
+            }
+            else
+                splashText.text = "CLICK TO CONTINUE";
+        });
+
     }
 
+    public void SplashClicked()
+    {
+        splashScreen.SetActive(false);
+        BuildLevel();
+    }
 
     public void BuildLevel()
     {
@@ -103,6 +132,8 @@ public class TileStacksGameManager : MonoBehaviour
         if(activeLevel.alternateLocking)
             ApplyInitialAlternateButtonLocks();
 
+        TinySauce.OnGameStarted(levelIndex + 1);
+
         uiManager.InitLevel(activeLevel,levelIndex);
         gameActive = true;
     }
@@ -112,7 +143,7 @@ public class TileStacksGameManager : MonoBehaviour
 
     public void OnColorButtonClicked(int colorID, int buttonIndex, TileStacksColorButtonView clickedButton)
     {
-        if (!gameActive)
+        if (!gameActive || activeLevel.numTurns<=0)
             return;
 
         if (activeLevel.alternateLocking)
@@ -138,7 +169,7 @@ public class TileStacksGameManager : MonoBehaviour
         if (!hasMatchingTopTile)
         {
             Debug.Log("No matching top tiles for color " + colorID + " — skipping.");
-            clickedButton.ShowButton();
+            clickedButton.SetButtonBackToUnclicked(500);
             SoundsManager.Instance.ButtonClick(false);
             activeLevel.numTurns--;
             uiManager.SetTurns(activeLevel.numTurns);
@@ -312,8 +343,10 @@ public class TileStacksGameManager : MonoBehaviour
 
             bool win = allCleared;
 
-            if (activeLevel.numTurns <= 0 || levelCannotComplete)
+            if ((activeLevel.numTurns <= 0 || levelCannotComplete)&& (win == false))
                 win = false;
+
+            TinySauce.OnGameFinished(win,activeLevel.numTurns);
 
             gameOverView.InitEndScreen(win, levelCannotComplete, levelIndex, () =>
             {
@@ -619,7 +652,7 @@ public class TileStacksGameManager : MonoBehaviour
                 if (pendingCallbacks == 0)
                 {
                     Debug.Log("All tile animations complete.");
-                    clickedButton.ShowButton();
+                    clickedButton.SetButtonBackToUnclicked(0);
 
                     AnimateDestroyParticles(flights, clickedButton, animCompleteCounter);
                 }

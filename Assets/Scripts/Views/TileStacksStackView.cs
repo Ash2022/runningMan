@@ -10,7 +10,7 @@ public class TileStacksStackView : MonoBehaviour
     [SerializeField] private SpriteRenderer lockColor;
     [SerializeField] private SpriteRenderer lockDataBG;
     [SerializeField] private TMP_Text lockCounter;
-
+    Color transparent = new Color(1,1,1,0);
     StackData data;
 
     int lockValue = 0;
@@ -21,7 +21,7 @@ public class TileStacksStackView : MonoBehaviour
 
         if (data.lockCount > 0)
         {
-            lockIndicator.SetActive(true);
+            lockIndicator.SetActive(false);
 
             var (pos, scaleY) = GetLockCoverTransform(data.tiles.Count);
             lockIndicator.transform.localPosition = pos;
@@ -48,6 +48,40 @@ public class TileStacksStackView : MonoBehaviour
         }
     }
 
+
+    public void ShowCoverIfApplicapble(float delay)
+    {
+        if (data.lockCount > 0)
+        {
+            Invoke("FadeCoverIn", delay);
+        }
+    }
+
+    private void FadeCoverIn()
+    {
+        lockIndicationBG.color = transparent;
+        lockColor.color = transparent;
+        lockDataBG.color = transparent;
+        lockCounter.color = transparent;
+
+        lockIndicator.SetActive(true);
+
+
+        lockIndicationBG.DOFade(1, 1f);
+        lockColor.DOFade(1, 1f);
+        lockDataBG.DOFade(1, 1f);
+        lockCounter.DOFade(1, 1f);
+
+        float targetY = lockIndicator.transform.localPosition.y;
+
+        lockIndicator.transform.localPosition = new Vector3(lockIndicator.transform.localPosition.x, lockIndicator.transform.localPosition.y + 3, lockIndicator.transform.localPosition.z);
+
+        lockIndicator.transform.DOLocalMoveY(targetY, 1).OnComplete(() =>
+        {
+            //lockIndicator.SetActive(false);
+        });
+
+    }
 
     public (Vector3 position, float yScale) GetLockCoverTransform(int numTiles)
     {

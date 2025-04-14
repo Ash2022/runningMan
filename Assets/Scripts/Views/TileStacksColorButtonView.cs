@@ -1,4 +1,5 @@
 using System;
+using System.Threading.Tasks;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
@@ -47,8 +48,10 @@ public class TileStacksColorButtonView : MonoBehaviour
         startCounterValue = TileStacksGameManager.Instance.GetButtonsCollected(colorID);
     }
 
-    public void ShowButton()
+    public async void SetButtonBackToUnclicked(int delayMS)
     {
+        await Task.Delay(delayMS);
+
         SoundsManager.Instance.PlayHaptics(SoundsManager.TapticsStrenght.Medium);
         buttonImage.sprite = TileStacksModelManager.Instance.GetButtonImage(colorID, isLocked);
         buttonClickForwarder.EndableDisableButton(true);
