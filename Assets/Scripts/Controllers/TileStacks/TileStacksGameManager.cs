@@ -87,11 +87,15 @@ public class TileStacksGameManager : MonoBehaviour
         float targetAspect = Camera.main.aspect;
 
         // Adjust orthographic size based on aspect
-        float adjustedOrthoSize = baselineOrthoSize * (baselineAspect / targetAspect);
 
-        Camera.main.orthographicSize = adjustedOrthoSize;
+        if(targetAspect<baselineAspect)
+        {
+            float adjustedOrthoSize = baselineOrthoSize * (baselineAspect / targetAspect);
 
-        Debug.Log($"[Ortho Adjust] Aspect: {targetAspect:F3}, Adjusted OrthoSize: {adjustedOrthoSize:F2}");
+            Camera.main.orthographicSize = adjustedOrthoSize;
+            Debug.Log($"[Ortho Adjust] Aspect: {targetAspect:F3}, Adjusted OrthoSize: {adjustedOrthoSize:F2}");
+        }
+
 
         TinySauce.SubscribeOnInitFinishedEvent((param1, param2) =>
         {
@@ -708,7 +712,9 @@ public class TileStacksGameManager : MonoBehaviour
         float aspectDelta = targetAspect - baselineAspect;
 
         float adjustedZ = baselineZ + (zPerAspectUnit * aspectDelta);
-        return adjustedZ;
+
+
+        return Mathf.Min(adjustedZ,baselineZ);
     }
 
 }
