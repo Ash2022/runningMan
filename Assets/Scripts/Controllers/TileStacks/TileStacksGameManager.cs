@@ -350,7 +350,7 @@ public class TileStacksGameManager : MonoBehaviour
             if ((activeLevel.numTurns <= 0 || levelCannotComplete)&& (win == false))
                 win = false;
 
-            TinySauce.OnGameFinished(win,activeLevel.numTurns);
+            TinySauce.OnGameFinished(win,activeLevel.numTurns,levelIndex+1);
 
             gameOverView.InitEndScreen(win, levelCannotComplete, levelIndex, () =>
             {
@@ -383,16 +383,7 @@ public class TileStacksGameManager : MonoBehaviour
 
     private bool IsLevelUnwinnableDueToLocks()
     {
-        int[] remainingColorCounts = new int[9];
-
-        // Count all remaining visible tiles
-        foreach (var stack in activeLevel.stacks)
-        {
-            foreach (var tile in stack.tiles)
-            {
-                remainingColorCounts[tile.colorIndex]++;
-            }
-        }
+        
 
         foreach (var stack in activeLevel.stacks)
         {
@@ -403,13 +394,46 @@ public class TileStacksGameManager : MonoBehaviour
             if (!stack.isLocked)
                 continue;
 
+            //count the remaining tiles
+
+            int[] remainingColorCounts = new int[9];
+
+            // Count all remaining visible tiles
+            foreach (var stack2 in activeLevel.stacks)
+            {
+                //exclude the locked stack
+                if (stack == stack2)
+                    continue;
+
+                foreach (var tile in stack2.tiles)
+                {
+                    remainingColorCounts[tile.colorIndex]++;
+                }
+            }
+
             if (stack.lockColor == -1)
             {
-                int totalRemaining = remainingColorCounts.Sum();
-                if (totalRemaining < stack.lockCount)
+                if(stack.lockType == LockType.Accum)
                 {
-                    Debug.Log($"[Unwinnable] Stack requires {stack.lockCount} of ANY color, but only {totalRemaining} tiles remain.");
-                    return true;
+                    int totalRemaining = remainingColorCounts.Sum();
+                    if (totalRemaining < stack.lockCount)
+                    {
+                        Debug.Log($"[Unwinnable] Stack requires {stack.lockCount} of ANY color, but only {totalRemaining} tiles remain.");
+                        return true;
+                    }
+                }
+                else
+                {
+                    //lock type is single of any color
+                    bool anyPossibleMatch = false;
+
+                    for (int i = 0; i < remainingColorCounts.Length; i++)
+                    {
+                        if(stack.lockCount <= remainingColorCounts[i])
+                            anyPossibleMatch = true;
+                    }
+
+                    return !anyPossibleMatch;
                 }
             }
             else
@@ -470,17 +494,33 @@ public class TileStacksGameManager : MonoBehaviour
         int numItems = levelVisualizer.LevelRoot.childCount - 1;
 
         for (int i = numItems; i >= 0; i--)
-            Destroy(levelVisualizer.LevelRoot.GetChild(i).gameObject);
+        {
+            Transform child = levelVisualizer.LevelRoot.GetChild(i);
+
+            if(child != null)
+                Destroy(child.gameObject);
+        }
 
         int numItems2 = levelVisualizer.UiRoot.childCount - 1;
 
-        for (int i = numItems2; i >= 0; i--)
-            Destroy(levelVisualizer.UiRoot.GetChild(i).gameObject);
+        for (int i = numItems2; i >= 0; i--)        {
+
+            Transform child = levelVisualizer.UiRoot.GetChild(i);
+
+            if (child != null)
+                Destroy(child.gameObject);
+
+        }
 
         int numItems3 = uiManager.DynamicUIElementsHolder.childCount - 1;
 
         for (int i = numItems3; i >= 0; i--)
-            Destroy(uiManager.DynamicUIElementsHolder.GetChild(i).gameObject);
+        {
+            Transform child = uiManager.DynamicUIElementsHolder.GetChild(i);
+
+            if (child != null)
+                Destroy(child.gameObject);
+        }
 
         activeTiles.Clear();
 
@@ -509,7 +549,10 @@ public class TileStacksGameManager : MonoBehaviour
             EndGameScreenClicked(true);
 
         if (Input.GetKeyUp(KeyCode.DownArrow))
+        {
+            levelIndex--;
             EndGameScreenClicked(false);
+        }
 
 
     }

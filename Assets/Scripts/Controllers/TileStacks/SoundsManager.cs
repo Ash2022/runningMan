@@ -53,12 +53,12 @@ public class SoundsManager : MonoBehaviour
 
     public void StackUnlcoked()
     {
-        PlayClip(_stackUnlocked,0.5f);
+        PlayClip(_stackUnlocked,0.25f);
     }
 
     public void HiddenTileUnlocked()
     {
-        PlayClip(_tileHiddenUnlocked, 0.5f);
+        PlayClip(_tileHiddenUnlocked, 0.25f);
     }
 
     public void TileHitButton()
@@ -113,9 +113,9 @@ public class SoundsManager : MonoBehaviour
         if (audio_source != null && audio_source.enabled == true)
         {
             audio_source.clip = clip;
-            audio_source.Play();
             audio_source.pitch = pitch;
             audio_source.volume = volume;
+            audio_source.Play();
         }
 
         return audio_source;
