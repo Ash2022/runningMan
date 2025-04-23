@@ -1,47 +1,47 @@
 {
   "alternateLocking": false,
-  "numTurns": 14,
+  "numTurns": 13,
   "stacks": [
     {
       "tiles": [
         {
           "colorIndex": 3,
-          "startHidden": false
+          "startHidden": true
         },
         {
           "colorIndex": 3,
-          "startHidden": false
+          "startHidden": true
         },
         {
           "colorIndex": 3,
-          "startHidden": false
+          "startHidden": true
         },
         {
           "colorIndex": 3,
-          "startHidden": false
+          "startHidden": true
         },
         {
           "colorIndex": 3,
-          "startHidden": false
+          "startHidden": true
         },
         {
           "colorIndex": 3,
-          "startHidden": false
+          "startHidden": true
         },
         {
           "colorIndex": 3,
-          "startHidden": false
+          "startHidden": true
         },
         {
           "colorIndex": 3,
-          "startHidden": false
+          "startHidden": true
         },
         {
           "colorIndex": 3,
-          "startHidden": false
+          "startHidden": true
         },
         {
-          "colorIndex": 3,
+          "colorIndex": 0,
           "startHidden": false
         }
       ],

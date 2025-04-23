@@ -322,34 +322,34 @@
         },
         {
           "colorIndex": 6,
-          "startHidden": false
+          "startHidden": true
         },
         {
           "colorIndex": 6,
-          "startHidden": false
+          "startHidden": true
         },
         {
           "colorIndex": 6,
-          "startHidden": false
+          "startHidden": true
         },
         {
           "colorIndex": 6,
-          "startHidden": false
+          "startHidden": true
         },
         {
           "colorIndex": 6,
+          "startHidden": true
+        },
+        {
+          "colorIndex": 2,
           "startHidden": false
         },
         {
-          "colorIndex": 6,
+          "colorIndex": 2,
           "startHidden": false
         },
         {
-          "colorIndex": 6,
-          "startHidden": false
-        },
-        {
-          "colorIndex": 6,
+          "colorIndex": 2,
           "startHidden": false
         },
         {

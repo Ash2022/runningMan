@@ -60,11 +60,11 @@ public class TileStacksUIManager : MonoBehaviour
 
                 if (imageIndex == 1)
                     auxImage=TileStacksModelManager.Instance.GetUnlockedColorSprite(0);
-                else if(imageIndex == 3)
+                else if(imageIndex == 4)
                     auxImage = TileStacksModelManager.Instance.GetUnlockedColorSprite(1);
-                else if(imageIndex == 5)
+                else if(imageIndex == 6)
                     auxImage = TileStacksModelManager.Instance.GetUnlockedColorSprite(2);
-                else if(imageIndex == 7)
+                else if(imageIndex == 8)
                     auxImage = TileStacksModelManager.Instance.GetUnlockedColorSprite(3);
 
                 tutorialImageView.ShowTutorial(tutorialImages[imageIndex],auxImage);

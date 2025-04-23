@@ -1,242 +1,85 @@
 {
-  "alternateLocking": false,
-  "numTurns": 16,
+  "numTurns": 17,
   "stacks": [
     {
       "tiles": [
+        {
+          "colorIndex": 3,
+          "startHidden": false
+        },
+        {
+          "colorIndex": 4,
+          "startHidden": false
+        },
+        {
+          "colorIndex": 4,
+          "startHidden": false
+        },
+        {
+          "colorIndex": 4,
+          "startHidden": false
+        },
+        {
+          "colorIndex": 4,
+          "startHidden": false
+        },
+        {
+          "colorIndex": 4,
+          "startHidden": false
+        },
+        {
+          "colorIndex": 4,
+          "startHidden": false
+        },
+        {
+          "colorIndex": 4,
+          "startHidden": false
+        },
+        {
+          "colorIndex": 4,
+          "startHidden": false
+        },
         {
           "colorIndex": 0,
           "startHidden": false
         },
         {
-          "colorIndex": 1,
+          "colorIndex": 0,
           "startHidden": false
         },
         {
-          "colorIndex": 1,
+          "colorIndex": 2,
           "startHidden": false
         },
         {
-          "colorIndex": 1,
+          "colorIndex": 2,
           "startHidden": false
         },
         {
-          "colorIndex": 1,
+          "colorIndex": 2,
           "startHidden": false
         },
         {
-          "colorIndex": 1,
+          "colorIndex": 2,
           "startHidden": false
         },
         {
-          "colorIndex": 1,
-          "startHidden": false
-        },
-        {
-          "colorIndex": 1,
-          "startHidden": false
-        },
-        {
-          "colorIndex": 1,
-          "startHidden": false
-        },
-        {
-          "colorIndex": 4,
-          "startHidden": false
-        },
-        {
-          "colorIndex": 4,
-          "startHidden": false
-        },
-        {
-          "colorIndex": 4,
-          "startHidden": false
-        },
-        {
-          "colorIndex": 4,
-          "startHidden": false
-        },
-        {
-          "colorIndex": 4,
+          "colorIndex": 2,
           "startHidden": false
         }
       ],
       "position": {
         "x": 0.0,
-        "y": 0.0,
-        "magnitude": 0.0,
-        "sqrMagnitude": 0.0
-      },
-      "lockColor": 0,
-      "lockCount": 0,
-      "lockType": 0,
-      "isLocked": false
-    },
-    {
-      "tiles": [
-        {
-          "colorIndex": 5,
-          "startHidden": false
-        },
-        {
-          "colorIndex": 5,
-          "startHidden": false
-        },
-        {
-          "colorIndex": 5,
-          "startHidden": false
-        },
-        {
-          "colorIndex": 5,
-          "startHidden": false
-        },
-        {
-          "colorIndex": 5,
-          "startHidden": false
-        },
-        {
-          "colorIndex": 5,
-          "startHidden": false
-        },
-        {
-          "colorIndex": 5,
-          "startHidden": false
-        },
-        {
-          "colorIndex": 5,
-          "startHidden": false
-        },
-        {
-          "colorIndex": 5,
-          "startHidden": false
-        },
-        {
-          "colorIndex": 5,
-          "startHidden": false
-        },
-        {
-          "colorIndex": 1,
-          "startHidden": false
-        },
-        {
-          "colorIndex": 1,
-          "startHidden": false
-        },
-        {
-          "colorIndex": 1,
-          "startHidden": false
-        },
-        {
-          "colorIndex": 1,
-          "startHidden": false
-        }
-      ],
-      "position": {
-        "x": 1.0,
-        "y": 0.0,
+        "y": 1.0,
         "magnitude": 1.0,
         "sqrMagnitude": 1.0
       },
-      "lockColor": 0,
-      "lockCount": 0,
-      "lockType": 0,
-      "isLocked": false
+      "lockCount": 10,
+      "lockColor": 3
     },
     {
       "tiles": [
         {
-          "colorIndex": 4,
-          "startHidden": true
-        },
-        {
-          "colorIndex": 4,
-          "startHidden": true
-        },
-        {
-          "colorIndex": 4,
-          "startHidden": true
-        },
-        {
-          "colorIndex": 4,
-          "startHidden": true
-        },
-        {
-          "colorIndex": 4,
-          "startHidden": true
-        },
-        {
-          "colorIndex": 4,
-          "startHidden": true
-        },
-        {
-          "colorIndex": 4,
-          "startHidden": true
-        },
-        {
-          "colorIndex": 4,
-          "startHidden": true
-        },
-        {
-          "colorIndex": 4,
-          "startHidden": true
-        },
-        {
-          "colorIndex": 4,
-          "startHidden": false
-        },
-        {
-          "colorIndex": 4,
-          "startHidden": false
-        },
-        {
-          "colorIndex": 4,
-          "startHidden": false
-        },
-        {
-          "colorIndex": 4,
-          "startHidden": false
-        },
-        {
-          "colorIndex": 4,
-          "startHidden": false
-        }
-      ],
-      "position": {
-        "x": 2.0,
-        "y": 0.0,
-        "normalized": {
-          "x": 1.0,
-          "y": 0.0,
-          "magnitude": 1.0,
-          "sqrMagnitude": 1.0
-        },
-        "magnitude": 2.0,
-        "sqrMagnitude": 4.0
-      },
-      "lockColor": 5,
-      "lockCount": 20,
-      "lockType": 0,
-      "isLocked": false
-    },
-    {
-      "tiles": [
-        {
-          "colorIndex": 2,
-          "startHidden": false
-        },
-        {
-          "colorIndex": 2,
-          "startHidden": false
-        },
-        {
-          "colorIndex": 2,
-          "startHidden": false
-        },
-        {
-          "colorIndex": 2,
-          "startHidden": false
-        },
-        {
           "colorIndex": 5,
           "startHidden": false
         },
@@ -248,88 +91,36 @@
           "colorIndex": 5,
           "startHidden": false
         },
-        {
-          "colorIndex": 5,
-          "startHidden": false
-        },
-        {
-          "colorIndex": 5,
-          "startHidden": false
-        },
-        {
-          "colorIndex": 2,
-          "startHidden": false
-        },
-        {
-          "colorIndex": 2,
-          "startHidden": false
-        },
-        {
-          "colorIndex": 2,
-          "startHidden": false
-        },
-        {
-          "colorIndex": 4,
-          "startHidden": false
-        },
-        {
-          "colorIndex": 4,
-          "startHidden": false
-        }
-      ],
-      "position": {
-        "x": 3.0,
-        "y": 0.0,
-        "normalized": {
-          "x": 1.0,
-          "y": 0.0,
-          "magnitude": 1.0,
-          "sqrMagnitude": 1.0
-        },
-        "magnitude": 3.0,
-        "sqrMagnitude": 9.0
-      },
-      "lockColor": 0,
-      "lockCount": 0,
-      "lockType": 0,
-      "isLocked": false
-    },
-    {
-      "tiles": [
         {
           "colorIndex": 0,
           "startHidden": false
         },
         {
-          "colorIndex": 6,
+          "colorIndex": 0,
           "startHidden": false
         },
         {
-          "colorIndex": 6,
+          "colorIndex": 0,
           "startHidden": false
         },
         {
-          "colorIndex": 6,
+          "colorIndex": 3,
           "startHidden": false
         },
         {
-          "colorIndex": 6,
+          "colorIndex": 3,
           "startHidden": false
         },
         {
-          "colorIndex": 6,
+          "colorIndex": 3,
           "startHidden": false
         },
         {
-          "colorIndex": 6,
+          "colorIndex": 3,
           "startHidden": false
         },
         {
-          "colorIndex": 6,
-          "startHidden": false
-        },
-        {
-          "colorIndex": 6,
+          "colorIndex": 3,
           "startHidden": false
         },
         {
@@ -341,91 +132,15 @@
           "startHidden": false
         },
         {
-          "colorIndex": 6,
+          "colorIndex": 1,
           "startHidden": false
         },
         {
-          "colorIndex": 6,
+          "colorIndex": 1,
           "startHidden": false
         },
         {
-          "colorIndex": 6,
-          "startHidden": false
-        }
-      ],
-      "position": {
-        "x": 4.0,
-        "y": 0.0,
-        "normalized": {
-          "x": 1.0,
-          "y": 0.0,
-          "magnitude": 1.0,
-          "sqrMagnitude": 1.0
-        },
-        "magnitude": 4.0,
-        "sqrMagnitude": 16.0
-      },
-      "lockColor": 0,
-      "lockCount": 0,
-      "lockType": 0,
-      "isLocked": false
-    },
-    {
-      "tiles": [
-        {
-          "colorIndex": 5,
-          "startHidden": false
-        },
-        {
-          "colorIndex": 5,
-          "startHidden": false
-        },
-        {
-          "colorIndex": 5,
-          "startHidden": false
-        },
-        {
-          "colorIndex": 5,
-          "startHidden": false
-        },
-        {
-          "colorIndex": 0,
-          "startHidden": false
-        },
-        {
-          "colorIndex": 0,
-          "startHidden": false
-        },
-        {
-          "colorIndex": 0,
-          "startHidden": false
-        },
-        {
-          "colorIndex": 0,
-          "startHidden": false
-        },
-        {
-          "colorIndex": 0,
-          "startHidden": false
-        },
-        {
-          "colorIndex": 0,
-          "startHidden": false
-        },
-        {
-          "colorIndex": 0,
-          "startHidden": false
-        },
-        {
-          "colorIndex": 0,
-          "startHidden": false
-        },
-        {
-          "colorIndex": 0,
-          "startHidden": false
-        },
-        {
-          "colorIndex": 0,
+          "colorIndex": 1,
           "startHidden": false
         }
       ],
@@ -441,13 +156,47 @@
         "magnitude": 1.41421354,
         "sqrMagnitude": 2.0
       },
-      "lockColor": 0,
       "lockCount": 0,
-      "lockType": 0,
-      "isLocked": false
+      "lockColor": 0
     },
     {
       "tiles": [
+        {
+          "colorIndex": 2,
+          "startHidden": false
+        },
+        {
+          "colorIndex": 5,
+          "startHidden": false
+        },
+        {
+          "colorIndex": 5,
+          "startHidden": false
+        },
+        {
+          "colorIndex": 5,
+          "startHidden": false
+        },
+        {
+          "colorIndex": 5,
+          "startHidden": false
+        },
+        {
+          "colorIndex": 5,
+          "startHidden": false
+        },
+        {
+          "colorIndex": 5,
+          "startHidden": false
+        },
+        {
+          "colorIndex": 5,
+          "startHidden": false
+        },
+        {
+          "colorIndex": 5,
+          "startHidden": false
+        },
         {
           "colorIndex": 5,
           "startHidden": false
@@ -457,51 +206,23 @@
           "startHidden": false
         },
         {
-          "colorIndex": 3,
+          "colorIndex": 4,
           "startHidden": false
         },
         {
-          "colorIndex": 3,
+          "colorIndex": 4,
           "startHidden": false
         },
         {
-          "colorIndex": 3,
+          "colorIndex": 4,
           "startHidden": false
         },
         {
-          "colorIndex": 3,
+          "colorIndex": 4,
           "startHidden": false
         },
         {
-          "colorIndex": 3,
-          "startHidden": false
-        },
-        {
-          "colorIndex": 3,
-          "startHidden": false
-        },
-        {
-          "colorIndex": 3,
-          "startHidden": false
-        },
-        {
-          "colorIndex": 3,
-          "startHidden": false
-        },
-        {
-          "colorIndex": 3,
-          "startHidden": false
-        },
-        {
-          "colorIndex": 0,
-          "startHidden": false
-        },
-        {
-          "colorIndex": 0,
-          "startHidden": false
-        },
-        {
-          "colorIndex": 0,
+          "colorIndex": 4,
           "startHidden": false
         }
       ],
@@ -517,10 +238,8 @@
         "magnitude": 2.236068,
         "sqrMagnitude": 5.0
       },
-      "lockColor": -1,
-      "lockCount": 20,
-      "lockType": 1,
-      "isLocked": false
+      "lockCount": 0,
+      "lockColor": 0
     },
     {
       "tiles": [
@@ -533,43 +252,39 @@
           "startHidden": false
         },
         {
-          "colorIndex": 6,
+          "colorIndex": 4,
           "startHidden": false
         },
         {
-          "colorIndex": 6,
+          "colorIndex": 4,
           "startHidden": false
         },
         {
-          "colorIndex": 6,
+          "colorIndex": 4,
           "startHidden": false
         },
         {
-          "colorIndex": 6,
+          "colorIndex": 3,
           "startHidden": false
         },
         {
-          "colorIndex": 6,
+          "colorIndex": 3,
           "startHidden": false
         },
         {
-          "colorIndex": 6,
+          "colorIndex": 4,
           "startHidden": false
         },
         {
-          "colorIndex": 0,
+          "colorIndex": 4,
           "startHidden": false
         },
         {
-          "colorIndex": 0,
+          "colorIndex": 4,
           "startHidden": false
         },
         {
-          "colorIndex": 0,
-          "startHidden": false
-        },
-        {
-          "colorIndex": 2,
+          "colorIndex": 4,
           "startHidden": false
         },
         {
@@ -578,6 +293,18 @@
         },
         {
           "colorIndex": 2,
+          "startHidden": false
+        },
+        {
+          "colorIndex": 2,
+          "startHidden": false
+        },
+        {
+          "colorIndex": 5,
+          "startHidden": false
+        },
+        {
+          "colorIndex": 5,
           "startHidden": false
         }
       ],
@@ -599,29 +326,93 @@
         "magnitude": 3.1622777,
         "sqrMagnitude": 10.0
       },
-      "lockColor": 0,
       "lockCount": 0,
-      "lockType": 0,
-      "isLocked": false
+      "lockColor": 0
     },
     {
       "tiles": [
         {
-          "colorIndex": 0,
+          "colorIndex": 5,
           "startHidden": false
         },
         {
-          "colorIndex": 0,
+          "colorIndex": 5,
           "startHidden": false
         },
         {
-          "colorIndex": 0,
+          "colorIndex": 5,
           "startHidden": false
         },
         {
-          "colorIndex": 0,
+          "colorIndex": 5,
           "startHidden": false
         },
+        {
+          "colorIndex": 5,
+          "startHidden": false
+        },
+        {
+          "colorIndex": 4,
+          "startHidden": false
+        },
+        {
+          "colorIndex": 4,
+          "startHidden": false
+        },
+        {
+          "colorIndex": 4,
+          "startHidden": false
+        },
+        {
+          "colorIndex": 4,
+          "startHidden": false
+        },
+        {
+          "colorIndex": 4,
+          "startHidden": false
+        },
+        {
+          "colorIndex": 5,
+          "startHidden": false
+        },
+        {
+          "colorIndex": 5,
+          "startHidden": false
+        },
+        {
+          "colorIndex": 5,
+          "startHidden": false
+        },
+        {
+          "colorIndex": 5,
+          "startHidden": false
+        },
+        {
+          "colorIndex": 5,
+          "startHidden": false
+        },
+        {
+          "colorIndex": 5,
+          "startHidden": false
+        }
+      ],
+      "position": {
+        "x": 4.0,
+        "y": 1.0,
+        "normalized": {
+          "x": 0.970142543,
+          "y": 0.242535636,
+          "magnitude": 1.0,
+          "sqrMagnitude": 1.00000012
+        },
+        "magnitude": 4.12310553,
+        "sqrMagnitude": 17.0
+      },
+      "lockCount": 0,
+      "lockColor": 0
+    },
+    {
+      "tiles": [
         {
           "colorIndex": 1,
           "startHidden": false
@@ -643,23 +434,47 @@
           "startHidden": false
         },
         {
-          "colorIndex": 1,
+          "colorIndex": 4,
           "startHidden": false
         },
         {
-          "colorIndex": 1,
+          "colorIndex": 4,
           "startHidden": false
         },
         {
-          "colorIndex": 3,
+          "colorIndex": 4,
           "startHidden": false
         },
         {
-          "colorIndex": 3,
+          "colorIndex": 4,
           "startHidden": false
         },
         {
-          "colorIndex": 3,
+          "colorIndex": 4,
+          "startHidden": false
+        },
+        {
+          "colorIndex": 4,
+          "startHidden": false
+        },
+        {
+          "colorIndex": 4,
+          "startHidden": false
+        },
+        {
+          "colorIndex": 4,
+          "startHidden": false
+        },
+        {
+          "colorIndex": 4,
+          "startHidden": false
+        },
+        {
+          "colorIndex": 4,
+          "startHidden": false
+        },
+        {
+          "colorIndex": 4,
           "startHidden": false
         }
       ],
@@ -675,119 +490,21 @@
         "magnitude": 2.0,
         "sqrMagnitude": 4.0
       },
-      "lockColor": 0,
       "lockCount": 0,
-      "lockType": 0,
-      "isLocked": false
+      "lockColor": 0
     },
     {
       "tiles": [
         {
-          "colorIndex": 3,
+          "colorIndex": 5,
           "startHidden": false
         },
         {
-          "colorIndex": 3,
+          "colorIndex": 5,
           "startHidden": false
         },
         {
-          "colorIndex": 3,
-          "startHidden": false
-        },
-        {
-          "colorIndex": 3,
-          "startHidden": false
-        },
-        {
-          "colorIndex": 6,
-          "startHidden": false
-        },
-        {
-          "colorIndex": 6,
-          "startHidden": false
-        },
-        {
-          "colorIndex": 6,
-          "startHidden": false
-        },
-        {
-          "colorIndex": 6,
-          "startHidden": false
-        },
-        {
-          "colorIndex": 6,
-          "startHidden": false
-        },
-        {
-          "colorIndex": 6,
-          "startHidden": false
-        },
-        {
-          "colorIndex": 6,
-          "startHidden": false
-        },
-        {
-          "colorIndex": 6,
-          "startHidden": false
-        },
-        {
-          "colorIndex": 3,
-          "startHidden": false
-        },
-        {
-          "colorIndex": 3,
-          "startHidden": false
-        }
-      ],
-      "position": {
-        "x": 1.0,
-        "y": 2.0,
-        "normalized": {
-          "x": 0.4472136,
-          "y": 0.8944272,
-          "magnitude": 1.0,
-          "sqrMagnitude": 1.0
-        },
-        "magnitude": 2.236068,
-        "sqrMagnitude": 5.0
-      },
-      "lockColor": 0,
-      "lockCount": 0,
-      "lockType": 0,
-      "isLocked": false
-    },
-    {
-      "tiles": [
-        {
-          "colorIndex": 2,
-          "startHidden": false
-        },
-        {
-          "colorIndex": 2,
-          "startHidden": false
-        },
-        {
-          "colorIndex": 2,
-          "startHidden": false
-        },
-        {
-          "colorIndex": 2,
-          "startHidden": false
-        },
-        {
-          "colorIndex": 2,
-          "startHidden": false
-        },
-        {
-          "colorIndex": 3,
-          "startHidden": false
-        },
-        {
-          "colorIndex": 3,
-          "startHidden": false
-        },
-        {
-          "colorIndex": 3,
+          "colorIndex": 5,
           "startHidden": false
         },
         {
@@ -812,6 +529,34 @@
         },
         {
           "colorIndex": 0,
+          "startHidden": false
+        },
+        {
+          "colorIndex": 0,
+          "startHidden": false
+        },
+        {
+          "colorIndex": 5,
+          "startHidden": false
+        },
+        {
+          "colorIndex": 5,
+          "startHidden": false
+        },
+        {
+          "colorIndex": 5,
+          "startHidden": false
+        },
+        {
+          "colorIndex": 5,
+          "startHidden": false
+        },
+        {
+          "colorIndex": 5,
+          "startHidden": false
+        },
+        {
+          "colorIndex": 5,
           "startHidden": false
         }
       ],
@@ -827,13 +572,39 @@
         "magnitude": 2.828427,
         "sqrMagnitude": 8.0
       },
-      "lockColor": 0,
       "lockCount": 0,
-      "lockType": 0,
-      "isLocked": false
+      "lockColor": 0
     },
     {
       "tiles": [
+        {
+          "colorIndex": 2,
+          "startHidden": false
+        },
+        {
+          "colorIndex": 2,
+          "startHidden": false
+        },
+        {
+          "colorIndex": 2,
+          "startHidden": false
+        },
+        {
+          "colorIndex": 2,
+          "startHidden": false
+        },
+        {
+          "colorIndex": 2,
+          "startHidden": false
+        },
+        {
+          "colorIndex": 2,
+          "startHidden": false
+        },
+        {
+          "colorIndex": 2,
+          "startHidden": false
+        },
         {
           "colorIndex": 2,
           "startHidden": false
@@ -855,66 +626,6 @@
           "startHidden": false
         },
         {
-          "colorIndex": 5,
-          "startHidden": false
-        },
-        {
-          "colorIndex": 2,
-          "startHidden": false
-        },
-        {
-          "colorIndex": 2,
-          "startHidden": false
-        },
-        {
-          "colorIndex": 2,
-          "startHidden": false
-        },
-        {
-          "colorIndex": 2,
-          "startHidden": false
-        },
-        {
-          "colorIndex": 2,
-          "startHidden": false
-        },
-        {
-          "colorIndex": 3,
-          "startHidden": false
-        },
-        {
-          "colorIndex": 3,
-          "startHidden": false
-        },
-        {
-          "colorIndex": 3,
-          "startHidden": false
-        }
-      ],
-      "position": {
-        "x": 3.0,
-        "y": 2.0,
-        "normalized": {
-          "x": 0.8320503,
-          "y": 0.5547002,
-          "magnitude": 1.0,
-          "sqrMagnitude": 1.0
-        },
-        "magnitude": 3.60555124,
-        "sqrMagnitude": 13.0
-      },
-      "lockColor": 0,
-      "lockCount": 0,
-      "lockType": 0,
-      "isLocked": false
-    },
-    {
-      "tiles": [
-        {
-          "colorIndex": 1,
-          "startHidden": false
-        },
-        {
           "colorIndex": 3,
           "startHidden": false
         },
@@ -927,43 +638,7 @@
           "startHidden": false
         },
         {
-          "colorIndex": 1,
-          "startHidden": false
-        },
-        {
-          "colorIndex": 1,
-          "startHidden": false
-        },
-        {
-          "colorIndex": 1,
-          "startHidden": false
-        },
-        {
-          "colorIndex": 1,
-          "startHidden": false
-        },
-        {
-          "colorIndex": 1,
-          "startHidden": false
-        },
-        {
-          "colorIndex": 1,
-          "startHidden": false
-        },
-        {
-          "colorIndex": 1,
-          "startHidden": false
-        },
-        {
-          "colorIndex": 1,
-          "startHidden": false
-        },
-        {
-          "colorIndex": 1,
-          "startHidden": false
-        },
-        {
-          "colorIndex": 1,
+          "colorIndex": 3,
           "startHidden": false
         }
       ],
@@ -979,15 +654,25 @@
         "magnitude": 4.472136,
         "sqrMagnitude": 20.0
       },
-      "lockColor": 0,
       "lockCount": 0,
-      "lockType": 0,
-      "isLocked": false
+      "lockColor": 0
     },
     {
       "tiles": [
         {
-          "colorIndex": 5,
+          "colorIndex": 0,
+          "startHidden": false
+        },
+        {
+          "colorIndex": 2,
+          "startHidden": false
+        },
+        {
+          "colorIndex": 0,
+          "startHidden": false
+        },
+        {
+          "colorIndex": 0,
           "startHidden": false
         },
         {
@@ -1011,54 +696,142 @@
           "startHidden": false
         },
         {
-          "colorIndex": 5,
+          "colorIndex": 1,
           "startHidden": false
         },
         {
-          "colorIndex": 5,
+          "colorIndex": 1,
           "startHidden": false
         },
         {
-          "colorIndex": 5,
+          "colorIndex": 1,
           "startHidden": false
         },
         {
-          "colorIndex": 5,
+          "colorIndex": 1,
           "startHidden": false
         },
         {
-          "colorIndex": 3,
+          "colorIndex": 1,
           "startHidden": false
         },
         {
-          "colorIndex": 3,
+          "colorIndex": 1,
           "startHidden": false
         },
         {
-          "colorIndex": 3,
+          "colorIndex": 1,
+          "startHidden": false
+        }
+      ],
+      "position": {
+        "x": 1.0,
+        "y": 3.0,
+        "normalized": {
+          "x": 0.316227764,
+          "y": 0.948683262,
+          "normalized": {
+            "x": 0.3162278,
+            "y": 0.9486833,
+            "magnitude": 1.0,
+            "sqrMagnitude": 1.00000012
+          },
+          "magnitude": 0.99999994,
+          "sqrMagnitude": 0.99999994
+        },
+        "magnitude": 3.1622777,
+        "sqrMagnitude": 10.0
+      },
+      "lockCount": 0,
+      "lockColor": 0
+    },
+    {
+      "tiles": [
+        {
+          "colorIndex": 4,
           "startHidden": false
         },
         {
           "colorIndex": 4,
           "startHidden": false
+        },
+        {
+          "colorIndex": 4,
+          "startHidden": false
+        },
+        {
+          "colorIndex": 3,
+          "startHidden": false
+        },
+        {
+          "colorIndex": 3,
+          "startHidden": false
+        },
+        {
+          "colorIndex": 3,
+          "startHidden": false
+        },
+        {
+          "colorIndex": 2,
+          "startHidden": false
+        },
+        {
+          "colorIndex": 2,
+          "startHidden": false
+        },
+        {
+          "colorIndex": 2,
+          "startHidden": false
+        },
+        {
+          "colorIndex": 2,
+          "startHidden": false
+        },
+        {
+          "colorIndex": 2,
+          "startHidden": false
+        },
+        {
+          "colorIndex": 2,
+          "startHidden": false
+        },
+        {
+          "colorIndex": 0,
+          "startHidden": false
+        },
+        {
+          "colorIndex": 0,
+          "startHidden": false
+        },
+        {
+          "colorIndex": 0,
+          "startHidden": false
+        },
+        {
+          "colorIndex": 0,
+          "startHidden": false
         }
       ],
       "position": {
-        "x": 2.0,
+        "x": 3.0,
         "y": 3.0,
         "normalized": {
-          "x": 0.5547002,
-          "y": 0.8320503,
-          "magnitude": 1.0,
-          "sqrMagnitude": 1.0
+          "x": 0.7071068,
+          "y": 0.7071068,
+          "normalized": {
+            "x": 0.707106769,
+            "y": 0.707106769,
+            "magnitude": 1.0,
+            "sqrMagnitude": 0.99999994
+          },
+          "magnitude": 1.00000012,
+          "sqrMagnitude": 1.00000012
         },
-        "magnitude": 3.60555124,
-        "sqrMagnitude": 13.0
+        "magnitude": 4.2426405,
+        "sqrMagnitude": 18.0
       },
-      "lockColor": 0,
       "lockCount": 0,
-      "lockType": 0,
-      "isLocked": false
+      "lockColor": 0
     }
   ]
 }

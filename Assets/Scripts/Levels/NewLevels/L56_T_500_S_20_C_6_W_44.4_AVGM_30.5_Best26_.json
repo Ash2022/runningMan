@@ -1,6 +1,6 @@
 {
-  "alternateLocking": false,
-  "numTurns": 32,
+  "alternateLocking": true,
+  "numTurns": 24,
   "stacks": [
     {
       "tiles": [

@@ -1,5 +1,5 @@
 {
-  "alternateLocking": false,
+  "alternateLocking": true,
   "numTurns": 30,
   "stacks": [
     {

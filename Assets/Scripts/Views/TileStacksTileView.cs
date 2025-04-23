@@ -43,7 +43,7 @@ public class TileStacksTileView : MonoBehaviour
 
         //SoundsManager.Instance.TileStartFlying();
 
-        Debug.Log("StartDelay: " + startDelay);
+        //Debug.Log("StartDelay: " + startDelay);
 
         Vector3 midPoint = (transform.position + targetPosition) / 2f;
         midPoint.y += 3f; // create upward arc by pulling Z closer (visually rising)

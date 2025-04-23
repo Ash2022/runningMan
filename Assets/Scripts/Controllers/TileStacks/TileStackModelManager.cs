@@ -39,12 +39,12 @@ public class TileStacksModelManager : MonoBehaviour
     {
         unlocksIndexList.Add(4);//color 4 - yellow 3
         unlocksIndexList.Add(9);//hidden tile
-        unlocksIndexList.Add(14);//color 5 -- pink 4
-        unlocksIndexList.Add(19);//hidden stack 5
-        unlocksIndexList.Add(24);//color 6 -- purple
-        unlocksIndexList.Add(29);//hidden stack 1 shot
-        unlocksIndexList.Add(34);//color 7 -- red 6
-        UnlocksIndexList.Add(39);//alternating lock
+        unlocksIndexList.Add(14);//hidden stack 5
+        unlocksIndexList.Add(19);//color 5 -- pink 4
+        unlocksIndexList.Add(24);//hidden stack 1 shot
+        unlocksIndexList.Add(29);//color 6 -- purple
+        unlocksIndexList.Add(34);//alternating lock
+        UnlocksIndexList.Add(39);//color 7 -- red 6
 
 
 

@@ -172,11 +172,16 @@ public class TileStacksGameManager : MonoBehaviour
 
         if (!hasMatchingTopTile)
         {
-            Debug.Log("No matching top tiles for color " + colorID + " — skipping.");
+            //Debug.Log("No matching top tiles for color " + colorID + " — skipping.");
             clickedButton.SetButtonBackToUnclicked(500);
             SoundsManager.Instance.ButtonClick(false);
-            activeLevel.numTurns--;
-            uiManager.SetTurns(activeLevel.numTurns);
+
+            if(levelIndex >=4)
+            {
+                activeLevel.numTurns--;
+                uiManager.SetTurns(activeLevel.numTurns);
+            }
+
             CheckGameOver();
             return;
         }
