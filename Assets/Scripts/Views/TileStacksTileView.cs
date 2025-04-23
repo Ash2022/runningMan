@@ -89,7 +89,7 @@ public class TileStacksTileView : MonoBehaviour
         Color tileColor = TileStacksModelManager.Instance.GetTileColor(tileData.colorIndex);
 
         var main = particleSystem.main;
-        main.startColor = new ParticleSystem.MinMaxGradient(TileStacksUtils.GetLessSaturatedColor(tileColor,0.5f), tileColor);
+        main.startColor = new ParticleSystem.MinMaxGradient(TileStacksUtils.GetDarkerColor(tileColor), tileColor);
 
         particleSystem.gameObject.SetActive(true);
     }

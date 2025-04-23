@@ -5051,7 +5051,7 @@ MonoBehaviour:
   titleText: {fileID: 7718033905052732033}
   endGameButton: {fileID: 2643146984673601608}
   buttonImage: {fileID: 137113626503928736}
-  continueButton: {fileID: 21300000, guid: 2711aec497cfe874ba34be11db055021, type: 3}
+  continueButton: {fileID: 21300000, guid: 76dbf81fa099af94999652c9f257d6eb, type: 3}
   tryAgainButton: {fileID: 21300000, guid: 044a4048158dd6f409edf5f00c1fe6ac, type: 3}
   completeStar: {fileID: 2226632761443751227}
   endScreenUnlockView: {fileID: 8921353980539924927}
@@ -9900,7 +9900,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Sprite: {fileID: 21300000, guid: 2711aec497cfe874ba34be11db055021, type: 3}
+  m_Sprite: {fileID: 21300000, guid: 76dbf81fa099af94999652c9f257d6eb, type: 3}
   m_Type: 0
   m_PreserveAspect: 0
   m_FillCenter: 1

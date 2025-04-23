@@ -26,7 +26,7 @@ public class TileStacksUIManager : MonoBehaviour
     [SerializeField] GameObject counterEffectPrefab;
     [SerializeField] GameObject wordEffectPrefab;
 
-    [SerializeField] Material bgMaterial;
+    //[SerializeField] Material bgMaterial;
 
     public bool spriteCombo;
 
@@ -37,7 +37,7 @@ public class TileStacksUIManager : MonoBehaviour
         levelText.text = "LEVEL "+(levelIndex+1).ToString();
         SetTurns(levelData.numTurns);
 
-        bgMaterial.mainTexture = TileStacksModelManager.Instance.GetBGSprite((levelIndex / 4) % 4);
+        //bgMaterial.mainTexture = TileStacksModelManager.Instance.GetBGSprite((levelIndex / 4) % 4);
     }
 
     public void SetTurns(int turns)

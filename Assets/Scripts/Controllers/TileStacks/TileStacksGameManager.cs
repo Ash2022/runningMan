@@ -26,6 +26,7 @@ public class TileStacksGameManager : MonoBehaviour
     [SerializeField] RectTransform canvasRect;
     [SerializeField] private TileStacksLevelVisualizer levelVisualizer;
     [SerializeField] private TileStacksUIManager uiManager;
+    [SerializeField] Transform floorObject;
 
     public GameOverView gameOverView;
 
@@ -94,8 +95,10 @@ public class TileStacksGameManager : MonoBehaviour
 
             Camera.main.orthographicSize = adjustedOrthoSize;
             Debug.Log($"[Ortho Adjust] Aspect: {targetAspect:F3}, Adjusted OrthoSize: {adjustedOrthoSize:F2}");
+
         }
 
+        floorObject.localScale = new Vector3(1, 1, 1.57f* baselineAspect / targetAspect);
 
         TinySauce.SubscribeOnInitFinishedEvent((param1, param2) =>
         {

@@ -415,7 +415,7 @@ SpriteRenderer:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2684346994056087454}
-  m_Enabled: 1
+  m_Enabled: 0
   m_CastShadows: 0
   m_ReceiveShadows: 0
   m_DynamicOccludee: 1
@@ -512,7 +512,6 @@ MonoBehaviour:
   buttonImage: {fileID: 4382330243087673569}
   counter: {fileID: 2739808654159515696}
   counterBox: {fileID: 7274166492337306767}
-  lockIndication: {fileID: 8797955836850574024}
 --- !u!1 &8797955836850574024
 GameObject:
   m_ObjectHideFlags: 0
@@ -594,6 +593,6 @@ SpriteRenderer:
   m_Size: {x: 1, y: 1}
   m_AdaptiveModeThreshold: 0.5
   m_SpriteTileMode: 0
-  m_WasSpriteAssigned: 1
+  m_WasSpriteAssigned: 0
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
