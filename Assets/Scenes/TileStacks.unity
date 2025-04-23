@@ -1129,7 +1129,7 @@ MonoBehaviour:
   splashText: {fileID: 1855784399}
   _handTexture: {fileID: 2800000, guid: 0080170de85174e4caddf5fe9d7940af, type: 3}
   recordingMode: 0
-  levelIndex: 0
+  levelIndex: -1
 --- !u!114 &702425268
 MonoBehaviour:
   m_ObjectHideFlags: 0
