@@ -26,21 +26,21 @@ MonoBehaviour:
   UserMessagesFailed: 0
   CustomArea: 
   gameKey:
-  - 1804573e0c5bfb33bf420e19d502de9c
+  - c5c34534fd248a254a1b723af510afa3
   secretKey:
-  - 7359f8a9f82c747f0150f4284b2851310cb53cab
+  - 6e8c624cf0d74673c178796344b609909da127e9
   Build:
-  - 0.1
+  - 0.13
   SelectedPlatformOrganization:
-  - 
+  - Voodoo
   SelectedPlatformStudio:
-  - 
+  - Voodoo
   SelectedPlatformGame:
-  - 
-  SelectedPlatformGameID: ffffffff
-  SelectedOrganization: 00000000
-  SelectedStudio: 00000000
-  SelectedGame: 00000000
+  - maya sort laundry - android (Shini)
+  SelectedPlatformGameID: 87da0400
+  SelectedOrganization: 01000000
+  SelectedStudio: 01000000
+  SelectedGame: 01000000
   NewVersion: 
   Changes: 
   SignUpOpen: 1
@@ -85,8 +85,8 @@ MonoBehaviour:
   SubmitErrors: 1
   NativeErrorReporting: 0
   MaxErrorCount: 10
-  SubmitFpsAverage: 0
-  SubmitFpsCritical: 0
+  SubmitFpsAverage: 1
+  SubmitFpsCritical: 1
   IncludeGooglePlay: 1
   FpsCriticalThreshold: 20
   FpsCirticalSubmitInterval: 1

@@ -95,10 +95,10 @@ public class TileStacksGameManager : MonoBehaviour
 
             Camera.main.orthographicSize = adjustedOrthoSize;
             Debug.Log($"[Ortho Adjust] Aspect: {targetAspect:F3}, Adjusted OrthoSize: {adjustedOrthoSize:F2}");
-
+            floorObject.localScale = new Vector3(1, 1, 1.57f * baselineAspect / targetAspect);
         }
 
-        floorObject.localScale = new Vector3(1, 1, 1.57f* baselineAspect / targetAspect);
+        
 
         TinySauce.SubscribeOnInitFinishedEvent((param1, param2) =>
         {

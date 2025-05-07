@@ -606,7 +606,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Sprite: {fileID: 21300000, guid: 2f9d24980f55e874eb439048044e6e4d, type: 3}
+  m_Sprite: {fileID: 21300000, guid: acdb77e0ab27d254e8b23fdaf1049af6, type: 3}
   m_Type: 0
   m_PreserveAspect: 0
   m_FillCenter: 1
@@ -1077,15 +1077,15 @@ MonoBehaviour:
   resultText: {fileID: 0}
   buttonText: {fileID: 0}
   tutorialImages:
-  - {fileID: 21300000, guid: 3ce9859c81c09cd49b887987fcd61037, type: 3}
-  - {fileID: 21300000, guid: 9d4c9859674f0024fb05c096ef44351e, type: 3}
-  - {fileID: 21300000, guid: 6d7b38f2aaa5dfc49b94852757e5e93b, type: 3}
-  - {fileID: 21300000, guid: 3682a21d59f46fc49a9d786c46350185, type: 3}
-  - {fileID: 21300000, guid: 9d4c9859674f0024fb05c096ef44351e, type: 3}
-  - {fileID: 21300000, guid: 5fd52ef8f57f23d4f99bb9e4f08c1632, type: 3}
-  - {fileID: 21300000, guid: 9d4c9859674f0024fb05c096ef44351e, type: 3}
-  - {fileID: 21300000, guid: 5b9d9682c877b9f4fb722d9fc6edb711, type: 3}
-  - {fileID: 21300000, guid: 9d4c9859674f0024fb05c096ef44351e, type: 3}
+  - {fileID: 21300000, guid: c550431709c91ec47abd73989a104420, type: 3}
+  - {fileID: 21300000, guid: 00804c904c18d8449850174b42715341, type: 3}
+  - {fileID: 21300000, guid: 10211f8b0e2b18e4db7a4fafa1c12882, type: 3}
+  - {fileID: 21300000, guid: 46ca1fe54186dc4408398bdbb5bfb2d3, type: 3}
+  - {fileID: 21300000, guid: 00804c904c18d8449850174b42715341, type: 3}
+  - {fileID: 21300000, guid: 47eada12094eff84eb5edb11ff5c7979, type: 3}
+  - {fileID: 21300000, guid: 00804c904c18d8449850174b42715341, type: 3}
+  - {fileID: 21300000, guid: a564ce4eb6ad6e14db9f90963deb8c1b, type: 3}
+  - {fileID: 21300000, guid: 00804c904c18d8449850174b42715341, type: 3}
   tutorialImageView: {fileID: 2138456202}
   completionWords:
   - {fileID: 21300000, guid: 20ee957a424c272429b4bbe2191d3bcf, type: 3}
@@ -1127,7 +1127,7 @@ MonoBehaviour:
   gameOverView: {fileID: 1825985180}
   splashScreen: {fileID: 246285242}
   splashText: {fileID: 1855784399}
-  _handTexture: {fileID: 2800000, guid: 0080170de85174e4caddf5fe9d7940af, type: 3}
+  _handTexture: {fileID: 2800000, guid: 22e9dbf3e9804094484f9c2985ebaea2, type: 3}
   recordingMode: 0
   levelIndex: -1
 --- !u!114 &702425268
@@ -1184,21 +1184,21 @@ MonoBehaviour:
   - {r: 0, g: 1, b: 0.56835246, a: 1}
   - {r: 0, g: 0.9720597, b: 1, a: 1}
   buttonsIdle:
-  - {fileID: 21300000, guid: 892e853608e00224ab1364bb16f2d420, type: 3}
-  - {fileID: 21300000, guid: a71128b118ab7614483fe11217707a16, type: 3}
-  - {fileID: 21300000, guid: fe0d98f0d23c9e34f9f5b3709ae973bf, type: 3}
-  - {fileID: 21300000, guid: e5db668c0b2269e418b6f5fead0d134c, type: 3}
-  - {fileID: 21300000, guid: 6010a971852cbad4693d8cf0d1ae5331, type: 3}
-  - {fileID: 21300000, guid: 6618331236537a8468424410e337a30a, type: 3}
-  - {fileID: 21300000, guid: a55a972fb5c96ba49bf0038a790a326e, type: 3}
+  - {fileID: 21300000, guid: 0bb5d6d8763120640b124505652283de, type: 3}
+  - {fileID: 21300000, guid: 5a997049a5a88f948bf6ae6de62e7b8a, type: 3}
+  - {fileID: 21300000, guid: ded2555a0a502a74d9b700e26aa2e6d1, type: 3}
+  - {fileID: 21300000, guid: 8f0fc39e3b1f46743afedb718692f199, type: 3}
+  - {fileID: 21300000, guid: 4952d24cdd96e75468ecd20c7790c0c7, type: 3}
+  - {fileID: 21300000, guid: b6fde78c349229f45a512c14d5b66787, type: 3}
+  - {fileID: 21300000, guid: f8cca51a3ae168a4581078ae135a480a, type: 3}
   buttonsDown:
-  - {fileID: 21300000, guid: aefebe61eaec9a74683cb252182be145, type: 3}
-  - {fileID: 21300000, guid: b15273ee95f26404fa8141bb98c9f2bd, type: 3}
-  - {fileID: 21300000, guid: 50f3472e07a148441ae2e63dda1a1e96, type: 3}
-  - {fileID: 21300000, guid: 4402d794ca36d8640810bb9abbca27b1, type: 3}
-  - {fileID: 21300000, guid: c52c9eb3c19d5ec4aaa5f5841a851e22, type: 3}
-  - {fileID: 21300000, guid: f82a19e029c696b4995e82db7a8dff83, type: 3}
-  - {fileID: 21300000, guid: 66fa7dc92133a8f48ba00ec8fbff62ef, type: 3}
+  - {fileID: 21300000, guid: 0c803a848738d274ca3e30b1519073b8, type: 3}
+  - {fileID: 21300000, guid: 0cea561d7768c5449b8b2f10f4e81090, type: 3}
+  - {fileID: 21300000, guid: 537a328c27a261f44b2c0864727c235e, type: 3}
+  - {fileID: 21300000, guid: c7531c5aac691b44ca3e76ce9faa744f, type: 3}
+  - {fileID: 21300000, guid: b11c6f014d13f5e45abc0142ffda6647, type: 3}
+  - {fileID: 21300000, guid: a27621f836f33594cb00ef595e10ae45, type: 3}
+  - {fileID: 21300000, guid: e5edb84bea01281478309b8cf6672385, type: 3}
   locksColorIndications:
   - {fileID: 21300000, guid: 5f21bfd7b30f4934ab28d30846dec600, type: 3}
   - {fileID: 21300000, guid: c7ebb587669f82b4cbf60d89d0259b39, type: 3}
@@ -1227,12 +1227,12 @@ MonoBehaviour:
   - {fileID: 21300000, guid: b4ba38fc3e1edc944af9b91eeba496d7, type: 3}
   - {fileID: 21300000, guid: 0ca3783d725538845b116da7ac7abf6d, type: 3}
   unlockColorsSprites:
-  - {fileID: 21300000, guid: dbdf8ab7a3cc3ac4fb39c0e4c18fd4e2, type: 3}
-  - {fileID: 21300000, guid: 60fbe839456c6c34dba53e018b110293, type: 3}
-  - {fileID: 21300000, guid: 114818e1df9bd7642935a93f5ff9d031, type: 3}
-  - {fileID: 21300000, guid: 4e38c82344111c14ab7959777aac6f9a, type: 3}
-  stackCoverAccum: {fileID: 21300000, guid: ea88461350f073a4c9ecbd77ff43df41, type: 3}
-  stackCoverSingle: {fileID: 21300000, guid: 3b940b5db92a3ea4c9e32ae23facc110, type: 3}
+  - {fileID: 21300000, guid: d273eaf5604637b4babff70811e2ba32, type: 3}
+  - {fileID: 21300000, guid: 34c7cecd1798c124391076d84d9acf1e, type: 3}
+  - {fileID: 21300000, guid: 943f71c7980529c428ea40a73afc33be, type: 3}
+  - {fileID: 21300000, guid: aaebb1c9f12ddd240ad42efc46651bc1, type: 3}
+  stackCoverAccum: {fileID: 21300000, guid: 2ebf8f6b191bfa24d8403036de9216a6, type: 3}
+  stackCoverSingle: {fileID: 21300000, guid: 9deae7d343a39514b80f9c5ae1e7cda1, type: 3}
   bgs:
   - {fileID: 2800000, guid: 219728fbc16fd1f4296d8c836fea4faf, type: 3}
   - {fileID: 2800000, guid: 781695523f40e33419921c651ca522f5, type: 3}
@@ -2968,7 +2968,7 @@ RectTransform:
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
   m_AnchoredPosition: {x: 0, y: 200}
-  m_SizeDelta: {x: 734, y: 516}
+  m_SizeDelta: {x: 724, y: 694}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1443427915
 MonoBehaviour:
@@ -2990,7 +2990,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Sprite: {fileID: 21300000, guid: c3e82e3cb65c7f1468f77911a6169292, type: 3}
+  m_Sprite: {fileID: 21300000, guid: b652b3685ef66c542b950b579a2668f2, type: 3}
   m_Type: 0
   m_PreserveAspect: 0
   m_FillCenter: 1
